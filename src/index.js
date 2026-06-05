@@ -31,7 +31,7 @@ let preferencesFilePath = '';
 let mainWindowRef = null;
 const APP_DISPLAY_NAME = 'WorldShot Log';
 const APP_TITLE = `${APP_DISPLAY_NAME} v${app.getVersion()}`;
-const UNKNOWN_WORLD_DISPLAY_NAME = 'ワールド名を取得できませんでした';
+const UNKNOWN_WORLD_DISPLAY_NAME = 'Could not fetch world name';
 const APP_WINDOW_ICON_ICO_PATH = path.join(__dirname, '..', 'img', 'logo.ico');
 const APP_WINDOW_ICON_PNG_PATH = path.join(__dirname, '..', 'img', 'logo.png');
 const APP_ROAMING_DATA_ROOT = app.getPath('appData');
@@ -482,8 +482,8 @@ function getWorldMetadataHealthIssue(row, metadataCache = null) {
     message:
       metadataRow?.fetch_error ||
       (metadataRow
-        ? `Worldメタデータ取得状態: ${metadataRow.fetch_status || 'unknown'}`
-        : 'Worldメタデータが未取得です'),
+        ? `World metadata fetch status: ${metadataRow.fetch_status || 'unknown'}`
+        : 'World metadata has not been fetched'),
   };
 }
 
@@ -601,7 +601,7 @@ async function checkApplicationDataHealth() {
       summary.missingOriginalCount += 1;
       pushHealthIssue(
         issues.missingOriginalFiles,
-        createHealthIssue(row, '元画像ファイルが見つかりません')
+        createHealthIssue(row, 'Original image file was not found')
       );
     }
 
@@ -612,8 +612,8 @@ async function checkApplicationDataHealth() {
         createHealthIssue(
           row,
           analysis.thumbnailPath
-            ? 'サムネイルファイルが見つかりません'
-            : 'サムネイルが未生成です',
+            ? 'Thumbnail file was not found'
+            : 'Thumbnail has not been generated',
           { thumbnailPath: analysis.thumbnailPath }
         )
       );
@@ -623,7 +623,7 @@ async function checkApplicationDataHealth() {
       summary.missingWorldInfoCount += 1;
       pushHealthIssue(
         issues.missingWorldInfo,
-        createHealthIssue(row, 'World情報が未取得です')
+        createHealthIssue(row, 'World information has not been fetched')
       );
       continue;
     }
@@ -661,7 +661,7 @@ async function getHealthIssuePhotos(issueKind) {
   const normalizedIssueKind = normalizeHealthIssueKind(issueKind);
 
   if (!normalizedIssueKind) {
-    throw new Error('状態チェックカテゴリが不正です');
+    throw new Error('Invalid health check category');
   }
 
   const rows = photoDb.getAllPhotosWithWorldInfo();
@@ -736,14 +736,14 @@ async function regenerateMissingThumbnails(progressReporter = null) {
 
   return regenerateThumbnailRows(missingThumbnailRows, null, progressReporter, {
     missingOnly: true,
-    progressMessage: '欠損サムネイルを再生成中...',
+    progressMessage: 'Regenerating missing thumbnails...',
   });
 }
 
 async function createAppDataBackupFile() {
   const timestamp = formatFileTimestamp();
   const result = await dialog.showSaveDialog({
-    title: 'WorldShot Log のバックアップを保存',
+    title: 'Save WorldShot Log backup',
     defaultPath: buildExportDefaultPath(
       `worldshot-log-backup-${timestamp}.json`
     ),
@@ -769,7 +769,7 @@ async function createAppDataBackupFile() {
 
 async function restoreAppDataBackupFile() {
   const result = await dialog.showOpenDialog({
-    title: 'WorldShot Log のバックアップを選択',
+    title: 'Select WorldShot Log backup',
     properties: ['openFile'],
     filters: [{ name: 'WorldShot Log Backup', extensions: ['json'] }],
   });
@@ -783,11 +783,11 @@ async function restoreAppDataBackupFile() {
   const parsed = JSON.parse(raw);
 
   if (!parsed || typeof parsed !== 'object') {
-    throw new Error('バックアップファイルを読み込めませんでした');
+    throw new Error('Could not read backup file');
   }
 
   if (parsed.appName && parsed.appName !== APP_DISPLAY_NAME) {
-    throw new Error('WorldShot Log のバックアップではありません');
+    throw new Error('This is not a WorldShot Log backup');
   }
 
   const automaticBackup = await createAutomaticAppDataBackupFile('before-restore');
@@ -819,8 +819,8 @@ async function exportPhotoCatalogFile(format = 'csv') {
   const result = await dialog.showSaveDialog({
     title:
       normalizedFormat === 'json'
-        ? '写真一覧をJSONでエクスポート'
-        : '写真一覧をCSVでエクスポート',
+        ? 'Export photo list as JSON'
+        : 'Export photo list as CSV',
     defaultPath: buildExportDefaultPath(
       `worldshot-log-photos-${timestamp}.${normalizedFormat}`
     ),
@@ -1042,7 +1042,7 @@ async function startInternalUninstall({ deleteData = false } = {}) {
   if (!isInternalUninstallSupportedRuntime()) {
     return {
       ok: false,
-      message: 'インストーラー版の Windows アプリでのみ利用できます。',
+      message: 'Only available in the installed Windows app.',
     };
   }
 
@@ -1053,7 +1053,7 @@ async function startInternalUninstall({ deleteData = false } = {}) {
   } catch {
     return {
       ok: false,
-      message: 'アンインストーラーが見つかりませんでした。',
+      message: 'Uninstaller was not found.',
     };
   }
 
@@ -1079,7 +1079,7 @@ async function startInternalUninstall({ deleteData = false } = {}) {
   } catch (error) {
     return {
       ok: false,
-      message: error?.message || 'アンインストールを開始できませんでした。',
+      message: error?.message || 'Could not start uninstall.',
     };
   }
 }
@@ -1202,7 +1202,7 @@ function setupAutoUpdater() {
 
   isAutoUpdaterConfigured = true;
   autoUpdater.on('update-available', () => {
-    sendAppUpdateStatusToRenderer('アップデートをダウンロードしています...');
+    sendAppUpdateStatusToRenderer('Downloading update...');
   });
 
   autoUpdater.on('update-not-available', () => {
@@ -1214,13 +1214,13 @@ function setupAutoUpdater() {
     const message =
       error instanceof Error && error.message
         ? error.message
-        : '不明なエラー';
-    sendAppUpdateStatusToRenderer(`アップデートに失敗しました: ${message}`);
+        : 'Unknown error';
+    sendAppUpdateStatusToRenderer(`Update failed: ${message}`);
   });
 
   autoUpdater.on('update-downloaded', () => {
     isAutoUpdateDownloadRunning = false;
-    sendAppUpdateStatusToRenderer('アップデートの準備ができました');
+    sendAppUpdateStatusToRenderer('Update is ready');
     sendAppUpdateActionToRenderer({
       kind: 'downloaded',
       version: latestAvailableAppUpdateRelease?.version || '',
@@ -1230,7 +1230,7 @@ function setupAutoUpdater() {
   return;
 
   autoUpdater.on('update-available', () => {
-    sendAppUpdateStatusToRenderer('アップデートをダウンロードしています...');
+    sendAppUpdateStatusToRenderer('Downloading update...');
   });
 
   autoUpdater.on('update-not-available', () => {
@@ -1242,26 +1242,26 @@ function setupAutoUpdater() {
     const message =
       error instanceof Error && error.message
         ? error.message
-        : '不明なエラー';
+        : 'Unknown error';
     sendAppUpdateStatusToRenderer(
-      `アップデートに失敗しました: ${message}`
+      `Update failed: ${message}`
     );
   });
 
   autoUpdater.on('update-downloaded', async () => {
     isAutoUpdateDownloadRunning = false;
-    sendAppUpdateStatusToRenderer('アップデートの準備ができました');
+    sendAppUpdateStatusToRenderer('Update is ready');
 
     const targetWindow =
       mainWindowRef && !mainWindowRef.isDestroyed() ? mainWindowRef : null;
     const promptResult = await dialog.showMessageBox(targetWindow, {
       type: 'info',
-      buttons: ['再起動して更新', 'あとで'],
+      buttons: ['Restart and update', 'Later'],
       defaultId: 0,
       cancelId: 1,
-      title: 'アップデートの準備ができました',
-      message: 'ダウンロードが完了しました。',
-      detail: '再起動して最新バージョンを適用しますか？',
+      title: 'Update is ready',
+      message: 'Download complete.',
+      detail: 'Restart to apply the latest version?',
       noLink: true,
     });
 
@@ -1283,12 +1283,12 @@ async function promptForAvailableUpdate(releaseInfo) {
       mainWindowRef && !mainWindowRef.isDestroyed() ? mainWindowRef : null;
     const promptResult = await dialog.showMessageBox(targetWindow, {
       type: 'info',
-      buttons: ['今すぐ更新', 'あとで'],
+      buttons: ['Update now', 'Later'],
       defaultId: 0,
       cancelId: 1,
-      title: 'アップデートがあります',
-      message: `新しいバージョン ${releaseInfo.version} が利用できます。`,
-      detail: 'ダウンロードして適用しますか？',
+      title: 'Update available',
+      message: `New version ${releaseInfo.version}  is available.`,
+      detail: 'Download and apply it?',
       noLink: true,
     });
 
@@ -1313,7 +1313,7 @@ async function startAppUpdateDownload(releaseInfo) {
   isAutoUpdateDownloadRunning = true;
   latestAvailableAppUpdateRelease = activeReleaseInfo;
   sendAppUpdateStatusToRenderer(
-    `アップデート ${activeReleaseInfo.version} をダウンロードしています...`
+    `Update ${activeReleaseInfo.version}  is downloading...`
   );
   autoUpdater.setFeedURL({
     url: buildAutoUpdateFeedUrl(),
@@ -1329,7 +1329,7 @@ async function startAppUpdateDownload(releaseInfo) {
   setupAutoUpdater();
   isAutoUpdateDownloadRunning = true;
   sendAppUpdateStatusToRenderer(
-    `アップデート ${releaseInfo.version} をダウンロードしています...`
+    `Update ${releaseInfo.version}  is downloading...`
   );
   autoUpdater.setFeedURL({
     url: buildAutoUpdateFeedUrl(),
@@ -1362,7 +1362,7 @@ async function checkForAppUpdatesOnLaunch() {
 
     latestAvailableAppUpdateRelease = latestRelease;
     sendAppUpdateStatusToRenderer(
-      `新しいバージョン ${latestRelease.version} が見つかりました`
+      `New version ${latestRelease.version}  found`
     );
     sendAppUpdateActionToRenderer({
       kind: 'available',
@@ -1372,8 +1372,8 @@ async function checkForAppUpdatesOnLaunch() {
     return;
   } catch (error) {
     const message =
-      error instanceof Error && error.message ? error.message : '不明なエラー';
-    sendAppUpdateStatusToRenderer(`アップデート確認に失敗しました: ${message}`);
+      error instanceof Error && error.message ? error.message : 'Unknown error';
+    sendAppUpdateStatusToRenderer(`UpdateConfirm failed: ${message}`);
     return;
   } finally {
     isAutoUpdateCheckRunning = false;
@@ -1391,21 +1391,21 @@ async function checkForAppUpdatesOnLaunch() {
     }
 
     sendAppUpdateStatusToRenderer(
-      `新しいバージョン ${latestRelease.version} が見つかりました`
+      `New version ${latestRelease.version}  found`
     );
     const shouldDownload = await promptForAvailableUpdate(latestRelease);
 
     if (!shouldDownload) {
-      sendAppUpdateStatusToRenderer('アップデートは保留しました');
+      sendAppUpdateStatusToRenderer('Update postponed');
       return;
     }
 
     await startAppUpdateDownload(latestRelease);
   } catch (error) {
     const message =
-      error instanceof Error && error.message ? error.message : '不明なエラー';
+      error instanceof Error && error.message ? error.message : 'Unknown error';
     sendAppUpdateStatusToRenderer(
-      `アップデート確認に失敗しました: ${message}`
+      `UpdateConfirm failed: ${message}`
     );
   } finally {
     isAutoUpdateCheckRunning = false;
@@ -1944,7 +1944,7 @@ function normalizeManualWorldUrl(worldUrl, fallbackWorldUrl = null) {
     normalizeWorldId(rawValue) || parseWorldIdFromUrl(rawValue);
 
   if (!normalizedWorldId) {
-    throw new Error('VRChatのWorld URLまたはWorld IDを入力してください');
+    throw new Error('Enter a VRChat World URL or World ID');
   }
 
   return {
@@ -2434,7 +2434,7 @@ async function createThumbnail(filePath, fileHash, options = {}) {
       await fs.access(thumbnailPath);
       return thumbnailPath;
     } catch {
-      // なければ生成
+      // Create if missing
     }
   }
 
@@ -2982,7 +2982,7 @@ async function regenerateThumbnailRows(
   progressReporter = null,
   {
     missingOnly = false,
-    progressMessage = 'サムネイルを再生成中...',
+    progressMessage = 'Regenerating thumbnails...',
   } = {}
 ) {
   const normalizedRows = Array.isArray(rows) ? rows : [];
@@ -3005,7 +3005,7 @@ async function regenerateThumbnailRows(
       if (!originalExists) {
         failedFiles.push({
           filePath: row.file_path,
-          message: '元画像が見つかりません',
+          message: 'Original image was not found',
         });
         continue;
       }
@@ -3019,7 +3019,7 @@ async function regenerateThumbnailRows(
       if (!nextThumbnailPath) {
         failedFiles.push({
           filePath: row.file_path,
-          message: 'サムネイル生成に失敗しました',
+          message: 'Thumbnail generation failed',
         });
         continue;
       }
@@ -3073,7 +3073,7 @@ async function regenerateManagedThumbnails(targetSelection = null, progressRepor
 
 async function clearManagedThumbnailCache(progressReporter = null) {
   if (!photoDb) {
-    throw new Error('データベースが初期化されていません');
+    throw new Error('Database is not initialized');
   }
 
   const rows = photoDb
@@ -3089,7 +3089,7 @@ async function clearManagedThumbnailCache(progressReporter = null) {
     phase: 'process',
     current: 0,
     total: rows.length,
-    message: 'サムネイルキャッシュを削除しています...',
+    message: 'Clearing thumbnail cache...',
   });
 
   if (rows.length === 0) {
@@ -3109,21 +3109,21 @@ async function clearManagedThumbnailCache(progressReporter = null) {
   try {
     await resetManagedThumbnailDirectories();
   } catch (error) {
-    throw new Error(`サムネイル保存先を初期化できませんでした: ${error.message}`);
+    throw new Error(`Could not initialize thumbnail destination: ${error.message}`);
   }
 
   try {
     photoDb.clearThumbnailPaths(rows.map((row) => row.id));
     clearedCount = rows.length;
   } catch (error) {
-    throw new Error(`サムネイル参照を更新できませんでした: ${error.message}`);
+    throw new Error(`Could not update thumbnail references: ${error.message}`);
   } finally {
     processedCount = rows.length;
     progressReporter?.({
       phase: 'process',
       current: processedCount,
       total: rows.length,
-      message: 'サムネイルキャッシュを削除しています...',
+      message: 'Clearing thumbnail cache...',
     });
   }
 
@@ -3138,7 +3138,7 @@ async function clearManagedThumbnailCache(progressReporter = null) {
 
 async function deletePhotoRegistration(photoId) {
   if (!photoDb) {
-    throw new Error('データベースが初期化されていません');
+    throw new Error('Database is not initialized');
   }
 
   const deletedRow = photoDb.deletePhotoById(photoId);
@@ -3146,7 +3146,7 @@ async function deletePhotoRegistration(photoId) {
   if (!deletedRow) {
     return {
       ok: false,
-      message: '削除対象が見つかりませんでした',
+      message: 'Nothing to delete was found',
     };
   }
 
@@ -3158,7 +3158,7 @@ async function deletePhotoRegistration(photoId) {
     try {
       await fs.unlink(deletedRow.thumbnail_path);
     } catch {
-      // サムネイルが既に無い場合は無視
+      // Ignore thumbnails that are already missing
     }
   }
 
@@ -3189,7 +3189,7 @@ async function deletePhotoRegistrations(photoIds) {
       } else {
         failed.push({
           photoId,
-          message: result?.message || '荳肴・縺ｪ繧ｨ繝ｩ繝ｼ',
+          message: result?.message || 'Unknown error',
         });
       }
     } catch (error) {
@@ -3214,7 +3214,7 @@ async function deletePhotoRegistrationsByMonth(year, month) {
   const normalizedMonth = Number.parseInt(month, 10);
 
   if (!Number.isInteger(normalizedYear) || !Number.isInteger(normalizedMonth)) {
-    throw new Error('有効な年月が指定されていません');
+    throw new Error('A valid year and month were not specified');
   }
 
   const rows = photoDb.getPhotosByMonth(normalizedYear, normalizedMonth);
@@ -3250,20 +3250,20 @@ async function deleteAllPhotoRegistrations() {
 // thumbnail files and every persisted table that belongs to this app.
 async function resetApplicationData(progressReporter = null) {
   if (!photoDb) {
-    throw new Error('データベースが初期化されていません');
+    throw new Error('Database is not initialized');
   }
 
   progressReporter?.({
     phase: 'process',
     current: 0,
     total: 1,
-    message: 'アプリデータを初期化しています...',
+    message: 'Resetting app data...',
   });
 
   try {
     await resetManagedThumbnailDirectories();
   } catch (error) {
-    throw new Error(`サムネイル保存先を初期化できませんでした: ${error.message}`);
+    throw new Error(`Could not initialize thumbnail destination: ${error.message}`);
   }
 
   const counts = photoDb.resetApplicationData();
@@ -3273,7 +3273,7 @@ async function resetApplicationData(progressReporter = null) {
     phase: 'process',
     current: 1,
     total: 1,
-    message: 'アプリデータを初期化しています...',
+    message: 'Resetting app data...',
   });
 
   return {
@@ -3792,13 +3792,13 @@ function buildEditedPhotoDefaultPath(payload = {}) {
 
 function parseEditedPhotoDataUrl(dataUrl) {
   if (typeof dataUrl !== 'string') {
-    throw new Error('編集済み画像データが不正です');
+    throw new Error('Edited image data is invalid');
   }
 
   const match = PHOTO_EDITOR_DATA_URL_PATTERN.exec(dataUrl);
 
   if (!match) {
-    throw new Error('編集済み画像データが不正です');
+    throw new Error('Edited image data is invalid');
   }
 
   const mimeType = match[1];
@@ -3810,7 +3810,7 @@ function parseEditedPhotoDataUrl(dataUrl) {
   const imageBuffer = Buffer.from(base64Data, 'base64');
 
   if (!imageBuffer || imageBuffer.length === 0) {
-    throw new Error('編集済み画像データが空です');
+    throw new Error('Edited image data is empty');
   }
 
   return {
@@ -4063,7 +4063,7 @@ async function saveEditedPhotoFile(payload = {}) {
   const { formatMeta } = parsedImage;
   const sourceFilePath = normalizeKnownFilePath(payload.sourceFilePath);
   const dialogResult = await dialog.showSaveDialog({
-    title: '編集済み画像を保存',
+    title: 'Save edited image',
     defaultPath: buildEditedPhotoDefaultPath({
       ...payload,
       outputFormat: parsedImage.formatKey,
@@ -4106,7 +4106,7 @@ async function saveEditedPhotoFile(payload = {}) {
   if (sourceFilePath && isSameFilePath(savePath, sourceFilePath)) {
     return {
       ok: false,
-      message: '元画像は上書きできません。別名で保存してください。',
+      message: 'The original image cannot be overwritten. Save as a new file.',
     };
   }
 
@@ -4195,11 +4195,11 @@ function createMissingAccessiblePhotoFileErrorLegacyCorrupt() {
   return createMissingAccessiblePhotoFileError();
 
   return new Error(
-    '画像ファイルが見つかりません。保存先を開いて場所を再確認してください。'
+    'Image file was not found. Open the destination folder and check its location.'
   );
 
   return new Error(
-    '画像ファイルが見つかりません。保存先を開いて場所を再確認してください。'
+    'Image file was not found. Open the destination folder and check its location.'
   );
 }
 
@@ -4207,12 +4207,12 @@ function getWorldMetadataSyncProgressMessageLegacyCorrupt(phase) {
   return getWorldMetadataSyncProgressMessage(phase);
 
   return phase === 'complete'
-    ? 'World情報の自動取得が完了しました'
-    : 'World情報を自動で取得しています...';
+    ? 'Automatic world info fetch completed'
+    : 'Fetching world info automatically...';
 
   return phase === 'complete'
-    ? 'World情報の自動取得が完了しました'
-    : 'World情報を自動で取得しています...';
+    ? 'Automatic world info fetch completed'
+    : 'Fetching world info automatically...';
 }
 
 // Quarantined compatibility helper kept in place because the original
@@ -4220,11 +4220,11 @@ function getWorldMetadataSyncProgressMessageLegacyCorrupt(phase) {
 // *Active helper further down instead of routing through this function.
 function createMissingAccessiblePhotoFileError() {
   return new Error(
-    '画像ファイルが見つかりません。保存先を開いて場所を再確認してください。'
+    'Image file was not found. Open the destination folder and check its location.'
   );
 
   return new Error(
-    '画像ファイルが見つかりません。保存先を開いて場所を再確認してください。'
+    'Image file was not found. Open the destination folder and check its location.'
   );
 }
 
@@ -4233,12 +4233,12 @@ function createMissingAccessiblePhotoFileError() {
 // *Active helper further down instead of routing through this function.
 function getWorldMetadataSyncProgressMessage(phase) {
   return phase === 'complete'
-    ? 'World情報の自動取得が完了しました'
-    : 'World情報を自動で取得しています...';
+    ? 'Automatic world info fetch completed'
+    : 'Fetching world info automatically...';
 
   return phase === 'complete'
-    ? 'World情報の自動取得が完了しました'
-    : 'World情報を自動で取得しています...';
+    ? 'Automatic world info fetch completed'
+    : 'Fetching world info automatically...';
 }
 
 // ------------------------------
@@ -4249,14 +4249,14 @@ function getWorldMetadataSyncProgressMessage(phase) {
 // blocks that are kept for reference and safe fallback only.
 function createMissingAccessiblePhotoFileErrorActive() {
   return new Error(
-    '画像ファイルが見つかりません。保存先を開いて場所を再確認してください。'
+    'Image file was not found. Open the destination folder and check its location.'
   );
 }
 
 function getWorldMetadataSyncProgressMessageActive(phase) {
   return phase === 'complete'
-    ? 'World情報の自動取得が完了しました'
-    : 'World情報を自動で取得しています...';
+    ? 'Automatic world info fetch completed'
+    : 'Fetching world info automatically...';
 }
 
 function broadcastQueuedWorldMetadataSyncProgress(phase, processedCount) {
@@ -4509,7 +4509,7 @@ async function findMatchingPhotoPathInDirectory(
         return normalizedFullPath;
       }
     } catch {
-      // 候補ファイルが読み取れない場合は次を試す
+      // Try the next candidate if this file cannot be read
     }
   }
 
@@ -4658,7 +4658,7 @@ async function collectNewFilesFromTrackedFolders(
     phase: 'scan',
     current: 0,
     total: trackedFolderPaths.length,
-    message: '追跡フォルダを確認中...',
+    message: 'Checking tracked folders...',
   });
 
   for (const folderPath of trackedFolderPaths) {
@@ -4697,7 +4697,7 @@ async function collectNewFilesFromTrackedFolders(
       phase: 'scan',
       current: scannedFolderPaths.length + missingFolderPaths.length,
       total: trackedFolderPaths.length,
-      message: '追跡フォルダを確認中...',
+      message: 'Checking tracked folders...',
     });
   }
 
@@ -4769,7 +4769,7 @@ async function reimportRegisteredPhotos(targetSelection, progressReporter = null
   if (!normalizedTargetSelection) {
     return createRegisteredPhotoReimportResult({
       ok: false,
-      message: '再取り込みする年月を指定してください',
+      message: 'Specify the year and month to reimport',
     });
   }
 
@@ -4820,7 +4820,7 @@ async function importManyFiles(filePaths, progressReporter = null) {
     phase: 'process',
     current: 0,
     total: uniquePaths.length,
-    message: '画像を取り込み中...',
+    message: 'Importing images...',
   });
 
   const buildResults = await mapWithConcurrencyLimit(
@@ -4845,7 +4845,7 @@ async function importManyFiles(filePaths, progressReporter = null) {
         phase: 'process',
         current: completedCount,
         total: totalCount,
-        message: '画像を取り込み中...',
+        message: 'Importing images...',
       });
     }
   );
@@ -4858,7 +4858,7 @@ async function importManyFiles(filePaths, progressReporter = null) {
 
     failedFiles.push({
       filePath: result?.filePath || '',
-      message: result?.message || '不明なエラー',
+      message: result?.message || 'Unknown error',
     });
   }
 
@@ -4873,7 +4873,7 @@ async function importManyFiles(filePaths, progressReporter = null) {
     phase: 'save',
     current: photoRecords.length,
     total: uniquePaths.length,
-    message: '取り込み結果を保存中...',
+    message: 'Saving import results...',
   });
 
   try {
@@ -4904,7 +4904,7 @@ async function importManyFiles(filePaths, progressReporter = null) {
       phase: 'thumbnail-recovery',
       current: recoveredCount,
       total: thumbnailRecoveryTargets.length,
-      message: '不足サムネイルを補完中...',
+      message: 'Creating missing thumbnails...',
     });
   }
 
@@ -4935,7 +4935,7 @@ async function importManyFiles(filePaths, progressReporter = null) {
     phase: 'complete',
     current: uniquePaths.length,
     total: uniquePaths.length,
-    message: '取り込みが完了しました',
+    message: 'Import completed',
   });
 
   return createImportSummaryResult({
@@ -5187,7 +5187,7 @@ async function runQueuedWorldMetadataSyncLegacy() {
         phase: 'process',
         current: processedCount,
         total: totalCount,
-        message: 'World情報を自動で同期しています...',
+        message: 'Syncing world info automatically...',
       });
 
       let result = { updatedRows: [] };
@@ -5214,8 +5214,8 @@ async function runQueuedWorldMetadataSyncLegacy() {
         total: processedCount + pendingWorldMetadataSyncTargets.size,
         message:
           pendingWorldMetadataSyncTargets.size > 0
-            ? 'World情報を自動で同期しています...'
-            : 'World情報の自動同期が完了しました',
+            ? 'Syncing world info automatically...'
+            : 'Automatic world info sync completed',
       });
     }
   } finally {
@@ -5283,7 +5283,7 @@ async function expandDroppedPathsToImportTargets(droppedPaths) {
         collected.push(droppedPath);
       }
     } catch {
-      // 読み取れないパスはスキップ
+      // Unreadable paths are skipped
     }
   }
 
@@ -5525,7 +5525,7 @@ async function rereadWorldInfoFromPhotoId(photoId, options = {}) {
   }
 
   if (!row) {
-    throw new Error('対象の写真が見つかりません');
+    throw new Error('Target photo was not found');
   }
 
   let localWorldInfo = {
@@ -5549,7 +5549,7 @@ async function rereadWorldInfoFromPhotoId(photoId, options = {}) {
     localWorldInfo = extractWorldInfo(tags, fileBuffer);
   } catch {
     if (!pendingWorldId && !pendingWorldUrl && !row.world_id && !row.world_url) {
-      throw new Error('ワールド情報を再取得できませんでした');
+      throw new Error('Could not refetch world information');
     }
   }
 
@@ -5595,7 +5595,7 @@ async function openLocalFileOnDiskLegacy(filePath) {
   filePath = resolvedPhoto.filePath;
 
   if (typeof filePath !== 'string' || filePath.trim().length === 0) {
-    throw new Error('ファイルパスが不正です');
+    throw new Error('Invalid file path');
   }
 
   await fs.access(filePath);
@@ -5621,7 +5621,7 @@ async function openContainingFolderOnDiskLegacy(filePath) {
   filePath = resolvedPhoto.filePath;
 
   if (typeof filePath !== 'string' || filePath.trim().length === 0) {
-    throw new Error('ファイルパスが不正です');
+    throw new Error('Invalid file path');
   }
 
   await fs.access(filePath);
@@ -5735,7 +5735,7 @@ app.whenReady().then(async () => {
 
   ipcMain.handle('import-images', async (event) => {
     const result = await dialog.showOpenDialog({
-      title: '画像を複数選択',
+      title: 'Select images',
       properties: ['openFile', 'multiSelections'],
       filters: [
         { name: 'Images', extensions: ['png', 'jpg', 'jpeg', 'webp'] },
@@ -5756,7 +5756,7 @@ app.whenReady().then(async () => {
   
   ipcMain.handle('import-folder', async (event) => {
     const result = await dialog.showOpenDialog({
-      title: '取り込むフォルダを選択',
+      title: 'Select folder to import',
       properties: ['openDirectory'],
     });
   
@@ -6113,7 +6113,7 @@ app.whenReady().then(async () => {
       }
 
       if (!photoDb.getPhotoById(photoId)) {
-        throw new Error('対象の写真が見つかりません');
+        throw new Error('Target photo was not found');
       }
 
       const normalizedLabels = normalizePhotoLabelPayload(payload?.labels);
@@ -6155,7 +6155,7 @@ app.whenReady().then(async () => {
 
   ipcMain.handle('select-background-image', async () => {
     const result = await dialog.showOpenDialog({
-      title: '背景画像を選択',
+      title: 'Select background image',
       properties: ['openFile'],
       filters: [
         {
@@ -6182,7 +6182,7 @@ app.whenReady().then(async () => {
 
   ipcMain.handle('add-tracked-folder', async () => {
     const result = await dialog.showOpenDialog({
-      title: '更新対象フォルダを選択',
+      title: 'Select tracked folder',
       properties: ['openDirectory'],
     });
 
@@ -6199,7 +6199,7 @@ app.whenReady().then(async () => {
     if (!folderPath) {
       return {
         ok: false,
-        message: 'フォルダの登録に失敗しました',
+        message: 'Folder registration failed',
         folders: photoDb.getTrackedFolders(),
       };
     }
@@ -6220,7 +6220,7 @@ app.whenReady().then(async () => {
     if (!normalizedFolderPath) {
       return {
         ok: false,
-        message: 'フォルダパスが不正です',
+        message: 'Invalid folder path',
         folders: photoDb.getTrackedFolders(),
       };
     }
@@ -6292,7 +6292,7 @@ app.whenReady().then(async () => {
       if (!currentRow) {
         return {
           ok: false,
-          message: '対象の写真が見つかりませんでした',
+          message: 'Target photo was not found',
         };
       }
 
@@ -6335,7 +6335,7 @@ app.whenReady().then(async () => {
       if (!saved) {
         return {
           ok: false,
-          message: '対象の写真が見つかりませんでした',
+          message: 'Target photo was not found',
         };
       }
 
@@ -6372,7 +6372,7 @@ app.whenReady().then(async () => {
   ipcMain.handle('open-external-url', async (_event, url) => {
     try {
       if (typeof url !== 'string' || !/^https?:\/\//i.test(url)) {
-        throw new Error('無効なURLです');
+        throw new Error('Invalid URL');
       }
   
       await shell.openExternal(url);
@@ -6500,7 +6500,7 @@ app.whenReady().then(async () => {
       if (!updated) {
         return {
           ok: false,
-          message: '対象の写真が見つかりませんでした',
+          message: 'Target photo was not found',
         };
       }
 
@@ -6541,7 +6541,7 @@ app.whenReady().then(async () => {
       if (!latestAvailableAppUpdateRelease) {
         return {
           ok: false,
-          message: '利用可能なアップデートがありません',
+          message: 'No update is available',
         };
       }
 
@@ -6552,7 +6552,7 @@ app.whenReady().then(async () => {
     } catch (error) {
       return {
         ok: false,
-        message: error instanceof Error ? error.message : '不明なエラー',
+        message: error instanceof Error ? error.message : 'Unknown error',
       };
     }
   });
@@ -6566,7 +6566,7 @@ app.whenReady().then(async () => {
     } catch (error) {
       return {
         ok: false,
-        message: error instanceof Error ? error.message : '不明なエラー',
+        message: error instanceof Error ? error.message : 'Unknown error',
       };
     }
   });

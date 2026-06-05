@@ -582,6 +582,9 @@ const pageHeaderActions = document.querySelector('.page-header-actions');
 const fontOptionButtons = Array.from(
   document.querySelectorAll('[data-font-option]')
 );
+const languageOptionButtons = Array.from(
+  document.querySelectorAll('[data-language-option]')
+);
 
 // App uninstall modal stays separate from destructive maintenance so the
 // user always chooses the uninstall mode explicitly before the final confirm.
@@ -617,6 +620,7 @@ const themeToggleIcon = document.getElementById('theme-toggle-icon');
 
 const THEME_STORAGE_KEY = 'vrchat-world-photo-manager-theme';
 const FONT_STORAGE_KEY = 'vrchat-world-photo-manager-font';
+const LANGUAGE_STORAGE_KEY = 'vrchat-world-photo-manager-language';
 const BACKGROUND_IMAGE_STORAGE_KEY =
   'vrchat-world-photo-manager-background-image';
 const PHOTO_CARD_DENSITY_STORAGE_KEY =
@@ -811,20 +815,20 @@ const SCROLL_TO_TOP_MAX_DURATION_MS = 1400;
 const ORIENTATION_FILTER_ORDER = ['all', 'landscape', 'portrait', 'square'];
 const ORIENTATION_FILTER_META = {
   all: {
-    buttonLabel: '向き: すべて',
-    shortLabel: 'すべて',
+    buttonLabel: 'Orientation: all',
+    shortLabel: 'All',
   },
   landscape: {
-    buttonLabel: '向き: 横長',
-    shortLabel: '横長',
+    buttonLabel: 'Orientation: landscape',
+    shortLabel: 'Landscape',
   },
   portrait: {
-    buttonLabel: '向き: 縦長',
-    shortLabel: '縦長',
+    buttonLabel: 'Orientation: portrait',
+    shortLabel: 'Portrait',
   },
   square: {
-    buttonLabel: '向き: 正方形',
-    shortLabel: '正方形',
+    buttonLabel: 'Orientation: square',
+    shortLabel: 'Square',
   },
 };
 const PHOTO_LABEL_PRESET_COLORS = [
@@ -843,20 +847,20 @@ const TOOLBAR_SEARCH_SCOPE_META = {
   world: {
     label: 'World',
     buttonLabel: 'World',
-    placeholder: 'World名を入力',
+    placeholder: 'Enter a world name',
     summaryPrefix: 'World',
   },
   memo: {
-    label: 'メモ',
-    buttonLabel: 'メモ',
-    placeholder: 'メモを入力',
-    summaryPrefix: 'メモ',
+    label: 'Memo',
+    buttonLabel: 'Memo',
+    placeholder: 'Enter a memo',
+    summaryPrefix: 'Memo',
   },
   printNote: {
-    label: 'プリントのノート',
-    buttonLabel: 'プリント',
-    placeholder: 'プリントのノートを入力',
-    summaryPrefix: 'プリントのノート',
+    label: 'Print note',
+    buttonLabel: 'Print',
+    placeholder: 'Enter a print note',
+    summaryPrefix: 'Print note',
   },
 };
 const PHOTO_EDITOR_PREVIEW_MAX_EDGE = 3200;
@@ -883,7 +887,7 @@ const PHOTO_EDITOR_TEXT_RECENT_FONT_LIMIT = 10;
 const PHOTO_EDITOR_TEXT_FONT_OPTIONS = Object.freeze([
   {
     key: 'system',
-    label: 'システム',
+    label: 'System',
     family: '"Segoe UI", "Yu Gothic UI", sans-serif',
     weights: ['400', '600', '700'],
     defaultWeight: '700',
@@ -1026,25 +1030,25 @@ const PHOTO_EDITOR_AUTO_ENHANCE_ANALYSIS_MAX_EDGE = 512;
 const PHOTO_EDITOR_AUTO_ENHANCE_DEFAULT_STRENGTH = 50;
 const PHOTO_EDITOR_CROP_ZOOM_MAX = 300;
 const PHOTO_EDIT_SLIDERS = [
-  { key: 'brightness', label: '明るさ', min: -100, max: 100, defaultValue: 0 },
-  { key: 'exposure', label: '露出', min: -100, max: 100, defaultValue: 0 },
-  { key: 'contrast', label: 'コントラスト', min: -60, max: 60, defaultValue: 0 },
-  { key: 'highlights', label: 'ハイライト', min: -60, max: 60, defaultValue: 0 },
-  { key: 'shadows', label: 'シャドウ', min: -100, max: 100, defaultValue: 0 },
-  { key: 'whites', label: 'ホワイト', min: -100, max: 100, defaultValue: 0 },
-  { key: 'blacks', label: 'ブラック', min: -100, max: 100, defaultValue: 0 },
-  { key: 'gamma', label: 'ガンマ', min: -100, max: 100, defaultValue: 0 },
-  { key: 'temperature', label: '色温度', min: -100, max: 100, defaultValue: 0 },
-  { key: 'tint', label: '色合い', min: -100, max: 100, defaultValue: 0 },
-  { key: 'saturation', label: '彩度', min: -100, max: 100, defaultValue: 0 },
-  { key: 'vibrance', label: '自然な彩度', min: -100, max: 100, defaultValue: 0 },
-  { key: 'clarity', label: '明瞭度', min: -100, max: 100, defaultValue: 0 },
-  { key: 'texture', label: 'テクスチャ', min: -100, max: 100, defaultValue: 0 },
-  { key: 'sharpness', label: 'シャープ', min: 0, max: 100, defaultValue: 0 },
-  { key: 'denoise', label: 'ノイズ低減', min: 0, max: 100, defaultValue: 0 },
-  { key: 'fade', label: 'フェード', min: 0, max: 100, defaultValue: 0 },
-  { key: 'grain', label: '粒子', min: 0, max: 100, defaultValue: 0 },
-  { key: 'vignette', label: 'ビネット', min: -100, max: 100, defaultValue: 0 },
+  { key: 'brightness', label: 'Brightness', min: -100, max: 100, defaultValue: 0 },
+  { key: 'exposure', label: 'Exposure', min: -100, max: 100, defaultValue: 0 },
+  { key: 'contrast', label: 'Contrast', min: -60, max: 60, defaultValue: 0 },
+  { key: 'highlights', label: 'Highlights', min: -60, max: 60, defaultValue: 0 },
+  { key: 'shadows', label: 'Shadows', min: -100, max: 100, defaultValue: 0 },
+  { key: 'whites', label: 'Whites', min: -100, max: 100, defaultValue: 0 },
+  { key: 'blacks', label: 'Blacks', min: -100, max: 100, defaultValue: 0 },
+  { key: 'gamma', label: 'Gamma', min: -100, max: 100, defaultValue: 0 },
+  { key: 'temperature', label: 'Temperature', min: -100, max: 100, defaultValue: 0 },
+  { key: 'tint', label: 'Tint', min: -100, max: 100, defaultValue: 0 },
+  { key: 'saturation', label: 'Saturation', min: -100, max: 100, defaultValue: 0 },
+  { key: 'vibrance', label: 'Vibrance', min: -100, max: 100, defaultValue: 0 },
+  { key: 'clarity', label: 'Clarity', min: -100, max: 100, defaultValue: 0 },
+  { key: 'texture', label: 'Texture', min: -100, max: 100, defaultValue: 0 },
+  { key: 'sharpness', label: 'Sharpen', min: 0, max: 100, defaultValue: 0 },
+  { key: 'denoise', label: 'Noise reduction', min: 0, max: 100, defaultValue: 0 },
+  { key: 'fade', label: 'Fade', min: 0, max: 100, defaultValue: 0 },
+  { key: 'grain', label: 'Grain', min: 0, max: 100, defaultValue: 0 },
+  { key: 'vignette', label: 'Vignette', min: -100, max: 100, defaultValue: 0 },
 ];
 const PHOTO_EDIT_DEFAULT_VALUES = Object.freeze(
   Object.fromEntries(
@@ -1052,9 +1056,9 @@ const PHOTO_EDIT_DEFAULT_VALUES = Object.freeze(
   )
 );
 const PHOTO_EDITOR_MASK_STRENGTH_LABELS = Object.freeze({
-  blur: 'ぼかしの濃さ',
-  mosaic: 'モザイクの濃さ',
-  fill: '塗りつぶしの濃さ',
+  blur: 'Blur strength',
+  mosaic: 'Mosaic strength',
+  fill: 'Fill strength',
 });
 const PHOTO_EDITOR_MASK_DEFAULT_STRENGTHS = Object.freeze({
   blur: 45,
@@ -1068,13 +1072,13 @@ const PHOTO_EDITOR_RADIAL_BLUR_MIN_FEATHER = 0.04;
 const PHOTO_EDITOR_CURVE_MODES = Object.freeze(['rgb', 'hsv']);
 const PHOTO_EDITOR_CURVE_CHANNELS = Object.freeze({
   rgb: [
-    { key: 'master', label: '全体' },
+    { key: 'master', label: 'Full image' },
     { key: 'r', label: 'R' },
     { key: 'g', label: 'G' },
     { key: 'b', label: 'B' },
   ],
   hsv: [
-    { key: 'master', label: '全体' },
+    { key: 'master', label: 'Full image' },
     { key: 'h', label: 'H' },
     { key: 's', label: 'S' },
     { key: 'v', label: 'V' },
@@ -1085,7 +1089,7 @@ const PHOTO_EDITOR_CURVE_HISTOGRAM_BINS = 64;
 const PHOTO_EDITOR_CURVE_PREVIEW_DEBOUNCE_MS = 96;
 const PHOTO_EDIT_PRESETS = {
   auto: {
-    label: '✨ 自動補正',
+    label: 'Auto enhance',
     isAuto: true,
     values: {
       brightness: 0,
@@ -1108,7 +1112,7 @@ const PHOTO_EDIT_PRESETS = {
     },
   },
   learningAuto: {
-    label: '学習補正',
+    label: 'Learned correction',
     isLearningAuto: true,
     values: {
       brightness: 0,
@@ -1131,7 +1135,7 @@ const PHOTO_EDIT_PRESETS = {
     },
   },
   vrchatPost: {
-    label: '投稿クリア',
+    label: 'Post clear',
     values: {
       brightness: 5,
       exposure: 4,
@@ -1153,7 +1157,7 @@ const PHOTO_EDIT_PRESETS = {
     },
   },
   naturalClear: {
-    label: '自然クリア',
+    label: 'Natural clear',
     values: {
       brightness: 4,
       exposure: 2,
@@ -1175,7 +1179,7 @@ const PHOTO_EDIT_PRESETS = {
     },
   },
   night: {
-    label: '夜景強調',
+    label: 'Night boost',
     values: {
       brightness: 8,
       exposure: 5,
@@ -1197,7 +1201,7 @@ const PHOTO_EDIT_PRESETS = {
     },
   },
   neon: {
-    label: 'ネオン強調',
+    label: 'Neon boost',
     values: {
       brightness: 3,
       exposure: 2,
@@ -1219,7 +1223,7 @@ const PHOTO_EDIT_PRESETS = {
     },
   },
   soft: {
-    label: 'ふんわり1',
+    label: 'Soft 1',
     values: {
       brightness: 7,
       exposure: 3,
@@ -1241,7 +1245,7 @@ const PHOTO_EDIT_PRESETS = {
     },
   },
   soft2: {
-    label: 'ふんわり2',
+    label: 'Soft 2',
     values: {
       brightness: 9,
       exposure: 4,
@@ -1263,7 +1267,7 @@ const PHOTO_EDIT_PRESETS = {
     },
   },
   soft3: {
-    label: 'ふんわり3',
+    label: 'Soft 3',
     values: {
       brightness: 5,
       exposure: 2,
@@ -1285,7 +1289,7 @@ const PHOTO_EDIT_PRESETS = {
     },
   },
   film: {
-    label: 'フィルム風',
+    label: 'Film look',
     values: {
       brightness: 2,
       exposure: 0,
@@ -1307,7 +1311,7 @@ const PHOTO_EDIT_PRESETS = {
     },
   },
   highContrast: {
-    label: '高コントラスト1',
+    label: 'High contrast 1',
     values: {
       brightness: 0,
       exposure: 1,
@@ -1329,7 +1333,7 @@ const PHOTO_EDIT_PRESETS = {
     },
   },
   highContrast2: {
-    label: '高コントラスト2',
+    label: 'High contrast 2',
     values: {
       brightness: -2,
       exposure: 0,
@@ -1353,7 +1357,7 @@ const PHOTO_EDIT_PRESETS = {
     },
   },
   coolBlue: {
-    label: 'クールブルー1',
+    label: 'Cool blue 1',
     values: {
       brightness: 1,
       exposure: 0,
@@ -1377,7 +1381,7 @@ const PHOTO_EDIT_PRESETS = {
     },
   },
   deepBlue: {
-    label: 'クールブルー2',
+    label: 'Cool blue 2',
     values: {
       brightness: -1,
       exposure: -2,
@@ -1401,7 +1405,7 @@ const PHOTO_EDIT_PRESETS = {
     },
   },
   sweetPink: {
-    label: 'スイートピンク1',
+    label: 'Sweet pink 1',
     values: {
       brightness: 6,
       exposure: 3,
@@ -1425,7 +1429,7 @@ const PHOTO_EDIT_PRESETS = {
     },
   },
   pastelPink: {
-    label: 'スイートピンク2',
+    label: 'Sweet pink 2',
     values: {
       brightness: 9,
       exposure: 4,
@@ -1449,7 +1453,7 @@ const PHOTO_EDIT_PRESETS = {
     },
   },
   vividPink: {
-    label: 'スイートピンク3',
+    label: 'Sweet pink 3',
     values: {
       brightness: 3,
       exposure: 1,
@@ -1473,7 +1477,7 @@ const PHOTO_EDIT_PRESETS = {
     },
   },
   shadowLift: {
-    label: '暗部クリア',
+    label: 'Shadow clear',
     values: {
       brightness: 6,
       exposure: 5,
@@ -1495,7 +1499,7 @@ const PHOTO_EDIT_PRESETS = {
     },
   },
   thumbnailPop: {
-    label: 'サムネ強調',
+    label: 'Thumbnail boost',
     values: {
       brightness: 3,
       exposure: 2,
@@ -1517,7 +1521,7 @@ const PHOTO_EDIT_PRESETS = {
     },
   },
   monochrome: {
-    label: 'モノクロ',
+    label: 'Monochrome',
     values: {
       brightness: 4,
       exposure: 2,
@@ -1540,7 +1544,7 @@ const PHOTO_EDIT_PRESETS = {
   },
 };
 const PHOTO_EDITOR_CROP_PRESETS = [
-  { key: 'original', label: 'オリジナル', ratio: null },
+  { key: 'original', label: 'Original', ratio: null },
   { key: 'square', label: '1:1', ratio: 1 },
   { key: 'wide', label: '16:9', ratio: 16 / 9 },
   { key: 'portrait', label: '9:16', ratio: 9 / 16 },
@@ -1550,7 +1554,7 @@ const PHOTO_EDITOR_CROP_PRESETS = [
   { key: 'twoThree', label: '2:3', ratio: 2 / 3 },
   {
     key: 'vrcGallery',
-    label: 'VRCギャラリー',
+    label: 'VRC Gallery',
     ratio: 1,
     transparentPadding: true,
     exportMaxEdge: 2048,
@@ -1558,7 +1562,7 @@ const PHOTO_EDITOR_CROP_PRESETS = [
   },
   {
     key: 'vrcSticker',
-    label: '絵文字・ステッカー',
+    label: 'Emoji / Sticker',
     ratio: 1,
     transparentPadding: true,
     exportMaxEdge: 1024,
@@ -1636,42 +1640,42 @@ function createWorldSelection(worldKey, worldName, worldId = null) {
 
 const HEALTH_ISSUE_VIEW_META = Object.freeze({
   'missing-original': {
-    label: '元画像なし',
-    busyStatus: '元画像なしの写真を抽出中...',
-    progressMessage: '元画像ファイルが見つからない写真を集めています...',
-    successPrefix: '元画像なし',
-    emptyToast: '元画像なしの写真はありません',
-    successToast: (count) => `元画像なしの写真を${count}件表示しました`,
-    errorPrefix: '元画像なし画像の抽出',
+    label: 'Missing original',
+    busyStatus: 'Extracting photos with missing originals...',
+    progressMessage: 'Collecting photos whose original files are missing...',
+    successPrefix: 'Missing original',
+    emptyToast: 'No photos have missing originals',
+    successToast: (count) => `Showing ${count} photos with missing originals`,
+    errorPrefix: 'Missing original extraction',
   },
   'missing-thumbnail': {
-    label: 'サムネイルなし',
-    busyStatus: 'サムネイルなしの写真を抽出中...',
-    progressMessage: 'サムネイルが欠損している写真を集めています...',
-    successPrefix: 'サムネイルなし',
-    emptyToast: 'サムネイルなしの写真はありません',
-    successToast: (count) => `サムネイルなしの写真を${count}件表示しました`,
-    errorPrefix: 'サムネイルなし画像の抽出',
+    label: 'Missing thumbnail',
+    busyStatus: 'Extracting photos with missing thumbnails...',
+    progressMessage: 'Collecting photos with missing thumbnails...',
+    successPrefix: 'Missing thumbnail',
+    emptyToast: 'No photos have missing thumbnails',
+    successToast: (count) => `Showing ${count} photos with missing thumbnails`,
+    errorPrefix: 'Missing thumbnail extraction',
   },
   'missing-world-info': {
-    label: 'World情報未取得',
-    busyStatus: 'World情報未取得の写真を抽出中...',
-    progressMessage: 'World情報が未取得の写真を集めています...',
-    successPrefix: 'World情報未取得',
-    emptyToast: 'World情報未取得の写真はありません',
+    label: 'Missing world info',
+    busyStatus: 'Extracting photos with missing world info...',
+    progressMessage: 'Collecting photos with missing world info...',
+    successPrefix: 'Missing world info',
+    emptyToast: 'No photos have missing world info',
     successToast: (count) =>
-      `World情報未取得の写真を${count}件表示しました`,
-    errorPrefix: 'World情報未取得画像の抽出',
+      `Showing ${count} photos with missing world info`,
+    errorPrefix: 'Missing world info extraction',
   },
   'world-metadata': {
-    label: 'Worldメタデータ要確認',
-    busyStatus: 'World要確認画像を抽出中...',
-    progressMessage: 'Worldメタデータ要確認の写真を集めています...',
-    successPrefix: 'Worldメタデータ要確認',
-    emptyToast: 'Worldメタデータ要確認の写真はありません',
+    label: 'World metadata needs review',
+    busyStatus: 'Extracting worlds needing review...',
+    progressMessage: 'Collecting photos with world metadata needing review...',
+    successPrefix: 'World metadata needs review',
+    emptyToast: 'No photos need world metadata review',
     successToast: (count) =>
-      `Worldメタデータ要確認の写真を${count}件表示しました`,
-    errorPrefix: 'World要確認画像の抽出',
+      `Showing ${count} photos needing world metadata review`,
+    errorPrefix: 'World review extraction',
   },
 });
 
@@ -1694,7 +1698,7 @@ function normalizeSelection(selection) {
     const normalizedLabel =
       typeof selection.label === 'string' && selection.label.trim().length > 0
         ? selection.label.trim()
-        : '状態チェック結果';
+        : 'Health check results';
 
     if (!normalizedKind) {
       return null;
@@ -1790,7 +1794,7 @@ function getSelectionLabelText(selection = currentSelection) {
   const normalizedSelection = normalizeSelection(selection);
 
   if (!normalizedSelection) {
-    return '写真一覧';
+    return 'Photo list';
   }
 
   if (normalizedSelection.mode === 'world') {
@@ -1812,23 +1816,23 @@ function getDefaultSelectionEmptyMessage(selection = currentSelection) {
   const normalizedSelection = normalizeSelection(selection);
 
   if (!normalizedSelection) {
-    return '表示する年または月を選択してください';
+    return 'Select a year or month to display';
   }
 
   if (normalizedSelection.mode === 'world') {
-    return 'このワールドの写真はまだありません';
+    return 'No photos for this world yet';
   }
 
   if (normalizedSelection.mode === 'health') {
-    return '該当する写真はありません';
+    return 'No matching photos';
   }
 
   return normalizedSelection.mode === 'year'
-    ? 'この年の写真はまだありません'
-    : 'この月の写真はまだありません';
+    ? 'No photos for this year yet'
+    : 'No photos for this month yet';
 }
 
-function setText(el, value, fallback = '未取得') {
+function setText(el, value, fallback = 'Not fetched') {
   if (!el) {
     return;
   }
@@ -1848,7 +1852,7 @@ function escapeHtml(value) {
 function splitTakenAtForCard(value) {
   if (typeof value !== 'string' || value.trim().length === 0) {
     return {
-      dateText: '日時不明',
+      dateText: 'Unknown date/time',
       timeText: '',
     };
   }
@@ -1856,7 +1860,7 @@ function splitTakenAtForCard(value) {
   const [dateText, timeText] = value.trim().split(/\s+/, 2);
 
   return {
-    dateText: dateText || '日時不明',
+    dateText: dateText || 'Unknown date/time',
     timeText: timeText || '',
   };
 }
@@ -1936,7 +1940,7 @@ function getPhotoGroupDate(photo) {
   const groupDate =
     typeof photo?.groupDate === 'string' ? photo.groupDate.trim() : '';
 
-  return groupDate || '日付不明';
+  return groupDate || 'Unknown date';
 }
 
 function rebuildCurrentPhotoGroupIndexMap() {
@@ -1996,6 +2000,373 @@ function initializeTheme() {
   }
 
   applyTheme('dark');
+}
+
+const LANGUAGE_TRANSLATIONS_JA = {
+  'Open settings': '設定を開く',
+  'Toggle theme': 'テーマを切り替える',
+  Refresh: '更新',
+  'Regenerate thumbnails': 'サムネイル再生成',
+  'No imports yet': 'まだ取り込みはありません',
+  'Preparing...': '処理を準備中...',
+  'Year / Month': '年月',
+  'Year / Month list': '年月一覧',
+  'Back to year / month list': '年月一覧へ戻る',
+  'World list': 'ワールド一覧',
+  'Show world list': 'ワールド一覧を表示',
+  'Select a year to show yearly photos, or use the arrow to expand months':
+    '年を押すと年一覧、矢印で月を開閉します',
+  'Photo list': '写真一覧',
+  'Show favorites only': 'お気に入りのみ表示',
+  'Showing favorites only': 'お気に入りのみ表示中',
+  'Sort: newest first': '並び順: 新しい順',
+  'Sort: oldest first': '並び順: 古い順',
+  'Display size: standard': '表示サイズ: 標準',
+  'Display size: compact': '表示サイズ: コンパクト',
+  'Orientation filter: all': '向きフィルタ: すべて',
+  'Orientation filter': '向きフィルタ',
+  'Orientation: all': '向き: すべて',
+  'Orientation': '向き',
+  All: 'すべて',
+  Landscape: '横長',
+  Portrait: '縦長',
+  Square: '正方形',
+  'Label filter: all': 'ラベルフィルタ: すべて',
+  'Label filter': 'ラベルフィルタ',
+  'Label: all': 'ラベル: すべて',
+  Labels: 'ラベル',
+  'World filter: all': 'Worldフィルタ: すべて',
+  'World name filter': 'World名フィルタ',
+  'Enter a world name': 'World名を入力',
+  'World: all': 'World: すべて',
+  Clear: 'クリア',
+  Search: '検索',
+  'Run search': '検索を実行',
+  'Clear search': '検索をクリア',
+  Select: '選択',
+  Favorite: 'お気に入り',
+  'Remove favorite': 'お気に入り解除',
+  Delete: '削除',
+  'Drag and drop images or folders here':
+    '画像/フォルダをここにドラッグ＆ドロップ',
+  'No photos yet': 'まだ写真がありません',
+  'Enlarged image': '拡大画像',
+  'World name not fetched': 'ワールド名未取得',
+  'Unknown file name': 'ファイル名不明',
+  'Open in VRChat': 'VRChatで開く',
+  'Open original image': '元画像を開く',
+  'Open containing folder': '保存先フォルダを開く',
+  'Open destination': '保存先を開く',
+  'Edit image': '画像を加工する',
+  'Date taken': '撮影日時',
+  Resolution: '解像度',
+  'Not fetched': '未取得',
+  Memo: 'メモ',
+  Save: '保存',
+  'Add a memo': '自由にメモを残せます',
+  'Current display name': '現在の表示名',
+  'Toggle favorite': 'お気に入り切り替え',
+  'Edit card': 'カードを編集',
+  'Delete this entry': 'この登録を削除',
+  'Image editor': '画像編集',
+  Undo: '元に戻す',
+  Redo: 'やり直す',
+  'Reset edits': '編集内容をリセット',
+  'Compare with original': '編集前と比較',
+  Compare: '比較',
+  'Save as': '別名で保存',
+  Crop: '切り抜き',
+  'Reset crop': '切り抜きをリセット',
+  Rotation: '回転',
+  'Free rotate': '自由回転',
+  Zoom: 'ズーム',
+  'Horizontal position': '左右位置',
+  'Vertical position': '上下位置',
+  Preset: 'プリセット',
+  'Preset name': 'プリセット名',
+  Adjustments: '補正',
+  'Tone curve': 'トーンカーブ',
+  Blur: 'ぼかし',
+  'Blur area': 'どこをぼかしにするか',
+  Radial: '放射',
+  'Full image': '全体',
+  'Blur amount': 'ぼかし量',
+  Apply: '確定',
+  'Privacy mask': '目隠し加工',
+  Mosaic: 'モザイク',
+  Fill: '塗りつぶし',
+  Area: '範囲',
+  Strength: '濃さ',
+  Color: '色',
+  'Add text': 'テキスト追加',
+  Add: '追加',
+  Text: 'テキスト',
+  Font: 'フォント',
+  Weight: '太さ',
+  Regular: '標準',
+  Medium: '中太',
+  Bold: '太字',
+  'Extra bold': '特太',
+  Black: '極太',
+  'Stroke color': '縁の色',
+  'Stroke type': '縁の種類',
+  None: 'なし',
+  Outline: '縁取り',
+  Shadow: '影',
+  Glow: '発光',
+  'Transparent fill': '縁内を透過',
+  'Text size': '文字サイズ',
+  'Stroke width': '縁の太さ',
+  'Letter spacing': '文字間隔',
+  Export: '書き出し',
+  Format: '形式',
+  Size: 'サイズ',
+  Original: 'オリジナル',
+  Quality: '品質',
+  Settings: '設定',
+  Language: '言語',
+  System: 'システム',
+  English: '英語',
+  Japanese: '日本語',
+  'Tracked folder settings': '更新対象フォルダの設定',
+  'Add folder': 'フォルダ追加',
+  FoldersAdd: 'フォルダ追加',
+  'Nothing registered yet': 'まだ登録されていません',
+  'Data management': 'データ管理',
+  Actions: '操作メニュー',
+  'Create backup': 'バックアップを作成',
+  'Health check': '状態チェック',
+  'Show missing originals': '元画像なしを表示',
+  'Show missing thumbnails': 'サムネイルなしを表示',
+  'Show missing world info': 'World情報未取得を表示',
+  'Show worlds needing review': 'World要確認を表示',
+  'Regenerate missing thumbnails': '欠損サムネイルを再生成',
+  'Refetch worlds needing review': 'World要確認を再取得',
+  'Restore from backup': 'バックアップから復元',
+  'Export CSV': 'CSVエクスポート',
+  'Export JSON': 'JSONエクスポート',
+  Maintenance: 'メンテナンス',
+  'Delete current month': '表示中の月を削除',
+  'Clear thumbnail cache': 'サムネイルキャッシュを削除',
+  'Reimport existing image info': '既存画像の情報を再取り込み',
+  'Delete all entries': '全登録を削除',
+  'Reset database': 'DBを初期化',
+  Uninstall: 'アンインストール',
+  Confirm: '確認',
+  'Run this action?': 'この操作を実行しますか？',
+  Cancel: 'キャンセル',
+  Run: '実行する',
+  Close: '閉じる',
+  'Unknown error': '不明なエラー',
+  Processing: '処理中',
+  'Processing...': '処理中...',
+  'Saved': '保存しました',
+  'Saving...': '保存中...',
+  'Save failed': '保存に失敗しました',
+  'Backup created': 'バックアップを作成しました',
+  'Thumbnail regeneration completed': 'サムネイル再生成が完了しました',
+  'Tracked folders refreshed': '追跡フォルダを更新しました',
+  'Selected entries deleted': '選択した登録を削除しました',
+};
+
+const LANGUAGE_TRANSLATION_ATTRIBUTES = [
+  'aria-label',
+  'title',
+  'placeholder',
+];
+
+let currentLanguagePreference = 'system';
+let currentResolvedLanguage = 'en';
+let languageObserver = null;
+let isApplyingLanguage = false;
+
+function resolveSystemLanguage() {
+  const language =
+    navigator.languages?.[0] || navigator.language || navigator.userLanguage || '';
+  return String(language).toLowerCase().startsWith('ja') ? 'ja' : 'en';
+}
+
+function resolveLanguagePreference(preference) {
+  if (preference === 'ja' || preference === 'en') {
+    return preference;
+  }
+
+  return resolveSystemLanguage();
+}
+
+function translateTextForLanguage(value, language = currentResolvedLanguage) {
+  if (typeof value !== 'string' || language !== 'ja') {
+    return value;
+  }
+
+  const exact = LANGUAGE_TRANSLATIONS_JA[value];
+  if (exact) {
+    return exact;
+  }
+
+  return value
+    .replace(/\b(\d+)\s+photos\b/g, '$1枚')
+    .replace(/\b(\d+)\s+items\b/g, '$1件')
+    .replace(/\bNo target month\b/g, '対象月がありません')
+    .replace(/\bNo matching photos\b/g, '該当する写真はありません')
+    .replace(/\bUpdate available\b/g, 'アップデートがあります')
+    .replace(/\bUpdate is ready\b/g, 'アップデートの準備ができました')
+    .replace(/\bCould not\b/g, '実行できませんでした');
+}
+
+function syncLanguageOptionButtons() {
+  languageOptionButtons.forEach((button) => {
+    const isActive = button.dataset.languageOption === currentLanguagePreference;
+    button.classList.toggle('is-active', isActive);
+    button.setAttribute('aria-pressed', isActive ? 'true' : 'false');
+  });
+}
+
+function localizeElementTextNode(node) {
+  if (!node || node.nodeType !== Node.TEXT_NODE) {
+    return;
+  }
+
+  const rawValue = node.nodeValue;
+  const trimmedValue = rawValue.trim();
+
+  if (!trimmedValue) {
+    return;
+  }
+
+  const parent = node.parentElement;
+  if (!parent) {
+    return;
+  }
+
+  if (!parent.dataset.i18nSourceText) {
+    parent.dataset.i18nSourceText = trimmedValue;
+  }
+
+  const translated = translateTextForLanguage(
+    parent.dataset.i18nSourceText,
+    currentResolvedLanguage
+  );
+  node.nodeValue = rawValue.replace(trimmedValue, translated);
+}
+
+function localizeElementAttributes(element) {
+  if (!element || !element.getAttribute) {
+    return;
+  }
+
+  LANGUAGE_TRANSLATION_ATTRIBUTES.forEach((attributeName) => {
+    const value = element.getAttribute(attributeName);
+
+    if (!value) {
+      return;
+    }
+
+    const sourceKey = `i18nSource${attributeName.replace(/[^a-z]/gi, '')}`;
+    if (!element.dataset[sourceKey]) {
+      element.dataset[sourceKey] = value;
+    }
+
+    element.setAttribute(
+      attributeName,
+      translateTextForLanguage(element.dataset[sourceKey], currentResolvedLanguage)
+    );
+  });
+}
+
+function localizeElementTree(root = document.body) {
+  if (!root) {
+    return;
+  }
+
+  isApplyingLanguage = true;
+
+  try {
+    if (root.nodeType === Node.TEXT_NODE) {
+      localizeElementTextNode(root);
+      return;
+    }
+
+    if (root.nodeType !== Node.ELEMENT_NODE && root !== document.body) {
+      return;
+    }
+
+    localizeElementAttributes(root);
+
+    const walker = document.createTreeWalker(
+      root,
+      NodeFilter.SHOW_TEXT | NodeFilter.SHOW_ELEMENT
+    );
+
+    let node = walker.currentNode;
+    while (node) {
+      if (node.nodeType === Node.TEXT_NODE) {
+        localizeElementTextNode(node);
+      } else if (node.nodeType === Node.ELEMENT_NODE) {
+        localizeElementAttributes(node);
+      }
+
+      node = walker.nextNode();
+    }
+  } finally {
+    isApplyingLanguage = false;
+  }
+}
+
+function observeLanguageMutations() {
+  if (languageObserver || !document.body) {
+    return;
+  }
+
+  languageObserver = new MutationObserver((mutations) => {
+    if (isApplyingLanguage || currentResolvedLanguage !== 'ja') {
+      return;
+    }
+
+    mutations.forEach((mutation) => {
+      mutation.addedNodes.forEach((node) => localizeElementTree(node));
+
+      if (mutation.type === 'characterData') {
+        localizeElementTextNode(mutation.target);
+      }
+
+      if (mutation.type === 'attributes') {
+        localizeElementAttributes(mutation.target);
+      }
+    });
+  });
+
+  languageObserver.observe(document.body, {
+    subtree: true,
+    childList: true,
+    characterData: true,
+    attributes: true,
+    attributeFilter: LANGUAGE_TRANSLATION_ATTRIBUTES,
+  });
+}
+
+function applyLanguagePreference(preference) {
+  const nextPreference =
+    preference === 'en' || preference === 'ja' || preference === 'system'
+      ? preference
+      : 'system';
+  currentLanguagePreference = nextPreference;
+  currentResolvedLanguage = resolveLanguagePreference(nextPreference);
+  document.documentElement.lang = currentResolvedLanguage;
+  document.body.setAttribute('data-language', currentResolvedLanguage);
+  localStorage.setItem(LANGUAGE_STORAGE_KEY, nextPreference);
+  syncLanguageOptionButtons();
+  localizeElementTree(document.body);
+}
+
+function initializeLanguagePreference() {
+  const savedLanguage = localStorage.getItem(LANGUAGE_STORAGE_KEY);
+  applyLanguagePreference(
+    savedLanguage === 'en' || savedLanguage === 'ja' || savedLanguage === 'system'
+      ? savedLanguage
+      : 'system'
+  );
+  observeLanguageMutations();
 }
 
 function syncFontOptionButtons(fontName) {
@@ -2061,11 +2432,11 @@ function syncPhotoCardDensityUi() {
   photoDensityButton.classList.toggle('is-active', isCompact);
   photoDensityButton.setAttribute(
     'aria-label',
-    isCompact ? '表示サイズ: コンパクト' : '表示サイズ: 標準'
+    isCompact ? 'Display size: compact' : 'Display size: standard'
   );
   photoDensityButton.title = isCompact
-    ? '表示サイズ: コンパクト'
-    : '表示サイズ: 標準';
+    ? 'Display size: compact'
+    : 'Display size: standard';
   photoDensityIcon.textContent = isCompact
     ? 'view_compact_alt'
     : 'view_comfy_alt';
@@ -2218,7 +2589,7 @@ function updateProcessingProgress(payload = {}) {
   processingProgress.classList.toggle('is-indeterminate', !hasDeterminateProgress);
 
   if (processingProgressLabel) {
-    processingProgressLabel.textContent = payload.message || '処理中...';
+    processingProgressLabel.textContent = payload.message || 'Processing...';
   }
 
   if (processingProgressValue) {
@@ -2255,7 +2626,7 @@ function resetProcessingProgress() {
   processingProgress.classList.remove('is-indeterminate');
 
   if (processingProgressLabel) {
-    processingProgressLabel.textContent = '処理準備中...';
+    processingProgressLabel.textContent = 'Preparing...';
   }
 
   if (processingProgressValue) {
@@ -2282,8 +2653,8 @@ function syncWorldMetadataSyncUi() {
   rereadWorldNameButton.setAttribute(
     'title',
     isWorldMetadataSyncing
-      ? '自動同期中は再読み込みできません'
-      : 'World情報を再読み込み'
+      ? 'Cannot reload while automatic sync is running'
+      : 'Reload world info'
   );
 }
 
@@ -2326,22 +2697,22 @@ function applyWorldMetadataUpdated(payload = {}) {
 
 function buildImportStatusMessage(result, modeLabel) {
   if (!result || result.canceled) {
-    return `${modeLabel}はキャンセルされました`;
+    return `${modeLabel} was canceled`;
   }
 
   if (result.emptyFolder) {
-    return 'フォルダ内に対応画像がありませんでした';
+    return 'No supported images were found in the folder';
   }
 
   if (result.emptyDrop) {
-    return 'ドロップされた項目に対応画像がありませんでした';
+    return 'No supported images were found in the dropped items';
   }
 
   return [
-    `${modeLabel}: ${result.importedCount}件反映`,
-    `新着${result.newCount}件`,
-    `更新 ${result.updatedCount}件`,
-    result.failedCount > 0 ? `失敗 ${result.failedCount}件` : null,
+    `${modeLabel}: ${result.importedCount} applied`,
+    `New ${result.newCount} items`,
+    `Refresh ${result.updatedCount} items`,
+    result.failedCount > 0 ? `Failed ${result.failedCount} items` : null,
   ]
     .filter(Boolean)
     .join(' / ');
@@ -2349,15 +2720,15 @@ function buildImportStatusMessage(result, modeLabel) {
 
 function buildRegenerateThumbnailsMessage(result) {
   if (!result?.ok) {
-    return `サムネイル再生成に失敗しました: ${
-      result?.message || '不明なエラー'
+    return `Thumbnail regeneration failed: ${
+      result?.message || 'Unknown error'
     }`;
   }
 
   return [
-    `サムネイル再生成 ${result.regeneratedCount}件更新`,
-    `スキップ ${result.skippedCount}件`,
-    result.failedCount > 0 ? `失敗 ${result.failedCount}件` : null,
+    `Regenerate thumbnails ${result.regeneratedCount} itemsRefresh`,
+    `Skipped ${result.skippedCount} items`,
+    result.failedCount > 0 ? `Failed ${result.failedCount} items` : null,
   ]
     .filter(Boolean)
     .join(' / ');
@@ -2365,21 +2736,21 @@ function buildRegenerateThumbnailsMessage(result) {
 
 function buildScopedRegenerateThumbnailsMessage(result) {
   if (!result?.ok) {
-    return `サムネイル再生成に失敗しました: ${
-      result?.message || '不明なエラー'
+    return `Thumbnail regeneration failed: ${
+      result?.message || 'Unknown error'
     }`;
   }
 
   const targetMonthLabel =
     Number.isInteger(result?.targetMonth?.year) &&
     Number.isInteger(result?.targetMonth?.month)
-      ? `${result.targetMonth.year}年${result.targetMonth.month}月`
-      : '全期間';
+      ? `${result.targetMonth.year}/${result.targetMonth.month}`
+      : 'All periods';
 
   return [
-    `${targetMonthLabel}: サムネイル再生成 ${result.regeneratedCount}件`,
-    `スキップ ${result.skippedCount}件`,
-    result.failedCount > 0 ? `失敗 ${result.failedCount}件` : null,
+    `${targetMonthLabel}: Regenerate thumbnails ${result.regeneratedCount} items`,
+    `Skipped ${result.skippedCount} items`,
+    result.failedCount > 0 ? `Failed ${result.failedCount} items` : null,
   ]
     .filter(Boolean)
     .join(' / ');
@@ -2426,7 +2797,7 @@ function renderRegenerateThumbnailMonthOptions() {
   if (monthOptions.length === 0) {
     const emptyOption = document.createElement('option');
     emptyOption.value = '';
-    emptyOption.textContent = '対象月がありません';
+    emptyOption.textContent = 'No target month';
     regenerateThumbnailMonthSelect.appendChild(emptyOption);
     regenerateThumbnailMonthSelect.disabled = true;
     syncRegenerateThumbnailMonthDropdownFromSelect();
@@ -2436,7 +2807,7 @@ function renderRegenerateThumbnailMonthOptions() {
   monthOptions.forEach((option) => {
     const selectOption = document.createElement('option');
     selectOption.value = `${option.year}-${pad2(option.month)}`;
-    selectOption.textContent = `${option.year}年${option.month}月 (${option.count}枚)`;
+    selectOption.textContent = `${option.year}/${option.month} (${option.count} photos)`;
     regenerateThumbnailMonthSelect.appendChild(selectOption);
   });
 
@@ -2498,7 +2869,7 @@ function syncRegenerateThumbnailMonthDropdownFromSelect() {
   regenerateThumbnailMonthMenu.innerHTML = '';
 
   if (options.length === 0) {
-    regenerateThumbnailMonthLabel.textContent = '対象月がありません';
+    regenerateThumbnailMonthLabel.textContent = 'No target month';
     regenerateThumbnailMonthButton.disabled = true;
     closeRegenerateThumbnailMonthMenu();
     return;
@@ -2511,7 +2882,7 @@ function syncRegenerateThumbnailMonthDropdownFromSelect() {
   regenerateThumbnailMonthValue = selectedOption?.value || '';
   regenerateThumbnailMonthSelect.value = regenerateThumbnailMonthValue;
   regenerateThumbnailMonthLabel.textContent =
-    selectedOption?.textContent || '再生成する月を選択';
+    selectedOption?.textContent || 'Select regeneration target';
 
   if (!regenerateThumbnailMonthValue) {
     regenerateThumbnailMonthButton.disabled = true;
@@ -2531,7 +2902,7 @@ function syncRegenerateThumbnailMonthDropdownFromSelect() {
     item.setAttribute('role', 'menuitemradio');
     item.setAttribute('aria-checked', isActive ? 'true' : 'false');
 
-    const matched = option.textContent?.match(/^(.+?)\s*\((\d+)枚\)$/);
+    const matched = option.textContent?.match(/^(.+?)\s*\((\d+) photos\)$/);
     const labelText = matched?.[1] || option.textContent || '';
     const countText = matched?.[2] || '';
 
@@ -2581,7 +2952,7 @@ function renderReimportRegisteredPhotoMonthOptions() {
   if (monthOptions.length === 0) {
     const emptyOption = document.createElement('option');
     emptyOption.value = '';
-    emptyOption.textContent = '対象月がありません';
+    emptyOption.textContent = 'No target month';
     reimportRegisteredPhotoMonthSelect.appendChild(emptyOption);
     reimportRegisteredPhotoMonthSelect.disabled = true;
     syncReimportRegisteredPhotoMonthDropdownFromSelect();
@@ -2591,7 +2962,7 @@ function renderReimportRegisteredPhotoMonthOptions() {
   monthOptions.forEach((option) => {
     const selectOption = document.createElement('option');
     selectOption.value = `${option.year}-${pad2(option.month)}`;
-    selectOption.textContent = `${option.year}年${option.month}月 (${option.count}枚)`;
+    selectOption.textContent = `${option.year}/${option.month} (${option.count} photos)`;
     reimportRegisteredPhotoMonthSelect.appendChild(selectOption);
   });
 
@@ -2653,7 +3024,7 @@ function syncReimportRegisteredPhotoMonthDropdownFromSelect() {
   reimportRegisteredPhotoMonthMenu.innerHTML = '';
 
   if (options.length === 0) {
-    reimportRegisteredPhotoMonthLabel.textContent = '対象月がありません';
+    reimportRegisteredPhotoMonthLabel.textContent = 'No target month';
     reimportRegisteredPhotoMonthButton.disabled = true;
     closeReimportRegisteredPhotoMonthMenu();
     return;
@@ -2666,7 +3037,7 @@ function syncReimportRegisteredPhotoMonthDropdownFromSelect() {
   reimportRegisteredPhotoMonthValue = selectedOption?.value || '';
   reimportRegisteredPhotoMonthSelect.value = reimportRegisteredPhotoMonthValue;
   reimportRegisteredPhotoMonthLabel.textContent =
-    selectedOption?.textContent || '再取り込みする月を選択';
+    selectedOption?.textContent || 'Select reimport target';
 
   if (!reimportRegisteredPhotoMonthValue) {
     reimportRegisteredPhotoMonthButton.disabled = true;
@@ -2686,7 +3057,7 @@ function syncReimportRegisteredPhotoMonthDropdownFromSelect() {
     item.setAttribute('role', 'menuitemradio');
     item.setAttribute('aria-checked', isActive ? 'true' : 'false');
 
-    const matched = option.textContent?.match(/^(.+?)\s*\((\d+)枚\)$/);
+    const matched = option.textContent?.match(/^(.+?)\s*\((\d+) photos\)$/);
     const labelText = matched?.[1] || option.textContent || '';
     const countText = matched?.[2] || '';
 
@@ -2734,8 +3105,8 @@ function syncSettingsUtilityActionsUi() {
     regenerateThumbnailMonthButton.setAttribute(
       'title',
       hasThumbnailMonthOptions
-        ? 'サムネイルを再生成する月を選択'
-        : '対象月がありません'
+        ? 'Select thumbnail regeneration target'
+        : 'No target month'
     );
   }
 
@@ -2745,8 +3116,8 @@ function syncSettingsUtilityActionsUi() {
     regenerateThumbnailsButton.setAttribute(
       'title',
       hasThumbnailMonthOptions
-        ? '選択中の月のサムネイルを再生成'
-        : '再生成できる月がありません'
+        ? 'Regenerate thumbnails for the selected month'
+        : 'No month can be regenerated'
     );
   }
 
@@ -2761,8 +3132,8 @@ function syncSettingsUtilityActionsUi() {
     reimportRegisteredPhotoMonthButton.setAttribute(
       'title',
       hasReimportMonthOptions
-        ? '情報を再取り込みする月を選択'
-        : '対象月がありません'
+        ? 'Select info reimport target'
+        : 'No target month'
     );
   }
 
@@ -2772,34 +3143,34 @@ function syncSettingsUtilityActionsUi() {
     reimportRegisteredPhotosButton.setAttribute(
       'title',
       hasReimportMonthOptions
-        ? '選択中の月の登録画像を現在の解析ロジックで再取り込み'
-        : '再取り込みできる月がありません'
+        ? 'Reimport registered images for the selected month using the current parser'
+        : 'No month can be reimported'
     );
   }
 }
 
 function buildTrackedFoldersRefreshMessage(result) {
   if (!result || result.canceled) {
-    return '更新はキャンセルされました';
+    return 'Refresh was canceled';
   }
 
   if (result.ok === false) {
-    return `更新に失敗しました: ${result.message || '不明なエラー'}`;
+    return `Refresh failed: ${result.message || 'Unknown error'}`;
   }
 
   if (result.noTrackedFolders) {
-    return '更新対象のフォルダがまだ登録されていません';
+    return 'No tracked folders have been registered yet';
   }
 
   if (result.emptyRefresh) {
     return [
-      `更新確認: 新規0件`,
-      `追跡 ${result.trackedFolderCount || 0}件`,
+      `Refresh check: 0 new`,
+      `Tracked ${result.trackedFolderCount || 0} items`,
       result.skippedKnownCount > 0
-        ? `既知 ${result.skippedKnownCount}件`
+        ? `Known ${result.skippedKnownCount} items`
         : null,
       result.missingFolderPaths?.length > 0
-        ? `未検出 ${result.missingFolderPaths.length}件`
+        ? `Missing ${result.missingFolderPaths.length} items`
         : null,
     ]
       .filter(Boolean)
@@ -2807,14 +3178,14 @@ function buildTrackedFoldersRefreshMessage(result) {
   }
 
   return [
-    `更新: ${result.importedCount || 0}件取込`,
-    `新着${result.newCount || 0}件`,
-    result.updatedCount > 0 ? `再取込 ${result.updatedCount}件` : null,
-    result.skippedKnownCount > 0 ? `既知 ${result.skippedKnownCount}件` : null,
+    `Refresh: ${result.importedCount || 0} items imported`,
+    `New ${result.newCount || 0} items`,
+    result.updatedCount > 0 ? `Reimported ${result.updatedCount} items` : null,
+    result.skippedKnownCount > 0 ? `Known ${result.skippedKnownCount} items` : null,
     result.missingFolderPaths?.length > 0
-      ? `未検出 ${result.missingFolderPaths.length}件`
+      ? `Missing ${result.missingFolderPaths.length} items`
       : null,
-    result.failedCount > 0 ? `失敗 ${result.failedCount}件` : null,
+    result.failedCount > 0 ? `Failed ${result.failedCount} items` : null,
   ]
     .filter(Boolean)
     .join(' / ');
@@ -2986,7 +3357,7 @@ function ensureSettingsOverviewSection() {
 
     const title = document.createElement('p');
     title.className = 'settings-section-title';
-    title.textContent = '概要';
+    title.textContent = 'Summary';
     section.appendChild(title);
 
     const grid = document.createElement('div');
@@ -3016,10 +3387,10 @@ function renderSettingsOverview(summary) {
   };
 
   const cards = [
-    { label: '写真', value: normalizedSummary.photoCount },
-    { label: 'フォルダ', value: normalizedSummary.trackedFolderCount },
-    { label: 'ワールド数', value: normalizedSummary.worldCacheCount },
-    { label: 'ラベル', value: normalizedSummary.tagCount },
+    { label: 'Photos', value: normalizedSummary.photoCount },
+    { label: 'Folders', value: normalizedSummary.trackedFolderCount },
+    { label: 'Worlds', value: normalizedSummary.worldCacheCount },
+    { label: 'Labels', value: normalizedSummary.tagCount },
   ];
 
   settingsOverviewGrid.innerHTML = cards
@@ -3075,7 +3446,7 @@ function ensureSettingsBackgroundSection() {
 
     const title = document.createElement('p');
     title.className = 'settings-section-title';
-    title.textContent = '背景';
+    title.textContent = 'Background';
     section.appendChild(title);
 
     const meta = document.createElement('p');
@@ -3088,13 +3459,13 @@ function ensureSettingsBackgroundSection() {
     const selectButton = document.createElement('button');
     selectButton.type = 'button';
     selectButton.className = 'small-action-button';
-    selectButton.textContent = '画像を選択';
+    selectButton.textContent = 'Select image';
     actions.appendChild(selectButton);
 
     const clearButton = document.createElement('button');
     clearButton.type = 'button';
     clearButton.className = 'small-action-button secondary';
-    clearButton.textContent = 'クリア';
+    clearButton.textContent = 'Clear';
     actions.appendChild(clearButton);
 
     section.appendChild(actions);
@@ -3121,7 +3492,7 @@ function syncSettingsBackgroundUi() {
     ? currentPath.split(/[\\/]/).filter(Boolean).pop() || currentPath
     : '';
 
-  settingsBackgroundMeta.textContent = fileName || '未設定';
+  settingsBackgroundMeta.textContent = fileName || 'Not set';
 
   if (selectBackgroundImageButton) {
     selectBackgroundImageButton.disabled = isImporting;
@@ -3145,13 +3516,13 @@ async function selectBackgroundImageFromSettings() {
 
   await applyBackgroundImagePreference(result.filePath);
   syncSettingsBackgroundUi();
-  showToast('背景画像を更新しました');
+  showToast('Background image updated');
 }
 
 async function clearBackgroundImageFromSettings() {
   await applyBackgroundImagePreference('');
   syncSettingsBackgroundUi();
-  showToast('背景画像をクリアしました');
+  showToast('Background image cleared');
 }
 
 // Settings modal keeps tracked folder management lightweight by showing only
@@ -3199,11 +3570,11 @@ function initializeSettingsTrackedFolderUi() {
     openTrackedFolderListButton = document.createElement('button');
     openTrackedFolderListButton.type = 'button';
     openTrackedFolderListButton.className = 'small-action-button secondary';
-    openTrackedFolderListButton.textContent = '一覧を表示';
+    openTrackedFolderListButton.textContent = 'Show list';
     trackedFolderSettingsActions.appendChild(openTrackedFolderListButton);
   }
 
-  addTrackedFolderButton.textContent = 'フォルダ追加';
+  addTrackedFolderButton.textContent = 'FoldersAdd';
   trackedFolderSettingsActions.appendChild(addTrackedFolderButton);
   syncTrackedFolderSettingsMeta();
   syncTrackedFolderSettingsActionsUi();
@@ -3224,7 +3595,7 @@ function initializeSettingsTrackedFolderUi() {
     trackedFolderModalClose = document.createElement('button');
     trackedFolderModalClose.type = 'button';
     trackedFolderModalClose.className = 'sub-modal-close';
-    trackedFolderModalClose.setAttribute('aria-label', '更新対象フォルダ一覧を閉じる');
+    trackedFolderModalClose.setAttribute('aria-label', 'Close tracked folder list');
     const closeIcon = document.createElement('span');
     closeIcon.className = 'material-symbols-outlined';
     closeIcon.textContent = 'close';
@@ -3236,7 +3607,7 @@ function initializeSettingsTrackedFolderUi() {
     content.appendChild(trackedFolderModalBody);
 
     const title = document.createElement('h3');
-    title.textContent = '更新対象フォルダ一覧';
+    title.textContent = 'Tracked folder list';
     trackedFolderModalBody.appendChild(title);
 
     document.body.appendChild(trackedFolderModal);
@@ -3255,7 +3626,7 @@ function ensureRegenerateThumbnailMonthDropdown(utilityActions) {
   if (!regenerateThumbnailMonthSelect) {
     const monthSelect = document.createElement('select');
     monthSelect.className = 'settings-month-select';
-    monthSelect.setAttribute('aria-label', 'サムネイル再生成の対象月');
+    monthSelect.setAttribute('aria-label', 'Thumbnail regeneration target');
     utilityActions.appendChild(monthSelect);
     regenerateThumbnailMonthSelect = monthSelect;
   }
@@ -3272,11 +3643,11 @@ function ensureRegenerateThumbnailMonthDropdown(utilityActions) {
   monthButton.className = 'header-filter-button settings-month-dropdown-button';
   monthButton.setAttribute('aria-haspopup', 'menu');
   monthButton.setAttribute('aria-expanded', 'false');
-  monthButton.setAttribute('aria-label', 'サムネイル再生成の対象月');
+  monthButton.setAttribute('aria-label', 'Thumbnail regeneration target');
 
   const monthLabel = document.createElement('span');
   monthLabel.className = 'settings-month-dropdown-label';
-  monthLabel.textContent = '再生成する月を選択';
+  monthLabel.textContent = 'Select regeneration target';
   monthButton.appendChild(monthLabel);
 
   const chevron = document.createElement('span');
@@ -3327,7 +3698,7 @@ function ensureReimportRegisteredPhotoMonthDropdown(utilityActions) {
   if (!reimportRegisteredPhotoMonthSelect) {
     const monthSelect = document.createElement('select');
     monthSelect.className = 'settings-month-select';
-    monthSelect.setAttribute('aria-label', '情報再取り込みの対象月');
+    monthSelect.setAttribute('aria-label', 'Target month for info reimport');
     utilityActions.appendChild(monthSelect);
     reimportRegisteredPhotoMonthSelect = monthSelect;
   }
@@ -3344,11 +3715,11 @@ function ensureReimportRegisteredPhotoMonthDropdown(utilityActions) {
   monthButton.className = 'header-filter-button settings-month-dropdown-button';
   monthButton.setAttribute('aria-haspopup', 'menu');
   monthButton.setAttribute('aria-expanded', 'false');
-  monthButton.setAttribute('aria-label', '情報再取り込みの対象月');
+  monthButton.setAttribute('aria-label', 'Target month for info reimport');
 
   const monthLabel = document.createElement('span');
   monthLabel.className = 'settings-month-dropdown-label';
-  monthLabel.textContent = '再取り込みする月を選択';
+  monthLabel.textContent = 'Select reimport target';
   monthButton.appendChild(monthLabel);
 
   const chevron = document.createElement('span');
@@ -3457,7 +3828,7 @@ function getSelectedPhotoLabelFilterText({
   includeMode = true,
 } = {}) {
   if (activePhotoLabelFilters.length === 0) {
-    return includePrefix ? 'ラベル: すべて' : 'すべて';
+    return includePrefix ? 'Label: all' : 'All';
   }
 
   const joined = getSelectedPhotoLabelEntries()
@@ -3468,7 +3839,7 @@ function getSelectedPhotoLabelFilterText({
   const modeSuffix = shouldShowMode ? ` ${getPhotoLabelFilterModeLabel()}` : '';
 
   if (includePrefix) {
-    return `ラベル${modeSuffix}: ${joined}`;
+    return `Labels${modeSuffix}: ${joined}`;
   }
 
   return shouldShowMode ? `${getPhotoLabelFilterModeLabel()}: ${joined}` : joined;
@@ -3515,7 +3886,7 @@ function renderPhotoLabelFilterMenu() {
 
   const allLabel = document.createElement('span');
   allLabel.className = 'header-dropdown-item-label';
-  allLabel.textContent = 'すべて';
+  allLabel.textContent = 'All';
   allButton.appendChild(allLabel);
 
   const allCheck = document.createElement('span');
@@ -3528,7 +3899,7 @@ function renderPhotoLabelFilterMenu() {
   if (labelCatalog.length === 0) {
     const emptyState = document.createElement('div');
     emptyState.className = 'header-dropdown-empty';
-    emptyState.textContent = 'この月にはラベルがありません';
+    emptyState.textContent = 'This month has no labels';
     photoLabelFilterMenu.appendChild(emptyState);
     return;
   }
@@ -3628,7 +3999,7 @@ function getWorldNameFilterSummaryText({ includePrefix = true } = {}) {
   const scopeMeta = getToolbarSearchScopeMeta(activeToolbarSearchScope);
 
   if (!activeWorldNameFilter) {
-    return includePrefix ? `${scopeMeta.summaryPrefix}: すべて` : 'すべて';
+    return includePrefix ? `${scopeMeta.summaryPrefix}: All` : 'All';
   }
 
   return includePrefix
@@ -3676,16 +4047,16 @@ function syncToolbarSearchInputUi() {
   }
 
   if (worldNameFilterSearchButton) {
-    worldNameFilterSearchButton.textContent = '検索';
+    worldNameFilterSearchButton.textContent = 'Search';
     worldNameFilterSearchButton.disabled = selectionDependentDisabled;
-    worldNameFilterSearchButton.setAttribute('title', '検索を実行');
+    worldNameFilterSearchButton.setAttribute('title', 'Run search');
   }
 
   if (toolbarSearchClearButton) {
-    toolbarSearchClearButton.textContent = 'クリア';
+    toolbarSearchClearButton.textContent = 'Clear';
     toolbarSearchClearButton.disabled =
       selectionDependentDisabled || (!hasDraftSearch && !hasActiveSearch);
-    toolbarSearchClearButton.setAttribute('title', '検索をクリア');
+    toolbarSearchClearButton.setAttribute('title', 'Clear search');
   }
 
   if (toolbarSearchScopeButton) {
@@ -3693,8 +4064,8 @@ function syncToolbarSearchInputUi() {
     toolbarSearchScopeButton.setAttribute(
       'title',
       selectionDependentDisabled
-        ? '写真を選択すると利用できます'
-        : '検索対象を切り替え'
+        ? 'Available after selecting a photo'
+        : 'Change search target'
     );
   }
 }
@@ -4088,7 +4459,7 @@ function photoMatchesCurrentFilters(photo) {
 }
 
 function getDefaultMonthGalleryEmptyMessage() {
-  return 'まだ写真がありません。画像 / フォルダをドラッグ&ドロップするか、設定から取り込めます';
+  return 'No photos yet. Drag and drop images or folders, or import from settings.';
 }
 
 // Keep all count / empty-state filter summaries driven by the same label list.
@@ -4096,7 +4467,7 @@ function getActivePhotoFilterSummaryParts() {
   const filterLabels = [];
 
   if (isFavoriteFilterOnly) {
-    filterLabels.push('お気に入り');
+    filterLabels.push('Favorite');
   }
 
   if (activeOrientationFilter !== 'all') {
@@ -4120,16 +4491,16 @@ function getActivePhotoFilterSummaryParts() {
 
 function buildCurrentMonthCountText() {
   if (!currentSelection) {
-    return '0枚';
+    return '0 photos';
   }
 
   if (!isAnyPhotoFilterActive()) {
-    return `${allCurrentMonthPhotos.length}枚`;
+    return `${allCurrentMonthPhotos.length} photos`;
   }
 
   const filterLabels = getActivePhotoFilterSummaryParts();
 
-  return `${currentPhotos.length}枚（${filterLabels.join(' / ')}） / 全${allCurrentMonthPhotos.length}枚`;
+  return `${currentPhotos.length}  photos (${filterLabels.join(' / ')}) / all ${allCurrentMonthPhotos.length} photos`;
 }
 
 function buildFilteredEmptyMessage() {
@@ -4139,7 +4510,7 @@ function buildFilteredEmptyMessage() {
     return getDefaultSelectionEmptyMessage();
   }
 
-  return `${filterLabels.join(' / ')} に一致する写真はありません`;
+  return `${filterLabels.join(' / ')}  has no matching photos`;
 }
 
 function setAnimatedHeaderText(
@@ -4185,15 +4556,15 @@ function syncFavoriteFilterUi() {
     favoriteFilterButton.disabled = isImporting || !currentSelection;
 
     const label = isFavoriteFilterOnly
-      ? 'お気に入りのみ表示中'
-      : 'お気に入りのみ表示';
+      ? 'Showing favorites only'
+      : 'Show favorites only';
     favoriteFilterButton.setAttribute('aria-label', label);
     favoriteFilterButton.setAttribute('title', label);
   }
 
   if (photoSortButton) {
     const isOldestFirst = currentPhotoSortOrder === 'asc';
-    const label = isOldestFirst ? '並び順: 古い順' : '並び順: 新しい順';
+    const label = isOldestFirst ? 'Sort: oldest first' : 'Sort: newest first';
 
     photoSortButton.classList.toggle('is-active', isOldestFirst);
     photoSortButton.disabled = isImporting || !currentSelection;
@@ -4210,7 +4581,7 @@ function syncFavoriteFilterUi() {
 
   if (orientationFilterButton) {
     const orientationMeta = getOrientationFilterMeta(activeOrientationFilter);
-    const label = `向きフィルタ: ${orientationMeta.shortLabel}`;
+    const label = `Orientation filter: ${orientationMeta.shortLabel}`;
 
     orientationFilterButton.classList.toggle(
       'is-active',
@@ -4222,11 +4593,11 @@ function syncFavoriteFilterUi() {
   }
 
   if (orientationFilterLabel) {
-    orientationFilterLabel.textContent = '向き';
+    orientationFilterLabel.textContent = 'Orientation';
   }
 
   if (photoLabelFilterButton) {
-    const label = `ラベルフィルタ: ${getSelectedPhotoLabelFilterText({
+    const label = `Label filter: ${getSelectedPhotoLabelFilterText({
       includePrefix: false,
     })}`;
 
@@ -4240,11 +4611,11 @@ function syncFavoriteFilterUi() {
   }
 
   if (photoLabelFilterLabel) {
-    photoLabelFilterLabel.textContent = 'ラベル';
+    photoLabelFilterLabel.textContent = 'Labels';
   }
 
   if (worldNameFilterButton) {
-    const label = `検索: ${getWorldNameFilterSummaryText({
+    const label = `Search: ${getWorldNameFilterSummaryText({
       includePrefix: true,
     })}`;
 
@@ -4278,7 +4649,7 @@ function syncFavoriteFilterUi() {
   }
 
   if (!currentSelection) {
-    setAnimatedMonthCountText('0枚', { animate: false });
+    setAnimatedMonthCountText('0 photos', { animate: false });
     return;
   }
 
@@ -4407,8 +4778,8 @@ function syncSelectionModeButtonState() {
   if (selectionModeButton) {
     selectionModeButton.classList.toggle('is-active', isSelectionMode);
     selectionModeButton.textContent = isSelectionMode
-      ? `${selectedPhotoIds.size}件選択中`
-      : '選択';
+      ? `${selectedPhotoIds.size}  selected`
+      : 'Select';
     selectionModeButton.disabled = isImporting || !currentSelection;
   }
 }
@@ -4420,8 +4791,8 @@ function syncBulkFavoriteButtonState() {
 
     bulkFavoriteButton.disabled = isImporting || !hasSelection;
     bulkFavoriteButton.textContent = nextFavoriteValue
-      ? 'お気に入り'
-      : 'お気に入り解除';
+      ? 'Favorite'
+      : 'Remove favorite';
     bulkFavoriteButton.classList.toggle(
       'is-active',
       hasSelection && !nextFavoriteValue
@@ -4434,7 +4805,7 @@ function syncBulkDeleteButtonState() {
     bulkDeleteButton.disabled =
       isImporting || !isSelectionMode || selectedPhotoIds.size === 0;
 
-    bulkDeleteButton.textContent = '削除';
+    bulkDeleteButton.textContent = 'Delete';
   }
 }
 
@@ -5344,12 +5715,12 @@ function ensureSidebarWorldSortControls() {
   sidebarSortCountButton = document.createElement('button');
   sidebarSortCountButton.type = 'button';
   sidebarSortCountButton.className = 'sidebar-sort-toggle';
-  sidebarSortCountButton.textContent = '撮影枚数順';
+  sidebarSortCountButton.textContent = 'By photo count';
 
   sidebarSortNameButton = document.createElement('button');
   sidebarSortNameButton.type = 'button';
   sidebarSortNameButton.className = 'sidebar-sort-toggle';
-  sidebarSortNameButton.textContent = '名前順';
+  sidebarSortNameButton.textContent = 'By name';
 
   sortToggleGroup.append(sidebarSortCountButton, sidebarSortNameButton);
   sidebarHeaderControls.appendChild(sortToggleGroup);
@@ -5441,7 +5812,7 @@ async function runSidebarTreeRefreshTransition(action) {
 function syncSidebarModeUi() {
   if (sidebarHeaderTitle) {
     sidebarHeaderTitle.textContent =
-      currentSidebarMode === 'world' ? 'ワールド' : '年月';
+      currentSidebarMode === 'world' ? 'World' : 'Year / Month';
   }
 
   if (sidebarHeaderDescription) {
@@ -5457,15 +5828,15 @@ function syncSidebarModeUi() {
     );
     worldLibraryModeButton.innerHTML =
       currentSidebarMode === 'world'
-        ? '<span class="material-symbols-outlined">calendar_month</span><span>年月一覧</span>'
-        : '<span class="material-symbols-outlined">public</span><span>ワールド一覧</span>';
+        ? '<span class="material-symbols-outlined">calendar_month</span><span>Year / Month list</span>'
+        : '<span class="material-symbols-outlined">public</span><span>World list</span>';
     worldLibraryModeButton.setAttribute(
       'aria-label',
-      currentSidebarMode === 'world' ? '年月一覧へ戻る' : 'ワールド一覧を表示'
+      currentSidebarMode === 'world' ? 'Back to year / month list' : 'Show world list'
     );
     worldLibraryModeButton.setAttribute(
       'title',
-      currentSidebarMode === 'world' ? '年月一覧へ戻る' : 'ワールド一覧を表示'
+      currentSidebarMode === 'world' ? 'Back to year / month list' : 'Show world list'
     );
   }
 
@@ -5663,7 +6034,7 @@ function populateModal(item) {
   }
 
   modalImage.src = item.fileUrl;
-  modalWorldLink.textContent = item.worldName || 'ワールド名未取得';
+  modalWorldLink.textContent = item.worldName || 'World name not fetched';
 
   if (item.worldUrl) {
     modalWorldLink.href = item.worldUrl;
@@ -5719,10 +6090,10 @@ function populateModal(item) {
 
   modalResolutionTier?.parentElement?.classList.add('is-hidden');
   modalTakenAt?.parentElement?.classList.add('is-hidden');
-  modalFileName.textContent = item.fileName || 'ファイル名不明';
-  setText(modalTakenAt, item.takenAt, '未取得');
-  setText(modalWorldName, item.worldName, '未取得');
-  setText(modalWorldId, item.worldId, '未取得');
+  modalFileName.textContent = item.fileName || 'Unknown file name';
+  setText(modalTakenAt, item.takenAt, 'Not fetched');
+  setText(modalWorldName, item.worldName, 'Not fetched');
+  setText(modalWorldId, item.worldId, 'Not fetched');
 
   if (modalPhotoMemoInput) {
     modalPhotoMemoInput.value =
@@ -5784,7 +6155,7 @@ function renderModalWorldTags(tags) {
 
   if (normalizedTags.length === 0) {
     modalWorldTags.innerHTML =
-      '<span class="modal-world-tag is-placeholder">未取得</span>';
+      '<span class="modal-world-tag is-placeholder">Not fetched</span>';
     return;
   }
 
@@ -5852,7 +6223,7 @@ function createPhotoLabelChipElement(
     removeButton.type = 'button';
     removeButton.className = 'photo-label-chip-remove';
     removeButton.textContent = '×';
-    removeButton.setAttribute('aria-label', `${label.name} を外す`);
+    removeButton.setAttribute('aria-label', `${label.name}  remove`);
     removeButton.addEventListener('click', () => {
       onRemove(label);
     });
@@ -5865,7 +6236,7 @@ function createPhotoLabelChipElement(
 function renderPhotoLabelChipList(
   container,
   labels,
-  { removable = false, onRemove = null, placeholder = '未設定' } = {}
+  { removable = false, onRemove = null, placeholder = 'Not set' } = {}
 ) {
   if (!container) {
     return;
@@ -5911,7 +6282,7 @@ function createPhotoCardLabelChip(label) {
 
 function renderModalPhotoLabels() {
   renderPhotoLabelChipList(modalPhotoLabelsList, currentModalPhotoLabels, {
-    placeholder: '未設定',
+    placeholder: 'Not set',
   });
 
   if (openPhotoLabelEditorButton) {
@@ -5984,7 +6355,7 @@ function renderModalPrintNote(item = currentModalPhoto) {
   }
 
   if (modalPrintNoteHeroBadge) {
-    modalPrintNoteHeroBadge.textContent = 'プリント';
+    modalPrintNoteHeroBadge.textContent = 'Print';
     modalPrintNoteHeroBadge.classList.toggle('is-hidden', !hasPrintBadge);
   }
 }
@@ -6047,8 +6418,8 @@ function renderPhotoLabelCatalogOptions() {
       ? `${selectedOption.name} (${selectedOption.photoCount})`
       : selectedOption.name
     : availableOptions.length > 0
-      ? '既存ラベルを選択'
-      : '追加できるラベルはありません';
+      ? 'Select existing labels'
+      : 'No labels can be added';
   photoLabelCatalogButton.appendChild(buttonLabel);
 
   const buttonChevron = document.createElement('span');
@@ -6062,7 +6433,7 @@ function renderPhotoLabelCatalogOptions() {
   if (availableOptions.length === 0) {
     const emptyState = document.createElement('div');
     emptyState.className = 'header-dropdown-empty photo-label-catalog-empty';
-    emptyState.textContent = '追加できるラベルはありません';
+    emptyState.textContent = 'No labels can be added';
     photoLabelCatalogMenu.appendChild(emptyState);
   }
 
@@ -6123,7 +6494,7 @@ function renderPhotoLabelEditorSelectedList() {
       renderPhotoLabelEditorSelectedList();
       renderPhotoLabelCatalogOptions();
     },
-    placeholder: 'ラベルはまだ設定されていません',
+    placeholder: 'No labels have been set yet',
   });
 }
 
@@ -6145,7 +6516,7 @@ function renderPhotoLabelPresetButtons() {
     button.type = 'button';
     button.className = 'photo-label-preset-button';
     button.style.setProperty('--photo-label-color', colorHex);
-    button.setAttribute('aria-label', `色 ${colorHex}`);
+    button.setAttribute('aria-label', `Color ${colorHex}`);
     button.classList.toggle('is-active', currentColor === colorHex);
     button.addEventListener('click', () => {
       setPhotoLabelDraftColor(colorHex);
@@ -6196,7 +6567,7 @@ async function loadModalPhotoLabels(item) {
   const requestId = ++modalPhotoLabelsRequestId;
 
   renderPhotoLabelChipList(modalPhotoLabelsList, [], {
-    placeholder: '読み込み中...',
+    placeholder: 'Loading...',
   });
 
   if (!item?.id) {
@@ -6404,7 +6775,7 @@ function savePhotoEditorUserPresetsToStorage() {
       JSON.stringify(photoEditorUserPresets)
     );
   } catch {
-    showToast('プリセットを保存できませんでした');
+    showToast('Could not save preset');
   }
 }
 
@@ -6450,8 +6821,8 @@ function deletePhotoEditorUserPreset(presetId) {
   const [deletedPreset] = photoEditorUserPresets.splice(presetIndex, 1);
   savePhotoEditorUserPresetsToStorage();
   renderPhotoEditorPresetButtons();
-  setPhotoEditorStatus(`プリセットを削除しました: ${deletedPreset.label}`);
-  showToast(`プリセットを削除しました: ${deletedPreset.label}`);
+  setPhotoEditorStatus(`Deleted preset: ${deletedPreset.label}`);
+  showToast(`Deleted preset: ${deletedPreset.label}`);
 }
 
 function createPhotoEditorUserPresetItem(preset) {
@@ -6469,8 +6840,8 @@ function createPhotoEditorUserPresetItem(preset) {
   const deleteButton = document.createElement('button');
   deleteButton.type = 'button';
   deleteButton.className = 'photo-editor-user-preset-delete';
-  deleteButton.setAttribute('aria-label', `${preset.label}を削除`);
-  deleteButton.title = `${preset.label}を削除`;
+  deleteButton.setAttribute('aria-label', `${preset.label} delete`);
+  deleteButton.title = `${preset.label} delete`;
   deleteButton.innerHTML = '<span class="material-symbols-outlined">delete</span>';
   deleteButton.addEventListener('click', (event) => {
     event.stopPropagation();
@@ -6530,7 +6901,7 @@ function saveCurrentPhotoEditorPreset() {
   const label = normalizePhotoEditorPresetName(photoEditorPresetNameInput?.value);
 
   if (!label) {
-    setPhotoEditorStatus('プリセット名を入力してください');
+    setPhotoEditorStatus('Enter a preset name');
     return;
   }
 
@@ -6560,8 +6931,8 @@ function saveCurrentPhotoEditorPreset() {
     photoEditorPresetNameInput.value = '';
   }
 
-  setPhotoEditorStatus(`プリセットを保存しました: ${label}`);
-  showToast(`プリセットを保存しました: ${label}`);
+  setPhotoEditorStatus(`Saved preset: ${label}`);
+  showToast(`Saved preset: ${label}`);
 }
 
 function normalizePhotoEditorCropRotation(value) {
@@ -7388,8 +7759,8 @@ function setPhotoEditorSaving(isSaving) {
   if (photoEditorSaveButton) {
     photoEditorSaveButton.disabled = photoEditorState.isSaving;
     photoEditorSaveButton.textContent = photoEditorState.isSaving
-      ? '保存中...'
-      : '別名で保存';
+      ? 'Saving...'
+      : 'Save as';
   }
 }
 
@@ -7543,8 +7914,8 @@ function syncPhotoEditorBlurControls() {
 
   if (photoEditorBlurConfirmLabel) {
     photoEditorBlurConfirmLabel.textContent = blur.isConfirmed
-      ? '範囲を編集'
-      : '確定';
+      ? 'Edit area'
+      : 'Apply';
   }
 
   const blurConfirmIcon = photoEditorBlurConfirmButton?.querySelector(
@@ -8076,7 +8447,7 @@ function syncPhotoEditorMaskToolUi() {
 
   if (photoEditorMaskStrengthLabel) {
     photoEditorMaskStrengthLabel.textContent =
-      PHOTO_EDITOR_MASK_STRENGTH_LABELS[activeMaskType] || '濃さ';
+      PHOTO_EDITOR_MASK_STRENGTH_LABELS[activeMaskType] || 'Strength';
   }
 
   if (photoEditorMaskBlurStrengthInput) {
@@ -8125,7 +8496,7 @@ function renderPhotoEditorTextFontOptions() {
 
   if (recentKeys.length > 0) {
     const recentGroup = document.createElement('optgroup');
-    recentGroup.label = '最近使用';
+    recentGroup.label = 'Recent';
 
     for (const fontKey of recentKeys) {
       const font = getPhotoEditorTextFontOption(fontKey);
@@ -8140,7 +8511,7 @@ function renderPhotoEditorTextFontOptions() {
   }
 
   const fontGroup = document.createElement('optgroup');
-  fontGroup.label = 'フォント';
+  fontGroup.label = 'Font';
 
   for (const font of PHOTO_EDITOR_TEXT_FONT_OPTIONS) {
     if (appendedKeys.has(font.key)) {
@@ -8159,12 +8530,12 @@ function renderPhotoEditorTextFontOptions() {
 
 function formatPhotoEditorTextWeightLabel(weight) {
   const weightLabelMap = {
-    400: '標準',
-    500: '中太',
-    600: 'セミボールド',
-    700: '太字',
-    800: '特太',
-    900: '極太',
+    400: 'Regular',
+    500: 'Medium',
+    600: 'Semibold',
+    700: 'Bold',
+    800: 'Extra bold',
+    900: 'Black',
   };
 
   return weightLabelMap[weight] || `${weight}`;
@@ -8194,7 +8565,7 @@ function renderPhotoEditorTextWeightOptions(fontKey, selectedWeight) {
 
 function getPhotoEditorTextListLabel(textOverlay, index) {
   const text = String(textOverlay?.text || '').trim();
-  return text ? text.slice(0, 24) : `テキスト ${index + 1}`;
+  return text ? text.slice(0, 24) : `Text ${index + 1}`;
 }
 
 function renderPhotoEditorTextList(textOverlays, activeTextId) {
@@ -8405,7 +8776,7 @@ function addPhotoEditorTextOverlay(overrides = {}) {
   const nextText = normalizePhotoEditorTextState(
     getDefaultPhotoEditorTextState({
       enabled: true,
-      text: 'テキスト',
+      text: 'Text',
       y: clampNumber(0.5 + collection.textOverlays.length * 0.06, 0.12, 0.88, 0.5),
       ...overrides,
     })
@@ -8564,12 +8935,12 @@ function syncPhotoEditorCompareControl() {
   photoEditorCompareButton.classList.toggle('is-active', isComparing);
   photoEditorCompareButton.setAttribute('aria-pressed', isComparing ? 'true' : 'false');
   photoEditorCompareButton.title = isComparing
-    ? '編集後の表示に戻す'
-    : '編集前と比較';
+    ? 'Return to edited view'
+    : 'Compare with original';
   const label = photoEditorCompareButton.querySelector('span:last-child');
 
   if (label) {
-    label.textContent = isComparing ? '編集中' : '比較';
+    label.textContent = isComparing ? 'Editing' : 'Compare';
   }
 }
 
@@ -8613,8 +8984,8 @@ function syncPhotoEditorUi() {
   if (photoEditorSaveButton && photoEditorState) {
     photoEditorSaveButton.disabled = photoEditorState.isSaving;
     photoEditorSaveButton.textContent = photoEditorState.isSaving
-      ? '保存中...'
-      : '別名で保存';
+      ? 'Saving...'
+      : 'Save as';
   }
 }
 
@@ -11057,7 +11428,7 @@ function handlePhotoEditorWorkerMessage(event) {
   photoEditorWorkerRequests.delete(message.requestId);
 
   if (!message.ok) {
-    request.reject(new Error(message.error || '画像処理Workerで失敗しました'));
+    request.reject(new Error(message.error || 'Image processing worker failed'));
     return;
   }
 
@@ -11069,7 +11440,7 @@ function handlePhotoEditorWorkerError(error) {
 
   for (const request of photoEditorWorkerRequests.values()) {
     clearTimeout(request.timer);
-    request.reject(error instanceof Error ? error : new Error('画像処理Workerで失敗しました'));
+    request.reject(error instanceof Error ? error : new Error('Image processing worker failed'));
   }
 
   photoEditorWorkerRequests.clear();
@@ -11077,7 +11448,7 @@ function handlePhotoEditorWorkerError(error) {
   photoEditorWorker = null;
 }
 
-function cancelPhotoEditorPreviewWorkerRequests(reason = '画像処理プレビューを更新しました') {
+function cancelPhotoEditorPreviewWorkerRequests(reason = 'Image processing preview updated') {
   let canceledPreviewCount = 0;
   let hasNonPreviewRequest = false;
   const cancelError = new Error(reason);
@@ -11120,7 +11491,7 @@ function getPhotoEditorWorker() {
     return photoEditorWorker;
   } catch (error) {
     photoEditorWorkerUnavailable = true;
-    console.warn('画像処理Workerを起動できませんでした', error);
+    console.warn('Could not start image processing worker', error);
     return null;
   }
 }
@@ -11137,7 +11508,7 @@ function requestPhotoEditorWorkerRender(
   const worker = getPhotoEditorWorker();
 
   if (!worker) {
-    return Promise.reject(new Error('画像処理Workerを利用できません'));
+    return Promise.reject(new Error('Image processing worker is unavailable'));
   }
 
   const requestId = ++photoEditorWorkerRequestId;
@@ -11145,7 +11516,7 @@ function requestPhotoEditorWorkerRender(
   return new Promise((resolve, reject) => {
     const timer = setTimeout(() => {
       photoEditorWorkerRequests.delete(requestId);
-      reject(new Error('画像処理Workerがタイムアウトしました'));
+      reject(new Error('Image processing worker timed out'));
     }, 45000);
 
     photoEditorWorkerRequests.set(requestId, { resolve, reject, timer, purpose });
@@ -11197,7 +11568,7 @@ async function applyPhotoEditorEffectsWithWorker(
   }
 
   if (!getPhotoEditorWorker()) {
-    return Promise.reject(new Error('画像処理Workerを利用できません'));
+    return Promise.reject(new Error('Image processing worker is unavailable'));
   }
 
   let sourceBitmap = null;
@@ -11595,15 +11966,15 @@ async function renderPhotoEditorPreview() {
     photoEditorState.lastClipInfo = analyzePhotoEditorPreviewClipping(photoEditorCanvas);
   }
 
-  const pendingMaskText = photoEditorState.draftMask ? ' / 未確定: 1件' : '';
+  const pendingMaskText = photoEditorState.draftMask ? ' / Pending: 1 items' : '';
   const clipInfo = photoEditorState.lastClipInfo;
   const clipText = clipInfo
-    ? ` / 黒つぶれ: ${formatPhotoEditorPercent(clipInfo.shadows)} / 白飛び: ${formatPhotoEditorPercent(clipInfo.highlights)}`
+    ? ` / Shadow clipping: ${formatPhotoEditorPercent(clipInfo.shadows)} / Highlight clipping: ${formatPhotoEditorPercent(clipInfo.highlights)}`
     : '';
-  const compareText = photoEditorState.showOriginalPreview ? ' / 比較中' : '';
+  const compareText = photoEditorState.showOriginalPreview ? ' / Comparing' : '';
   setPhotoEditorStatus(
-    `出力: ${outputSize.fullWidth} x ${outputSize.fullHeight} / ` +
-      `目隠し: ${photoEditorState.masks.length}件${pendingMaskText}${clipText}${compareText}`
+    `Output: ${outputSize.fullWidth} x ${outputSize.fullHeight} / ` +
+      `Masks: ${photoEditorState.masks.length} items${pendingMaskText}${clipText}${compareText}`
   );
   syncPhotoEditorBlurControls();
   syncPhotoEditorMaskToolUi();
@@ -12728,7 +13099,7 @@ function calculateLearningPhotoEditValues() {
   const learnedValues = calculatePhotoEditorUserPresetAverageValues();
 
   if (!learnedValues) {
-    showToast('保存済みプリセットがないためスマート自動補正を適用しました');
+    showToast('Applied smart auto correction because there are no saved presets');
     return smartValues;
   }
 
@@ -12808,7 +13179,7 @@ function applyPhotoEditorAutoEnhancePreset(presetKey, preset) {
     clearPhotoEditorAdjustmentLivePreview();
     schedulePhotoEditorRender();
     commitPhotoEditorHistoryMutation();
-    setPhotoEditorStatus('自動補正を解除しました');
+    setPhotoEditorStatus('Auto correction cleared');
     return;
   }
 
@@ -12853,10 +13224,10 @@ function applyPhotoEditorAutoEnhancePreset(presetKey, preset) {
   commitPhotoEditorHistoryMutation();
   setPhotoEditorStatus(
     preset.isLearningAuto
-      ? '学習補正を適用しました'
+      ? 'Applied learned correction'
       : preset.isAuto
-        ? '自動補正を適用しました'
-        : `プリセットを適用しました: ${preset.label || 'プリセット'}`
+        ? 'Applied auto correction'
+        : `Applied preset: ${preset.label || 'Preset'}`
   );
 }
 
@@ -14717,7 +15088,7 @@ function closePhotoEditorModal() {
   photoEditorPreviewRenderToken += 1;
   photoEditorPreviewCommittedValues = null;
   clearPhotoEditorAdjustmentLivePreview();
-  cancelPhotoEditorPreviewWorkerRequests('画像編集モーダルを閉じました');
+  cancelPhotoEditorPreviewWorkerRequests('Image editor closed');
 
   if (photoEditorRenderFrame) {
     cancelAnimationFrame(photoEditorRenderFrame);
@@ -14786,14 +15157,14 @@ function loadPhotoEditorSourceImage(photo, state) {
 
     image.onload = () => {
       if (photoEditorState !== state || state.loadToken !== loadToken) {
-        reject(new Error('画像読み込みがキャンセルされました'));
+        reject(new Error('Image loading was canceled'));
         return;
       }
 
       resolve(image);
     };
     image.onerror = () => {
-      reject(new Error('画像を読み込めませんでした'));
+      reject(new Error('Could not load image'));
     };
     image.decoding = 'async';
     image.src = photo.fileUrl;
@@ -14806,7 +15177,7 @@ async function openPhotoEditorModal() {
   }
 
   if (!currentModalPhoto.fileUrl) {
-    showToast('画像を読み込めませんでした');
+    showToast('Could not load image');
     return;
   }
 
@@ -14820,7 +15191,7 @@ async function openPhotoEditorModal() {
     photoEditorFileName.textContent = currentModalPhoto.fileName || '-';
   }
 
-  setPhotoEditorStatus('読み込み中...');
+  setPhotoEditorStatus('Loading...');
   syncPhotoEditorUi();
   openSubModalElement(photoEditorModal);
 
@@ -14836,7 +15207,7 @@ async function openPhotoEditorModal() {
     schedulePhotoEditorRender();
   } catch (error) {
     if (photoEditorState === nextState) {
-      setPhotoEditorStatus(error.message || '画像を読み込めませんでした');
+      setPhotoEditorStatus(error.message || 'Could not load image');
     }
   }
 }
@@ -14948,7 +15319,7 @@ async function renderPhotoEditorExportDataUrl(exportCanvas, exportSettings) {
   });
 
   if (!renderBase) {
-    throw new Error('編集結果を描画できませんでした');
+    throw new Error('Could not render edited result');
   }
 
   const formatMeta = getPhotoEditorExportFormatMeta(exportSettings);
@@ -15072,12 +15443,12 @@ async function savePhotoEditorImage() {
   }
 
   if (!window.electronAPI.saveEditedPhoto) {
-    setPhotoEditorStatus('保存機能を利用できません');
+    setPhotoEditorStatus('Save feature is unavailable');
     return;
   }
 
   setPhotoEditorSaving(true);
-  setPhotoEditorStatus('保存中...');
+  setPhotoEditorStatus('Saving...');
 
   try {
     const exportCanvas = document.createElement('canvas');
@@ -15090,7 +15461,7 @@ async function savePhotoEditorImage() {
     );
 
     if (!renderResult?.dataUrl) {
-      throw new Error('編集結果を描画できませんでした');
+      throw new Error('Could not render edited result');
     }
 
     const sourcePhoto = photoEditorState.sourcePhoto;
@@ -15105,12 +15476,12 @@ async function savePhotoEditorImage() {
     });
 
     if (result?.canceled) {
-      setPhotoEditorStatus('保存をキャンセルしました');
+      setPhotoEditorStatus('Save canceled');
       return;
     }
 
     if (!result?.ok) {
-      setPhotoEditorStatus(result?.message || '保存に失敗しました');
+      setPhotoEditorStatus(result?.message || 'Save failed');
       return;
     }
 
@@ -15122,11 +15493,11 @@ async function savePhotoEditorImage() {
     closePhotoEditorModal();
     showToast(
       result.importFailed
-        ? `保存しました（登録は未反映）: ${result.fileName || ''}`
-        : `編集済み画像を保存しました: ${result.fileName || ''}`
+        ? `Saved (entry not updated): ${result.fileName || ''}`
+        : `Saved edited image: ${result.fileName || ''}`
     );
   } catch (error) {
-    setPhotoEditorStatus(`保存に失敗しました: ${error.message}`);
+    setPhotoEditorStatus(`Save failed: ${error.message}`);
   } finally {
     setPhotoEditorSaving(false);
   }
@@ -15142,7 +15513,7 @@ async function openPhotoLabelModal() {
   activePhotoLabelCatalogSelection = '';
 
   if (photoLabelSaveStatus) {
-    photoLabelSaveStatus.textContent = 'ラベルを読み込み中...';
+    photoLabelSaveStatus.textContent = 'Loading labels...';
   }
 
   setPhotoLabelNewFormOpen(false);
@@ -15198,7 +15569,7 @@ function addNewPhotoLabelDraft() {
 
   if (!nextName) {
     if (photoLabelSaveStatus) {
-      photoLabelSaveStatus.textContent = 'ラベル名を入力してください';
+      photoLabelSaveStatus.textContent = 'Enter a label name';
     }
     return;
   }
@@ -15211,7 +15582,7 @@ function addNewPhotoLabelDraft() {
 
   if (!normalizedLabel) {
     if (photoLabelSaveStatus) {
-      photoLabelSaveStatus.textContent = 'ラベル名を確認してください';
+      photoLabelSaveStatus.textContent = 'Check the label name';
     }
     return;
   }
@@ -15239,7 +15610,7 @@ async function savePhotoLabels() {
   }
 
   if (photoLabelSaveStatus) {
-    photoLabelSaveStatus.textContent = '保存中...';
+    photoLabelSaveStatus.textContent = 'Saving...';
   }
 
   const result = await window.electronAPI.replacePhotoLabels(
@@ -15250,7 +15621,7 @@ async function savePhotoLabels() {
   if (!result?.ok) {
     if (photoLabelSaveStatus) {
       photoLabelSaveStatus.textContent =
-        result?.message || 'ラベルの保存に失敗しました';
+        result?.message || 'Could not save labels';
     }
     return;
   }
@@ -15268,7 +15639,7 @@ async function savePhotoLabels() {
   renderPhotoLabelEditorSelectedList();
   renderPhotoLabelCatalogOptions();
   closePhotoLabelModal();
-  showToast('ラベルを保存しました');
+  showToast('Labels saved');
 }
 
 function getCurrentModalPhotoIndex() {
@@ -15383,7 +15754,7 @@ async function loadModalWorldMetadata(item) {
   const requestId = ++modalWorldMetadataRequestId;
 
   if (modalWorldDescription) {
-    modalWorldDescription.textContent = '未取得';
+    modalWorldDescription.textContent = 'Not fetched';
   }
 
   renderModalWorldTags([]);
@@ -15405,7 +15776,7 @@ async function loadModalWorldMetadata(item) {
 
     if (modalWorldDescription) {
       modalWorldDescription.textContent =
-        metadata?.worldDescription?.trim() || '未取得';
+        metadata?.worldDescription?.trim() || 'Not fetched';
     }
 
     renderModalWorldTags(metadata?.worldTags);
@@ -15419,7 +15790,7 @@ async function loadModalWorldMetadata(item) {
     }
 
     if (modalWorldDescription) {
-      modalWorldDescription.textContent = '未取得';
+      modalWorldDescription.textContent = 'Not fetched';
     }
 
     renderModalWorldTags([]);
@@ -15644,9 +16015,9 @@ function closeConfirmModal(result = false) {
 }
 
 function openConfirmModal({
-  title = '確認',
-  message = 'この操作を実行しますか？',
-  confirmText = '実行する',
+  title = 'Confirm',
+  message = 'Run this action?',
+  confirmText = 'Run',
 } = {}) {
   if (!confirmModal) {
     return Promise.resolve(false);
@@ -15668,21 +16039,21 @@ function buildAppUpdatePromptConfig(payload) {
     typeof payload?.kind === 'string' ? payload.kind.trim().toLowerCase() : '';
   const version =
     typeof payload?.version === 'string' ? payload.version.trim() : '';
-  const versionLabel = version || '最新バージョン';
+  const versionLabel = version || 'Latest version';
 
   if (kind === 'downloaded') {
     return {
-      title: 'アップデートの準備ができました',
-      message: `${versionLabel} のダウンロードが完了しました。再起動して更新しますか？`,
-      confirmText: '再起動して更新',
+      title: 'Update is ready',
+      message: `${versionLabel}  download is complete. Restart and update?`,
+      confirmText: 'Restart and update',
     };
   }
 
   if (kind === 'available') {
     return {
-      title: 'アップデートがあります',
-      message: `新しいバージョン ${versionLabel} が利用できます。今すぐダウンロードしますか？`,
-      confirmText: '今すぐ更新',
+      title: 'Update available',
+      message: `New version ${versionLabel}  is available.Download now?`,
+      confirmText: 'Update now',
     };
   }
 
@@ -15700,9 +16071,9 @@ async function handleAppUpdateAction(payload) {
 
   if (!confirmed) {
     if (payload?.kind === 'available') {
-      showToast('アップデートは保留しました');
+      showToast('Update postponed');
     } else if (payload?.kind === 'downloaded') {
-      showToast('アップデートは準備済みです。あとで再起動して適用できます');
+      showToast('Update is ready. Restart later to apply it.');
     }
     return;
   }
@@ -15712,7 +16083,7 @@ async function handleAppUpdateAction(payload) {
       const result = await window.electronAPI.startAppUpdateDownload?.();
 
       if (!result?.ok) {
-        showToast(result?.message || 'アップデートを開始できませんでした');
+        showToast(result?.message || 'Could not start update');
       }
       return;
     }
@@ -15721,13 +16092,13 @@ async function handleAppUpdateAction(payload) {
       const result = await window.electronAPI.installDownloadedAppUpdate?.();
 
       if (result && result.ok === false) {
-        showToast(result.message || 'アップデートを適用できませんでした');
+        showToast(result.message || 'Could not apply update');
       }
     }
   } catch (error) {
     showToast(
-      `アップデート処理に失敗しました: ${
-        error instanceof Error ? error.message : '不明なエラー'
+      `UpdateAction failed: ${
+        error instanceof Error ? error.message : 'Unknown error'
       }`
     );
   }
@@ -15738,8 +16109,8 @@ function queueAppUpdatePrompt(payload) {
     .then(() => handleAppUpdateAction(payload))
     .catch((error) => {
       showToast(
-        `アップデート確認の表示に失敗しました: ${
-          error instanceof Error ? error.message : '不明なエラー'
+        `Update prompt failed: ${
+          error instanceof Error ? error.message : 'Unknown error'
         }`
       );
     });
@@ -15754,7 +16125,7 @@ function renderTrackedFolderList() {
 
   if (!Array.isArray(trackedFolders) || trackedFolders.length === 0) {
     trackedFolderList.innerHTML =
-      '<p class="tracked-folder-empty">まだ登録されていません</p>';
+      '<p class="tracked-folder-empty">Nothing registered yet</p>';
     return;
   }
 
@@ -15768,7 +16139,7 @@ function renderTrackedFolderList() {
             class="tracked-folder-remove-button"
             data-tracked-folder-path="${escapeHtml(folder.folder_path || '')}"
           >
-            削除
+            Delete
           </button>
         </div>
       `
@@ -15786,8 +16157,8 @@ function syncTrackedFolderSettingsMeta() {
   const count = Array.isArray(trackedFolders) ? trackedFolders.length : 0;
   trackedFolderSettingsMeta.textContent =
     count > 0
-      ? `登録済み ${count}件`
-      : 'まだ登録されていません';
+      ? `Registered ${count} items`
+      : 'Nothing registered yet';
 }
 
 function syncTrackedFolderSettingsActionsUi() {
@@ -15798,7 +16169,7 @@ function syncTrackedFolderSettingsActionsUi() {
     openTrackedFolderListButton.disabled = isImporting || !hasTrackedFolders;
     openTrackedFolderListButton.setAttribute(
       'title',
-      hasTrackedFolders ? '更新対象フォルダ一覧を表示' : '登録されたフォルダがありません'
+      hasTrackedFolders ? 'Show tracked folder list' : 'No registered folders'
     );
   }
 
@@ -15806,7 +16177,7 @@ function syncTrackedFolderSettingsActionsUi() {
     addTrackedFolderButton.disabled = isImporting;
     addTrackedFolderButton.setAttribute(
       'title',
-      isImporting ? '処理中はフォルダを追加できません' : '更新対象フォルダを追加'
+      isImporting ? 'Cannot add folders while processing' : 'Add tracked folder'
     );
   }
 }
@@ -15818,7 +16189,7 @@ function syncTrackedFolderListActionButtonsUi() {
       button.disabled = isImporting;
       button.setAttribute(
         'title',
-        isImporting ? '処理中はフォルダを削除できません' : 'このフォルダを削除'
+        isImporting ? 'Cannot delete folders while processing' : 'Delete this folder'
       );
     });
 }
@@ -15909,61 +16280,61 @@ function syncSettingsDataUi() {
 
   settingsDataToggleButton?.setAttribute(
     'title',
-    isSettingsDataSectionOpen ? 'データ管理を閉じる' : 'データ管理を開く'
+    isSettingsDataSectionOpen ? 'Close data management' : 'Open data management'
   );
   settingsDataToggleButton?.setAttribute(
     'aria-label',
-    isSettingsDataSectionOpen ? 'データ管理を閉じる' : 'データ管理を開く'
+    isSettingsDataSectionOpen ? 'Close data management' : 'Open data management'
   );
   createAppDataBackupButton?.setAttribute(
     'title',
-    disabled ? '処理中はバックアップできません' : 'アプリデータをJSONでバックアップ'
+    disabled ? 'Cannot back up while processing' : 'Back up app data as JSON'
   );
   checkAppDataHealthButton?.setAttribute(
     'title',
-    disabled ? '処理中は状態チェックできません' : '登録データの状態をチェック'
+    disabled ? 'Cannot run health check while processing' : 'Check registered data health'
   );
   showMissingOriginalFilesButton?.setAttribute(
     'title',
-    disabled ? '処理中は抽出できません' : '元画像なしの写真だけを表示'
+    disabled ? 'Cannot extract while processing' : 'Show only photos with missing originals'
   );
   showMissingThumbnailsButton?.setAttribute(
     'title',
-    disabled ? '処理中は抽出できません' : 'サムネイルなしの写真だけを表示'
+    disabled ? 'Cannot extract while processing' : 'Show only photos with missing thumbnails'
   );
   showMissingWorldInfoButton?.setAttribute(
     'title',
-    disabled ? '処理中は抽出できません' : 'World情報未取得の写真だけを表示'
+    disabled ? 'Cannot extract while processing' : 'Show only photos with missing world info'
   );
   showWorldMetadataIssuesButton?.setAttribute(
     'title',
     disabled
-      ? '処理中は抽出できません'
-      : 'Worldメタデータ要確認の写真だけを表示'
+      ? 'Cannot extract while processing'
+      : 'Show only photos with world metadata needing review'
   );
   regenerateMissingThumbnailsButton?.setAttribute(
     'title',
     disabled
-      ? '処理中は再生成できません'
-      : '欠損しているサムネイルだけを再生成'
+      ? 'Cannot regenerate while processing'
+      : 'Regenerate only missing thumbnails'
   );
   refreshWorldMetadataIssuesButton?.setAttribute(
     'title',
     disabled
-      ? '処理中は再取得できません'
-      : 'Worldメタデータ要確認の該当分だけを再取得'
+      ? 'Cannot refetch while processing'
+      : 'Refetch only world metadata needing review'
   );
   restoreAppDataBackupButton?.setAttribute(
     'title',
-    disabled ? '処理中は復元できません' : 'バックアップJSONから復元'
+    disabled ? 'Cannot restore while processing' : 'Restore from backup JSON'
   );
   exportPhotoCatalogCsvButton?.setAttribute(
     'title',
-    disabled ? '処理中はエクスポートできません' : '写真一覧をCSVで書き出し'
+    disabled ? 'Cannot export while processing' : 'Export photo list as CSV'
   );
   exportPhotoCatalogJsonButton?.setAttribute(
     'title',
-    disabled ? '処理中はエクスポートできません' : '写真一覧をJSONで書き出し'
+    disabled ? 'Cannot export while processing' : 'Export photo list as JSON'
   );
 }
 
@@ -15977,8 +16348,8 @@ function syncSettingsMaintenanceUi() {
     deleteCurrentMonthRegistrationsButton.setAttribute(
       'title',
       hasSelection
-        ? `${currentSelection.year}年${currentSelection.month}月の登録を削除`
-        : '月を選択すると利用できます'
+        ? `${currentSelection.year}/${currentSelection.month} entries`
+        : 'Available after selecting a month'
     );
   }
 
@@ -15987,7 +16358,7 @@ function syncSettingsMaintenanceUi() {
     deleteAllRegistrationsButton.disabled = isImporting || !hasAnyRegistration;
     deleteAllRegistrationsButton.setAttribute(
       'title',
-      hasAnyRegistration ? 'すべての登録を削除' : '削除する登録がありません'
+      hasAnyRegistration ? 'All entries' : 'No entries to delete'
     );
   }
 
@@ -15997,8 +16368,8 @@ function syncSettingsMaintenanceUi() {
     clearThumbnailCacheButton.setAttribute(
       'title',
       hasAnyRegistration
-        ? '管理サムネイルとサムネイル参照を削除'
-        : '削除するサムネイルがありません'
+        ? 'Delete managed thumbnails and thumbnail references'
+        : 'No thumbnails to delete'
     );
   }
 
@@ -16009,8 +16380,8 @@ function syncSettingsMaintenanceUi() {
     resetDatabaseButton.setAttribute(
       'title',
       hasAnyPersistedData
-        ? '登録・キャッシュ・更新対象フォルダを初期化'
-        : '初期化するデータがありません'
+        ? 'Reset entries, cache, and tracked folders'
+        : 'No data to reset'
     );
   }
 }
@@ -16021,8 +16392,8 @@ function syncSettingsUninstallUi() {
     settingsUninstallLaunchButton.setAttribute(
       'title',
       isImporting
-        ? '処理中はアンインストールを開始できません'
-        : 'アンインストールの確認を開く'
+        ? 'Cannot start uninstall while processing'
+        : 'Open uninstall confirmation'
     );
   }
 
@@ -16049,7 +16420,7 @@ function initializeModalCloseIcons() {
       return;
     }
 
-    button.setAttribute('aria-label', '閉じる');
+    button.setAttribute('aria-label', 'Close');
     button.textContent = '';
 
     const icon = document.createElement('span');
@@ -16143,13 +16514,13 @@ function initializeImageModalUi() {
 
       if (result?.photo) {
         syncSinglePhotoUpdate(result.photo);
-        showToast('画像パスを再検出して更新しました');
+        showToast('Image path rediscovered and updated');
         return;
       }
 
       if (!result?.ok) {
         showToast(
-          `画像を表示できませんでした: ${result?.message || '不明なエラー'}`
+          `Could not display image: ${result?.message || 'Unknown error'}`
         );
       }
     });
@@ -16160,14 +16531,14 @@ function initializeImageModalUi() {
     imageModalPrevButton = document.createElement('button');
     imageModalPrevButton.type = 'button';
     imageModalPrevButton.className = 'image-modal-nav-button is-prev';
-    imageModalPrevButton.setAttribute('aria-label', '前の画像');
+    imageModalPrevButton.setAttribute('aria-label', 'Previous image');
     imageModalPrevButton.innerHTML =
       '<span class="material-symbols-outlined">chevron_left</span>';
 
     imageModalNextButton = document.createElement('button');
     imageModalNextButton.type = 'button';
     imageModalNextButton.className = 'image-modal-nav-button is-next';
-    imageModalNextButton.setAttribute('aria-label', '次の画像');
+    imageModalNextButton.setAttribute('aria-label', 'Next image');
     imageModalNextButton.innerHTML =
       '<span class="material-symbols-outlined">chevron_right</span>';
 
@@ -16197,7 +16568,7 @@ function initializeImageModalUi() {
     modalPrintNoteHeroBadge = document.createElement('span');
     modalPrintNoteHeroBadge.className =
       'modal-world-label modal-print-note-hero-badge is-hidden';
-    modalPrintNoteHeroBadge.textContent = 'プリント';
+    modalPrintNoteHeroBadge.textContent = 'Print';
     badgeRow.appendChild(modalPrintNoteHeroBadge);
 
     if (!modalFavoriteButton) {
@@ -16206,8 +16577,8 @@ function initializeImageModalUi() {
       modalFavoriteButton.type = 'button';
       modalFavoriteButton.className =
         'favorite-toggle-button modal-hero-favorite-button';
-      modalFavoriteButton.setAttribute('aria-label', 'お気に入り切り替え');
-      modalFavoriteButton.setAttribute('title', 'お気に入り切り替え');
+      modalFavoriteButton.setAttribute('aria-label', 'Toggle favorite');
+      modalFavoriteButton.setAttribute('title', 'Toggle favorite');
 
       modalFavoriteIcon = document.createElement('span');
       modalFavoriteIcon.id = 'modal-favorite-icon';
@@ -16230,29 +16601,29 @@ function initializeImageModalUi() {
 
   if (modalOpenWorldButton) {
     modalOpenWorldButton.innerHTML = `
-      <span class="primary-link-button-label">VRChatで開く</span>
+      <span class="primary-link-button-label">Open in VRChat</span>
       <span class="material-symbols-outlined primary-link-button-icon">open_in_new</span>
     `;
   }
 
   if (modalOpenOriginalButton) {
-    modalOpenOriginalButton.textContent = '画像を開く';
+    modalOpenOriginalButton.textContent = 'Open image';
   }
 
   if (modalEditPhotoButton) {
-    modalEditPhotoButton.textContent = '画像を加工する';
+    modalEditPhotoButton.textContent = 'Edit image';
   }
 
   if (modalOpenFolderButton) {
-    modalOpenFolderButton.textContent = '保存先を開く';
+    modalOpenFolderButton.textContent = 'Open destination';
   }
 
   if (openWorldNameEditButton) {
-    openWorldNameEditButton.textContent = 'カードを編集';
+    openWorldNameEditButton.textContent = 'Edit card';
   }
 
   if (rereadWorldNameButton) {
-    rereadWorldNameButton.textContent = 'World情報を再読み込み';
+    rereadWorldNameButton.textContent = 'Reload world info';
   }
 
   if (
@@ -16260,7 +16631,7 @@ function initializeImageModalUi() {
     worldNameEditorActions &&
     !worldNameEditorActions.contains(modalDeletePhotoButton)
   ) {
-    modalDeletePhotoButton.textContent = 'この登録を削除';
+    modalDeletePhotoButton.textContent = 'Delete this entry';
     worldNameEditorActions.appendChild(modalDeletePhotoButton);
   }
 
@@ -16357,8 +16728,8 @@ function initializePhotoEditorUi() {
       const resetButton = document.createElement('button');
       resetButton.type = 'button';
       resetButton.className = 'photo-editor-slider-reset';
-      resetButton.setAttribute('aria-label', `${slider.label}をリセット`);
-      resetButton.title = `${slider.label}をリセット`;
+      resetButton.setAttribute('aria-label', `${slider.label} reset`);
+      resetButton.title = `${slider.label} reset`;
       resetButton.innerHTML =
         '<span class="material-symbols-outlined">restart_alt</span>';
       resetButton.addEventListener('click', () => {
@@ -16385,7 +16756,7 @@ function initializeWorldNameEditUi() {
   );
 
   if (titleElement) {
-    titleElement.textContent = 'ワールド名を編集';
+    titleElement.textContent = 'Edit world name';
   }
 
   if (
@@ -16402,7 +16773,7 @@ function initializeWorldNameEditUi() {
   }
 
   if (inputLabel) {
-    inputLabel.textContent = 'ワールド名';
+    inputLabel.textContent = 'World name';
   }
 
   if (urlLabel) {
@@ -16410,11 +16781,11 @@ function initializeWorldNameEditUi() {
   }
 
   if (saveWorldNameButton) {
-    saveWorldNameButton.textContent = '保存';
+    saveWorldNameButton.textContent = 'Save';
   }
 
   if (clearWorldNameButton) {
-    clearWorldNameButton.textContent = '手動設定を解除';
+    clearWorldNameButton.textContent = 'Clear manual setting';
   }
 
   if (modalDeletePhotoButton && worldNameEditorActions) {
@@ -16448,7 +16819,7 @@ function setModalPhotoMemoSaveButtonBusy(isBusy) {
 }
 
 function buildActionFailureMessage(actionLabel, result) {
-  return `${actionLabel}: ${result?.message || '不明なエラー'}`;
+  return `${actionLabel}: ${result?.message || 'Unknown error'}`;
 }
 
 // Photo labels are configured from the image modal, but the editor itself is
@@ -16469,13 +16840,13 @@ function initializePhotoLabelUi() {
 
       const title = document.createElement('p');
       title.className = 'modal-world-meta-title';
-      title.textContent = 'ラベル';
+      title.textContent = 'Labels';
       header.appendChild(title);
 
       openPhotoLabelEditorButton = document.createElement('button');
       openPhotoLabelEditorButton.type = 'button';
       openPhotoLabelEditorButton.className = 'small-action-button';
-      openPhotoLabelEditorButton.textContent = '編集';
+      openPhotoLabelEditorButton.textContent = 'Edit';
       header.appendChild(openPhotoLabelEditorButton);
 
       modalPhotoLabelsList = document.createElement('div');
@@ -16504,7 +16875,7 @@ function initializePhotoLabelUi() {
     photoLabelClose = document.createElement('button');
     photoLabelClose.type = 'button';
     photoLabelClose.className = 'sub-modal-close';
-    photoLabelClose.setAttribute('aria-label', '閉じる');
+    photoLabelClose.setAttribute('aria-label', 'Close');
     photoLabelClose.innerHTML =
       '<span class="material-symbols-outlined">close</span>';
     content.appendChild(photoLabelClose);
@@ -16514,18 +16885,18 @@ function initializePhotoLabelUi() {
     content.appendChild(body);
 
     const title = document.createElement('h3');
-    title.textContent = 'ラベルを設定';
+    title.textContent = 'Set labels';
     body.appendChild(title);
 
     const description = document.createElement('p');
     description.className = 'sub-modal-description';
     description.textContent =
-      '既存ラベルを再利用したり、新しいラベルを色付きで追加して写真ごとに設定できます。';
+      'Reuse existing labels or add new color-coded labels for each photo.';
     body.appendChild(description);
 
     const selectedTitle = document.createElement('p');
     selectedTitle.className = 'photo-label-editor-section-title';
-    selectedTitle.textContent = '現在のラベル';
+    selectedTitle.textContent = 'Current labels';
     body.appendChild(selectedTitle);
 
     photoLabelSelectedList = document.createElement('div');
@@ -16534,7 +16905,7 @@ function initializePhotoLabelUi() {
 
     const pickerTitle = document.createElement('p');
     pickerTitle.className = 'photo-label-editor-section-title';
-    pickerTitle.textContent = 'ラベルを設定する';
+    pickerTitle.textContent = 'Set labels';
     body.appendChild(pickerTitle);
 
     const pickerRow = document.createElement('div');
@@ -16563,7 +16934,7 @@ function initializePhotoLabelUi() {
 
     const newTitle = document.createElement('p');
     newTitle.className = 'photo-label-editor-section-title';
-    newTitle.textContent = 'ラベルを作成する';
+    newTitle.textContent = 'Create label';
     body.appendChild(newTitle);
 
     photoLabelNewForm = document.createElement('div');
@@ -16578,7 +16949,7 @@ function initializePhotoLabelUi() {
     photoLabelNewNameInput = document.createElement('input');
     photoLabelNewNameInput.type = 'text';
     photoLabelNewNameInput.className = 'photo-label-new-name';
-    photoLabelNewNameInput.placeholder = 'ラベルの名前を入力してください';
+    photoLabelNewNameInput.placeholder = 'Enter a label name';
     nameRow.appendChild(photoLabelNewNameInput);
 
     photoLabelNewColorPreview = document.createElement('span');
@@ -16588,7 +16959,7 @@ function initializePhotoLabelUi() {
     photoLabelCustomColorButton = document.createElement('button');
     photoLabelCustomColorButton.type = 'button';
     photoLabelCustomColorButton.className = 'photo-label-color-picker-button';
-    photoLabelCustomColorButton.setAttribute('aria-label', '色を選択');
+    photoLabelCustomColorButton.setAttribute('aria-label', 'Choose color');
     photoLabelCustomColorButton.innerHTML =
       '<span class="material-symbols-outlined">palette</span>';
     nameRow.appendChild(photoLabelCustomColorButton);
@@ -16606,7 +16977,7 @@ function initializePhotoLabelUi() {
     photoLabelAddNewButton = document.createElement('button');
     photoLabelAddNewButton.type = 'button';
     photoLabelAddNewButton.className = 'small-action-button';
-    photoLabelAddNewButton.textContent = 'この内容で追加';
+    photoLabelAddNewButton.textContent = 'Add with these settings';
     photoLabelNewForm.appendChild(photoLabelAddNewButton);
 
     photoLabelSaveStatus = document.createElement('p');
@@ -16621,7 +16992,7 @@ function initializePhotoLabelUi() {
     photoLabelSaveButton = document.createElement('button');
     photoLabelSaveButton.type = 'button';
     photoLabelSaveButton.className = 'primary-link-button photo-label-save-button';
-    photoLabelSaveButton.textContent = '保存';
+    photoLabelSaveButton.textContent = 'Save';
     actions.appendChild(photoLabelSaveButton);
 
     document.body.appendChild(photoLabelModal);
@@ -16691,7 +17062,7 @@ function initializeModalPrintNoteUi() {
 
   const title = document.createElement('p');
   title.className = 'modal-world-meta-title';
-  title.textContent = 'プリントのノート';
+  title.textContent = 'Print note';
   modalPrintNoteBlock.appendChild(title);
 
   modalPrintNoteValue = document.createElement('p');
@@ -16752,8 +17123,8 @@ function initializeTopToolbarLayout() {
     refreshTrackedFoldersButton.classList.add('theme-toggle-btn');
     refreshTrackedFoldersButton.innerHTML =
       '<span class="material-symbols-outlined">sync</span>';
-    refreshTrackedFoldersButton.setAttribute('aria-label', '更新');
-    refreshTrackedFoldersButton.setAttribute('title', '更新');
+    refreshTrackedFoldersButton.setAttribute('aria-label', 'Refresh');
+    refreshTrackedFoldersButton.setAttribute('title', 'Refresh');
     pageHeaderActions.insertBefore(refreshTrackedFoldersButton, settingsButton);
   }
 
@@ -16800,7 +17171,7 @@ function initializeTopToolbarLayout() {
     }
 
     if (worldNameFilterSearchButton) {
-      worldNameFilterSearchButton.textContent = '検索';
+      worldNameFilterSearchButton.textContent = 'Search';
       worldNameFilterSearchButton.classList.add('toolbar-search-submit-button');
     }
 
@@ -16809,7 +17180,7 @@ function initializeTopToolbarLayout() {
       toolbarSearchClearButton.type = 'button';
       toolbarSearchClearButton.className =
         'header-dropdown-clear-button toolbar-search-clear-button';
-      toolbarSearchClearButton.textContent = 'クリア';
+      toolbarSearchClearButton.textContent = 'Clear';
 
       if (worldNameFilterSearchButton?.nextSibling) {
         inputPanel.insertBefore(
@@ -16928,9 +17299,9 @@ async function runUninstallFlow({ deleteData = false } = {}) {
   }
 
   const confirmed = await openConfirmModal({
-    title: deleteData ? 'データも削除してアンインストール' : 'アンインストール',
-    message: '本当に削除しますか？',
-    confirmText: deleteData ? '削除してアンインストール' : 'アンインストール',
+    title: deleteData ? 'Uninstall and delete data' : 'Uninstall',
+    message: 'Are you sure you want to delete?',
+    confirmText: deleteData ? 'Delete and uninstall' : 'Uninstall',
   });
 
   if (!confirmed) {
@@ -16942,14 +17313,14 @@ async function runUninstallFlow({ deleteData = false } = {}) {
     : await window.electronAPI.uninstallApp();
 
   if (!result?.ok) {
-    showToast(result?.message || 'アンインストールを開始できませんでした');
+    showToast(result?.message || 'Could not start uninstall');
     return;
   }
 
   showToast(
     deleteData
-      ? 'データ削除とアンインストールを開始します'
-      : 'アンインストールを開始します'
+      ? 'Starting data deletion and uninstall'
+      : 'Starting uninstall'
   );
 
   closeUninstallModal();
@@ -17003,8 +17374,8 @@ function resetCurrentMonthState() {
 
 function clearMainContent() {
   resetCurrentMonthState();
-  setAnimatedMonthLabelText('写真一覧', { animate: false });
-  setAnimatedMonthCountText('0枚', { animate: false });
+  setAnimatedMonthLabelText('Photo list', { animate: false });
+  setAnimatedMonthCountText('0 photos', { animate: false });
   monthGalleryList.innerHTML = '';
   monthGalleryEmpty.style.display = 'block';
   monthGalleryEmpty.textContent =
@@ -17017,7 +17388,7 @@ function clearMainContent() {
   syncSelectionDependentSettingsUi();
 }
 
-function createThumbnailPlaceholder(message = 'サムネイル未生成') {
+function createThumbnailPlaceholder(message = 'Thumbnail not generated') {
   const placeholder = document.createElement('div');
   placeholder.className = 'photo-card-image photo-card-image-placeholder';
   placeholder.draggable = false;
@@ -17054,8 +17425,8 @@ function createPhotoCard(item, photoIndex = 0) {
   const selectionButton = document.createElement('button');
   selectionButton.className = 'photo-card-selection-btn';
   selectionButton.type = 'button';
-  selectionButton.setAttribute('aria-label', '選択を切り替え');
-  selectionButton.setAttribute('title', '選択を切り替え');
+  selectionButton.setAttribute('aria-label', 'Toggle selection');
+  selectionButton.setAttribute('title', 'Toggle selection');
 
   const selectionIcon = document.createElement('span');
   selectionIcon.className = 'material-symbols-outlined';
@@ -17098,8 +17469,8 @@ function createPhotoCard(item, photoIndex = 0) {
   const favoriteButton = document.createElement('button');
   favoriteButton.className = 'photo-card-favorite-btn';
   favoriteButton.type = 'button';
-  favoriteButton.setAttribute('aria-label', 'お気に入りを切り替え');
-  favoriteButton.setAttribute('title', 'お気に入りを切り替え');
+  favoriteButton.setAttribute('aria-label', 'Toggle favorite');
+  favoriteButton.setAttribute('title', 'Toggle favorite');
 
   const favoriteIcon = document.createElement('span');
   favoriteIcon.className = 'material-symbols-outlined';
@@ -17137,7 +17508,7 @@ function createPhotoCard(item, photoIndex = 0) {
     image.addEventListener(
       'error',
       () => {
-        const fallback = createThumbnailPlaceholder('サムネイル要再生成');
+        const fallback = createThumbnailPlaceholder('Thumbnail needs regeneration');
         card.classList.add('has-thumbnail-error');
         image.replaceWith(fallback);
       },
@@ -17165,7 +17536,7 @@ function createPhotoCard(item, photoIndex = 0) {
 
   const timeInline = document.createElement('p');
   timeInline.className = 'photo-card-time-sub';
-  timeInline.textContent = timeText || '譎ょ綾荳肴・';
+  timeInline.textContent = timeText || 'Unknown time';
   const time = timeInline;
   metaRow.appendChild(time);
 
@@ -17178,11 +17549,11 @@ function createPhotoCard(item, photoIndex = 0) {
 
   /* time already appended in meta row */
   time.className = 'photo-card-time-sub';
-  time.textContent = timeText || '時刻不明';
+  time.textContent = timeText || 'Unknown time';
 
   const world = document.createElement('p');
   world.className = 'photo-card-world';
-  world.textContent = item.worldName || 'ワールド名未取得';
+  world.textContent = item.worldName || 'World name not fetched';
 
   info.appendChild(metaRow);
   info.appendChild(world);
@@ -17670,7 +18041,7 @@ function scrollMonthGalleryToGroupDate(groupDate) {
   const groupIndex = currentPhotoGroupIndexMap.get(normalizedGroupDate);
 
   if (!groupIndex) {
-    showToast('現在の絞り込みでは、この日の写真は表示されていません');
+    showToast('No photos from this day are visible with the current filters');
     return false;
   }
 
@@ -18289,7 +18660,7 @@ function renderSidebar() {
     if (worldSidebarData.length === 0) {
       const empty = document.createElement('p');
       empty.className = 'sidebar-empty';
-      empty.textContent = 'ワールド情報付きの写真はまだありません';
+      empty.textContent = 'No photos with world information yet';
       sidebarTree.appendChild(empty);
       return;
     }
@@ -18306,7 +18677,7 @@ function renderSidebar() {
 
       const worldCount = document.createElement('span');
       worldCount.className = 'world-sidebar-item-count';
-      worldCount.textContent = `${worldEntry.count}枚`;
+      worldCount.textContent = `${worldEntry.count} photos`;
 
       if (
         isWorldSelection(currentSelection) &&
@@ -18329,7 +18700,7 @@ function renderSidebar() {
   if (sidebarData.length === 0) {
     const empty = document.createElement('p');
     empty.className = 'sidebar-empty';
-    empty.textContent = 'まだ取り込みがありません';
+    empty.textContent = 'No imports yet';
     sidebarTree.appendChild(empty);
     return;
   }
@@ -18358,7 +18729,7 @@ function renderSidebar() {
 
     const yearCount = document.createElement('span');
     yearCount.className = 'year-count';
-    yearCount.textContent = `${yearEntry.totalCount}枚`;
+    yearCount.textContent = `${yearEntry.totalCount} photos`;
 
     yearButton.appendChild(yearLeft);
     yearButton.appendChild(yearCount);
@@ -18414,7 +18785,7 @@ function renderSidebar() {
 
       const monthCount = document.createElement('span');
       monthCount.className = 'month-count';
-      monthCount.textContent = `${monthEntry.count}枚`;
+      monthCount.textContent = `${monthEntry.count} photos`;
 
       const monthMeta = document.createElement('span');
       monthMeta.className = 'month-meta';
@@ -18434,8 +18805,8 @@ function renderSidebar() {
         );
         monthButton.setAttribute(
           'aria-label',
-          `${yearEntry.year}年${monthEntry.month}月 ${
-            isDayListOpen ? '日付一覧を閉じる' : '日付一覧を開く'
+          `${yearEntry.year}/${monthEntry.month} ${
+            isDayListOpen ? 'Close date list' : 'Open date list'
           }`
         );
       }
@@ -18494,7 +18865,7 @@ function renderSidebar() {
 
           const dayCount = document.createElement('span');
           dayCount.className = 'day-count';
-          dayCount.textContent = `${dayEntry.count}枚`;
+          dayCount.textContent = `${dayEntry.count} photos`;
 
           dayButton.append(dayName, dayCount);
           dayButton.addEventListener('click', async () => {
@@ -18676,7 +19047,7 @@ async function handleImportResult(result, modeLabel) {
   }
 
   if (result.failedCount > 0) {
-    showToast(`${modeLabel}: ${result.failedCount}件失敗しました`);
+    showToast(`${modeLabel}: ${result.failedCount}  failed`);
   }
 
   await restorePhotoDataSelectionFromResult(result);
@@ -18730,10 +19101,10 @@ async function startBackgroundWorldMetadataSync(targets) {
     );
 
     if (!result?.ok) {
-      showToast(result?.message || 'World情報の自動同期を開始できませんでした');
+      showToast(result?.message || 'Could not start automatic world info sync');
     }
   } catch (error) {
-    showToast(`World情報の自動同期を開始できませんでした: ${error.message}`);
+    showToast(`Could not start automatic world info sync: ${error.message}`);
   }
 }
 
@@ -18745,31 +19116,31 @@ function showTrackedFoldersRefreshResultToast(result) {
   }
 
   if (result.ok === false) {
-    showToast('更新に失敗しました');
+    showToast('Refresh failed');
     return;
   }
 
   if (result.noTrackedFolders) {
-    showToast('更新対象フォルダがまだありません');
+    showToast('No tracked folders yet');
     return;
   }
 
   if (result.failedCount > 0) {
-    showToast(`更新: ${result.failedCount}件失敗しました`);
+    showToast(`Refresh: ${result.failedCount}  failed`);
     return;
   }
 
   if (result.missingFolderPaths?.length > 0) {
-    showToast(`見つからないフォルダが${result.missingFolderPaths.length}件あります`);
+    showToast(`Missing folders: ${result.missingFolderPaths.length} items`);
     return;
   }
 
   if (!result.emptyRefresh && (result.importedCount || 0) > 0) {
-    showToast('追跡フォルダを更新しました');
+    showToast('Tracked folders refreshed');
     return;
   }
 
-  showToast('追跡フォルダを確認しました');
+  showToast('Tracked folders checked');
 }
 
 async function handleTrackedFoldersRefreshResult(result, fallbackSelection) {
@@ -18793,10 +19164,10 @@ async function handleTrackedFoldersRefreshResult(result, fallbackSelection) {
 }
 
 async function runRegenerateThumbnailsFlow(targetYear, targetMonth) {
-  setSettingsMaintenanceStatus('サムネイルを再生成しています...', 'busy');
+  setSettingsMaintenanceStatus('Regenerating thumbnails...', 'busy');
   await runForegroundAsyncAction({
-    statusMessage: 'サムネイルを再生成しています...',
-    progressMessage: 'サムネイルを再生成しています...',
+    statusMessage: 'Regenerating thumbnails...',
+    progressMessage: 'Regenerating thumbnails...',
     run: () =>
       window.electronAPI.regenerateThumbnails({
         year: targetYear,
@@ -18808,15 +19179,15 @@ async function runRegenerateThumbnailsFlow(targetYear, targetMonth) {
       setSettingsMaintenanceStatus(successStatus, 'success');
 
       if (result?.failedCount > 0) {
-        showToast(`サムネイル再生成 ${result.failedCount}件失敗しました`);
+        showToast(`Regenerate thumbnails ${result.failedCount}  failed`);
       } else if (result?.ok) {
-        showToast('サムネイル再生成が完了しました');
+        showToast('Thumbnail regeneration completed');
       }
 
       await selectCurrentSelection();
     },
     buildErrorStatus: (message) => {
-      const errorStatus = `サムネイル再生成に失敗しました: ${message}`;
+      const errorStatus = `Thumbnail regeneration failed: ${message}`;
       setSettingsMaintenanceStatus(errorStatus, 'error');
       return errorStatus;
     },
@@ -18826,12 +19197,12 @@ async function runRegenerateThumbnailsFlow(targetYear, targetMonth) {
 async function runTrackedFoldersRefreshFlow() {
   const fallbackSelection = currentSelection ? { ...currentSelection } : null;
   const result = await runForegroundAsyncAction({
-    statusMessage: '追跡フォルダを更新中...',
-    progressMessage: '追跡フォルダを更新中...',
+    statusMessage: 'Refreshing tracked folders...',
+    progressMessage: 'Refreshing tracked folders...',
     run: () => window.electronAPI.refreshTrackedFolders(),
     handleResult: (currentResult) =>
       handleTrackedFoldersRefreshResult(currentResult, fallbackSelection),
-    buildErrorStatus: (message) => `更新に失敗しました: ${message}`,
+    buildErrorStatus: (message) => `Refresh failed: ${message}`,
     releaseBusyBeforeHandleResult: true,
   });
 
@@ -18987,12 +19358,12 @@ async function runForegroundAsyncAction({
 
 async function runImportFlow(modeLabel, startMessage, importRunner) {
   const result = await runForegroundAsyncAction({
-    guardMessage: '取り込み中です。処理が終わってから次の取り込みを開始してください',
+    guardMessage: 'Import is running. Wait until it finishes before starting another import.',
     statusMessage: startMessage,
     progressMessage: startMessage,
     run: importRunner,
     handleResult: (currentResult) => handleImportResult(currentResult, modeLabel),
-    buildErrorStatus: (message) => `取り込みに失敗しました: ${message}`,
+    buildErrorStatus: (message) => `Import failed: ${message}`,
   });
 
   await queueWorldMetadataSyncForResult(result);
@@ -19008,7 +19379,7 @@ async function saveManualWorldEditForm({
     return;
   }
 
-  setWorldNameEditStatus('保存中...');
+  setWorldNameEditStatus('Saving...');
 
   const result = await window.electronAPI.updateWorldSettings(
     currentModalPhoto.id,
@@ -19019,13 +19390,13 @@ async function saveManualWorldEditForm({
   );
 
   if (!result?.ok) {
-    setWorldNameEditStatus(buildActionFailureMessage('保存に失敗しました', result));
+    setWorldNameEditStatus(buildActionFailureMessage('Save failed', result));
     return;
   }
 
   syncSinglePhotoUpdate(result.photo);
   closeWorldNameEditModal();
-  showToast('World設定を保存しました');
+  showToast('World settings saved');
 }
 
 // Memo saves only touch the currently open photo, but they still go through the
@@ -19035,7 +19406,7 @@ async function savePhotoMemo() {
     return;
   }
 
-  setModalPhotoMemoStatus('保存中...');
+  setModalPhotoMemoStatus('Saving...');
   setModalPhotoMemoSaveButtonBusy(true);
 
   const result = await window.electronAPI.updatePhotoMemo(
@@ -19045,7 +19416,7 @@ async function savePhotoMemo() {
 
   if (!result?.ok) {
     setModalPhotoMemoStatus(
-      buildActionFailureMessage('保存に失敗しました', result)
+      buildActionFailureMessage('Save failed', result)
     );
     setModalPhotoMemoSaveButtonBusy(false);
     return;
@@ -19053,10 +19424,10 @@ async function savePhotoMemo() {
 
   syncSinglePhotoUpdate(result.photo);
 
-  setModalPhotoMemoStatus('保存しました');
+  setModalPhotoMemoStatus('Saved');
   setModalPhotoMemoSaveButtonBusy(false);
 
-  showToast('メモを保存しました');
+  showToast('Memo saved');
 }
 
 // Manual reload uses the edit modal's current World URL input so users do not
@@ -19066,7 +19437,7 @@ async function rereadWorldName() {
     return;
   }
 
-  setWorldNameEditStatus('再取得中...');
+  setWorldNameEditStatus('Refetching...');
 
   const result = await window.electronAPI.rereadWorldName({
     photoId: currentModalPhoto.id,
@@ -19075,14 +19446,14 @@ async function rereadWorldName() {
 
   if (!result || !result.ok) {
     setWorldNameEditStatus(
-      buildActionFailureMessage('再取得に失敗しました', result)
+      buildActionFailureMessage('Refetch failed', result)
     );
     return;
   }
 
   syncSinglePhotoUpdate(result.photo);
   closeWorldNameEditModal();
-  showToast('World情報を再読み込みしました');
+  showToast('World info reloaded');
 }
 
 async function toggleFavorite(photoId, nextValue) {
@@ -19093,7 +19464,7 @@ async function toggleFavorite(photoId, nextValue) {
 
   if (!result?.ok) {
     showToast(
-      `お気に入り更新に失敗しました: ${result?.message || '不明なエラー'}`
+      `FavoriteRefresh failed: ${result?.message || 'Unknown error'}`
     );
     return;
   }
@@ -19120,7 +19491,7 @@ async function toggleFavorite(photoId, nextValue) {
     showImageModalPhoto(result.photo);
   }
 
-  showToast(nextValue ? 'お気に入りに追加しました' : 'お気に入りを解除しました');
+  showToast(nextValue ? 'Added to favorites' : 'Removed from favorites');
 }
 
 async function toggleSelectedFavorites() {
@@ -19142,7 +19513,7 @@ async function toggleSelectedFavorites() {
 
   if (!result?.ok) {
     showToast(
-      `お気に入り一括更新に失敗しました: ${result?.message || '不明なエラー'}`
+      `Bulk favorite update failed: ${result?.message || 'Unknown error'}`
     );
     return;
   }
@@ -19160,8 +19531,8 @@ async function toggleSelectedFavorites() {
 
   showToast(
     nextValue
-      ? `選択した${updatedPhotos.length} 件をお気に入りに追加しました`
-      : `選択した${updatedPhotos.length} 件のお気に入りを解除しました`
+      ? `Selected ${updatedPhotos.length}  items added to favorites`
+      : `Selected ${updatedPhotos.length}  items removed from favorites`
   );
 }
 
@@ -19264,7 +19635,7 @@ async function runSettingsMaintenanceAction({
     const result = await run();
 
     if (!result?.ok) {
-      throw new Error(result?.message || '処理に失敗しました');
+      throw new Error(result?.message || 'Action failed');
     }
 
     if (typeof onSuccess === 'function') {
@@ -19288,7 +19659,7 @@ async function runSettingsMaintenanceAction({
     return result;
   } catch (error) {
     const message =
-      error instanceof Error ? error.message : String(error || '不明なエラー');
+      error instanceof Error ? error.message : String(error || 'Unknown error');
 
     if (typeof buildErrorStatus === 'function') {
       const errorStatus = buildErrorStatus(message);
@@ -19360,13 +19731,13 @@ async function runSettingsDataAction({
     const result = await run();
 
     if (result?.canceled) {
-      importStatus.textContent = '処理をキャンセルしました';
+      importStatus.textContent = 'Action canceled';
       setSettingsDataStatus('');
       return result;
     }
 
     if (!result?.ok) {
-      throw new Error(result?.message || '処理に失敗しました');
+      throw new Error(result?.message || 'Action failed');
     }
 
     if (typeof onSuccess === 'function') {
@@ -19390,7 +19761,7 @@ async function runSettingsDataAction({
     return result;
   } catch (error) {
     const message =
-      error instanceof Error ? error.message : String(error || '不明なエラー');
+      error instanceof Error ? error.message : String(error || 'Unknown error');
 
     if (typeof buildErrorStatus === 'function') {
       const errorStatus = buildErrorStatus(message);
@@ -19419,41 +19790,41 @@ async function runSettingsDataAction({
 async function createAppDataBackupFromSettings() {
   await runSettingsDataAction({
     isBlocked: () => isImporting || !window.electronAPI.createAppDataBackup,
-    busyStatus: 'バックアップを作成中...',
-    progressMessage: 'アプリデータを書き出しています...',
+    busyStatus: 'Creating backup...',
+    progressMessage: 'Exporting app data...',
     run: () => window.electronAPI.createAppDataBackup(),
     buildSuccessStatus: (result) =>
-      `バックアップ作成: ${result.fileName || '完了'} / 写真 ${
+      `Backup creation: ${result.fileName || 'Complete'} / Photos ${
         result.photoCount || 0
-      }件`,
-    buildSuccessToast: () => 'バックアップを作成しました',
-    buildErrorStatus: (message) => `バックアップ作成に失敗しました: ${message}`,
-    buildErrorToast: (message) => `バックアップ作成に失敗しました: ${message}`,
+      } items`,
+    buildSuccessToast: () => 'Backup created',
+    buildErrorStatus: (message) => `Backup creation failed: ${message}`,
+    buildErrorToast: (message) => `Backup creation failed: ${message}`,
   });
 }
 
 function buildHealthCheckStatus(result) {
   if (!result) {
-    return '状態チェックに失敗しました';
+    return 'Health check failed';
   }
 
   if (result.healthy) {
-    return `状態チェック: 問題なし / 写真 ${result.totalPhotoCount || 0}件`;
+    return `Health check: No problems / Photos ${result.totalPhotoCount || 0} items`;
   }
 
   return [
-    `状態チェック: 写真 ${result.totalPhotoCount || 0}件`,
+    `Health check: Photos ${result.totalPhotoCount || 0} items`,
     result.missingOriginalCount > 0
-      ? `元画像なし ${result.missingOriginalCount}件`
+      ? `Missing original ${result.missingOriginalCount} items`
       : null,
     result.missingThumbnailCount > 0
-      ? `サムネイルなし ${result.missingThumbnailCount}件`
+      ? `Missing thumbnail ${result.missingThumbnailCount} items`
       : null,
     result.missingWorldInfoCount > 0
-      ? `World情報未取得 ${result.missingWorldInfoCount}件`
+      ? `Missing world info ${result.missingWorldInfoCount} items`
       : null,
     result.worldMetadataIssueCount > 0
-      ? `Worldメタデータ要確認 ${result.worldMetadataIssueCount}件`
+      ? `World metadata needs review ${result.worldMetadataIssueCount} items`
       : null,
   ]
     .filter(Boolean)
@@ -19463,14 +19834,14 @@ function buildHealthCheckStatus(result) {
 async function checkAppDataHealthFromSettings() {
   await runSettingsDataAction({
     isBlocked: () => isImporting || !window.electronAPI.checkAppDataHealth,
-    busyStatus: '状態チェック中...',
-    progressMessage: '登録データの状態を確認しています...',
+    busyStatus: 'Running health check...',
+    progressMessage: 'Checking registered data health...',
     run: () => window.electronAPI.checkAppDataHealth(),
     buildSuccessStatus: buildHealthCheckStatus,
     buildSuccessToast: (result) =>
-      result.healthy ? '状態チェック: 問題ありません' : '状態チェックが完了しました',
-    buildErrorStatus: (message) => `状態チェックに失敗しました: ${message}`,
-    buildErrorToast: (message) => `状態チェックに失敗しました: ${message}`,
+      result.healthy ? 'Health check: no problems' : 'Health check completed',
+    buildErrorStatus: (message) => `Health check failed: ${message}`,
+    buildErrorToast: (message) => `Health check failed: ${message}`,
   });
 }
 
@@ -19511,7 +19882,7 @@ async function fetchHealthIssuePhotos(issueKind) {
 
   return {
     ok: false,
-    message: '状態チェックカテゴリの抽出APIが利用できません',
+    message: 'Health-check extraction API is unavailable',
     photoCount: 0,
     photos: [],
   };
@@ -19521,7 +19892,7 @@ async function reloadHealthIssueSelection(issueKind) {
   const result = await fetchHealthIssuePhotos(issueKind);
 
   if (!result?.ok) {
-    throw new Error(result?.message || '状態チェック結果の再読み込みに失敗しました');
+    throw new Error(result?.message || 'Could not reload health-check results');
   }
 
   renderHealthIssuePhotos(issueKind, result.photos, { closeSettings: false });
@@ -19540,13 +19911,13 @@ async function showHealthIssuePhotosFromSettings(issueKind) {
       renderHealthIssuePhotos(issueKind, result.photos);
     },
     buildSuccessStatus: (result) =>
-      `${meta.successPrefix}: ${result.photoCount || 0}件を表示`,
+      `${meta.successPrefix}: ${result.photoCount || 0} items shown`,
     buildSuccessToast: (result) =>
       result.photoCount > 0
         ? meta.successToast(result.photoCount)
         : meta.emptyToast,
-    buildErrorStatus: (message) => `${meta.errorPrefix}に失敗しました: ${message}`,
-    buildErrorToast: (message) => `${meta.errorPrefix}に失敗しました: ${message}`,
+    buildErrorStatus: (message) => `${meta.errorPrefix} failed: ${message}`,
+    buildErrorToast: (message) => `${meta.errorPrefix} failed: ${message}`,
   });
 }
 
@@ -19559,13 +19930,13 @@ async function regenerateMissingThumbnailsFromSettings() {
     isBlocked: () =>
       isImporting || !window.electronAPI.regenerateMissingThumbnails,
     confirmOptions: {
-      title: '欠損サムネイルを再生成',
+      title: 'Regenerate missing thumbnails',
       message:
-        '状態チェックでサムネイルなしに該当する写真だけを再生成します。元画像が見つからない写真は失敗として記録されます。続行しますか？',
-      confirmText: '再生成する',
+        'Regenerate only photos reported by the health check as missing thumbnails. Photos with missing originals will be recorded as failures. Continue?',
+      confirmText: 'Regenerate',
     },
-    busyStatus: '欠損サムネイルを再生成中...',
-    progressMessage: 'サムネイルが欠損している写真だけを再生成しています...',
+    busyStatus: 'Regenerating missing thumbnails...',
+    progressMessage: 'Regenerating only photos with missing thumbnails...',
     run: () => window.electronAPI.regenerateMissingThumbnails(),
     onSuccess: async () => {
       if (isHealthSelection(currentSelection)) {
@@ -19575,17 +19946,17 @@ async function regenerateMissingThumbnailsFromSettings() {
       }
     },
     buildSuccessStatus: (result) =>
-      `欠損サムネイル再生成: ${result.regeneratedCount || 0}件 / ` +
-      `対象 ${result.totalCount || 0}件` +
-      (result.failedCount > 0 ? ` / 失敗 ${result.failedCount}件` : ''),
+      `Missing thumbnail regeneration: ${result.regeneratedCount || 0} items / ` +
+      `Target ${result.totalCount || 0} items` +
+      (result.failedCount > 0 ? ` / Failed ${result.failedCount} items` : ''),
     buildSuccessToast: (result) =>
       result.failedCount > 0
-        ? `欠損サムネイル再生成: ${result.failedCount}件失敗しました`
-        : '欠損サムネイルの再生成が完了しました',
+        ? `Missing thumbnail regeneration: ${result.failedCount}  failed`
+        : 'Missing thumbnail regeneration completed',
     buildErrorStatus: (message) =>
-      `欠損サムネイル再生成に失敗しました: ${message}`,
+      `Missing thumbnail regeneration failed: ${message}`,
     buildErrorToast: (message) =>
-      `欠損サムネイル再生成に失敗しました: ${message}`,
+      `Missing thumbnail regeneration failed: ${message}`,
   });
 }
 
@@ -19593,8 +19964,8 @@ async function refreshWorldMetadataIssuesFromSettings() {
   await runSettingsDataAction({
     isBlocked: () =>
       isImporting || !window.electronAPI.refreshWorldMetadataIssues,
-    busyStatus: 'World要確認分を再取得中...',
-    progressMessage: 'Worldメタデータ要確認の該当分だけ再取得しています...',
+    busyStatus: 'Refetching worlds needing review...',
+    progressMessage: 'Refetching only world metadata needing review...',
     run: () => window.electronAPI.refreshWorldMetadataIssues(),
     onSuccess: async () => {
       if (
@@ -19605,15 +19976,15 @@ async function refreshWorldMetadataIssuesFromSettings() {
       }
     },
     buildSuccessStatus: (result) =>
-      `World要確認再取得: ${result.queuedCount || 0}件キュー投入 / ` +
-      `対象World ${result.targetCount || 0}件 / ` +
-      `該当写真 ${result.photoCount || 0}件`,
+      `World review refetch: ${result.queuedCount || 0} itemsqueued / ` +
+      `Target worlds ${result.targetCount || 0} items / ` +
+      `Matching photos ${result.photoCount || 0} items`,
     buildSuccessToast: (result) =>
       result.queuedCount > 0
-        ? `World要確認の再取得を${result.queuedCount}件開始しました`
-        : '再取得が必要なWorld要確認はありません',
-    buildErrorStatus: (message) => `World要確認再取得に失敗しました: ${message}`,
-    buildErrorToast: (message) => `World要確認再取得に失敗しました: ${message}`,
+        ? `Started world-review refetch for ${result.queuedCount} items`
+        : 'No worlds need review refetch',
+    buildErrorStatus: (message) => `World review refetch failed: ${message}`,
+    buildErrorToast: (message) => `World review refetch failed: ${message}`,
   });
 }
 
@@ -19623,18 +19994,18 @@ async function exportPhotoCatalogFromSettings(format) {
 
   await runSettingsDataAction({
     isBlocked: () => isImporting || !window.electronAPI.exportPhotoCatalog,
-    busyStatus: `${formatLabel}をエクスポート中...`,
-    progressMessage: '写真一覧を書き出しています...',
+    busyStatus: `${formatLabel} export in progress...`,
+    progressMessage: 'Exporting photo list...',
     run: () => window.electronAPI.exportPhotoCatalog(normalizedFormat),
     buildSuccessStatus: (result) =>
-      `${formatLabel}エクスポート: ${result.fileName || '完了'} / 写真 ${
+      `${formatLabel}export: ${result.fileName || 'Complete'} / Photos ${
         result.photoCount || 0
-      }件`,
-    buildSuccessToast: () => `${formatLabel}をエクスポートしました`,
+      } items`,
+    buildSuccessToast: () => `${formatLabel} exported`,
     buildErrorStatus: (message) =>
-      `${formatLabel}エクスポートに失敗しました: ${message}`,
+      `${formatLabel}export failed: ${message}`,
     buildErrorToast: (message) =>
-      `${formatLabel}エクスポートに失敗しました: ${message}`,
+      `${formatLabel}export failed: ${message}`,
   });
 }
 
@@ -19642,27 +20013,27 @@ async function restoreAppDataBackupFromSettings() {
   await runSettingsDataAction({
     isBlocked: () => isImporting || !window.electronAPI.restoreAppDataBackup,
     confirmOptions: {
-      title: 'バックアップから復元',
+      title: 'Restore from backup',
       message:
-        '現在の登録データ、ラベル、メモ、お気に入り、World情報、更新対象フォルダをバックアップ内容で置き換えます。元画像ファイル自体は削除しません。続行しますか？',
-      confirmText: '復元する',
+        'Replace current entries, labels, memos, favorites, world information, and tracked folders with the backup contents. Original image files will not be deleted. Continue?',
+      confirmText: 'Restore',
     },
-    busyStatus: 'バックアップから復元中...',
-    progressMessage: 'アプリデータを復元しています...',
+    busyStatus: 'Restoring from backup...',
+    progressMessage: 'Restoring app data...',
     run: () => window.electronAPI.restoreAppDataBackup(),
     onSuccess: async () => {
       await refreshViewAfterDataRestore();
     },
     buildSuccessStatus: (result) =>
-      `復元完了: 写真 ${result.photoCount || result.restoredPhotoCount || 0}件 / ` +
-      `フォルダ ${result.trackedFolderCount || 0}件 / ` +
-      `ラベル ${result.tagCount || 0}件` +
+      `Restore complete: Photos ${result.photoCount || result.restoredPhotoCount || 0} items / ` +
+      `Folders ${result.trackedFolderCount || 0} items / ` +
+      `Labels ${result.tagCount || 0} items` +
       (result.automaticBackupFileName
-        ? ` / 復元前バックアップ ${result.automaticBackupFileName}`
+        ? ` / pre-restore backup ${result.automaticBackupFileName}`
         : ''),
-    buildSuccessToast: () => 'バックアップから復元しました',
-    buildErrorStatus: (message) => `バックアップ復元に失敗しました: ${message}`,
-    buildErrorToast: (message) => `バックアップ復元に失敗しました: ${message}`,
+    buildSuccessToast: () => 'Restored from backup',
+    buildErrorStatus: (message) => `Backup restore failed: ${message}`,
+    buildErrorToast: (message) => `Backup restore failed: ${message}`,
   });
 }
 
@@ -19676,11 +20047,11 @@ async function deleteCurrentMonthRegistrationsFromSettings() {
       isImporting ||
       !isMonthSelection(currentSelection),
     confirmOptions: {
-      title: '表示中の月を削除',
-      message: `${targetSelection.year}年${targetSelection.month}月の登録を削除します。元画像ファイル自体は削除しません。続行しますか？`,
-      confirmText: '削除する',
+      title: 'Delete current month',
+      message: `Delete entries for ${targetSelection.year}/${targetSelection.month}. Original image files will not be deleted. Continue?`,
+      confirmText: 'Delete',
     },
-    busyStatus: `${targetSelection.year}年${targetSelection.month}月の登録を削除中...`,
+    busyStatus: `Deleting entries for ${targetSelection.year}/${targetSelection.month}...`,
     run: () => window.electronAPI.deletePhotosByMonth(targetSelection),
     onSuccess: async (result) => {
       const deletedIds = Array.isArray(result.deletedPhotoIds)
@@ -19706,17 +20077,17 @@ async function deleteCurrentMonthRegistrationsFromSettings() {
       const failedCount = Number(result.failedCount) || 0;
 
       return failedCount > 0
-        ? `${targetSelection.year}年${targetSelection.month}月: ${deletedCount}件削除 / 失敗 ${failedCount}件`
-        : `${targetSelection.year}年${targetSelection.month}月: ${deletedCount}件削除`;
+        ? `${targetSelection.year}/${targetSelection.month}: ${deletedCount}  deleted / Failed ${failedCount} items`
+        : `${targetSelection.year}/${targetSelection.month}: ${deletedCount}  deleted`;
     },
     buildSuccessToast: (result) => {
       const failedCount = Number(result.failedCount) || 0;
       return failedCount > 0
-        ? `月削除: ${failedCount}件失敗しました`
-        : '表示中の月の登録を削除しました';
+        ? `Delete: ${failedCount}  failed`
+        : 'Deleted entries for the current month';
     },
-    buildErrorStatus: (message) => `月削除に失敗しました: ${message}`,
-    buildErrorToast: (message) => `月削除に失敗しました: ${message}`,
+    buildErrorStatus: (message) => `Delete failed: ${message}`,
+    buildErrorToast: (message) => `Delete failed: ${message}`,
   });
 }
 
@@ -19726,12 +20097,12 @@ async function deleteAllRegistrationsFromSettings() {
   await runSettingsMaintenanceAction({
     isBlocked: () => isImporting || sidebarData.length === 0,
     confirmOptions: {
-      title: '全登録を削除',
+      title: 'Delete all entries',
       message:
-        'すべての登録を削除します。元画像ファイル自体は削除しません。続行しますか？',
-      confirmText: '削除する',
+        'Delete all entries. Original image files will not be deleted. Continue?',
+      confirmText: 'Delete',
     },
-    busyStatus: 'すべての登録を削除中...',
+    busyStatus: 'Deleting all entries...',
     run: () => window.electronAPI.deleteAllPhotos(),
     onSuccess: async (result) => {
       const deletedIds = Array.isArray(result.deletedPhotoIds)
@@ -19757,17 +20128,17 @@ async function deleteAllRegistrationsFromSettings() {
       const failedCount = Number(result.failedCount) || 0;
 
       return failedCount > 0
-        ? `全登録削除: ${deletedCount}件削除 / 失敗 ${failedCount}件`
-        : `全登録削除: ${deletedCount}件削除`;
+        ? `Delete all entries: ${deletedCount}  deleted / Failed ${failedCount} items`
+        : `Delete all entries: ${deletedCount}  deleted`;
     },
     buildSuccessToast: (result) => {
       const failedCount = Number(result.failedCount) || 0;
       return failedCount > 0
-        ? `全登録削除: ${failedCount}件失敗しました`
-        : 'すべての登録を削除しました';
+        ? `Delete all entries: ${failedCount}  failed`
+        : 'Deleted all entries';
     },
-    buildErrorStatus: (message) => `全登録削除に失敗しました: ${message}`,
-    buildErrorToast: (message) => `全登録削除に失敗しました: ${message}`,
+    buildErrorStatus: (message) => `Delete all entries failed: ${message}`,
+    buildErrorToast: (message) => `Delete all entries failed: ${message}`,
   });
 }
 
@@ -19775,13 +20146,13 @@ async function clearThumbnailCacheFromSettings() {
   await runSettingsMaintenanceAction({
     isBlocked: () => isImporting || sidebarData.length === 0,
     confirmOptions: {
-      title: 'サムネイルキャッシュ全削除',
+      title: 'Clear all thumbnail cache',
       message:
-        '管理しているサムネイルキャッシュをすべて削除します。元画像ファイルと登録データ自体は削除しません。続行しますか？',
-      confirmText: '削除する',
+        'Delete all managed thumbnail cache files. Original image files and entry data will not be deleted. Continue?',
+      confirmText: 'Delete',
     },
-    busyStatus: 'サムネイルキャッシュを削除中...',
-    progressMessage: 'サムネイルキャッシュを削除しています...',
+    busyStatus: 'Clearing thumbnail cache...',
+    progressMessage: 'Clearing thumbnail cache...',
     run: () => window.electronAPI.clearThumbnailCache(),
     onSuccess: async () => {
       clearThumbnailCacheInCurrentCollections();
@@ -19791,12 +20162,12 @@ async function clearThumbnailCacheFromSettings() {
       }
     },
     buildSuccessStatus: (result) =>
-      `サムネイルキャッシュ削除: ${result.clearedCount || 0}件`,
-    buildSuccessToast: () => 'サムネイルキャッシュを削除しました',
+      `Thumbnail cache clear: ${result.clearedCount || 0} items`,
+    buildSuccessToast: () => 'Thumbnail cache cleared',
     buildErrorStatus: (message) =>
-      `サムネイルキャッシュ削除に失敗しました: ${message}`,
+      `Thumbnail cache clear failed: ${message}`,
     buildErrorToast: (message) =>
-      `サムネイルキャッシュ削除に失敗しました: ${message}`,
+      `Thumbnail cache clear failed: ${message}`,
   });
 }
 
@@ -19810,31 +20181,31 @@ async function reimportRegisteredPhotosFromSettings(targetYear, targetMonth) {
       sidebarData.length === 0 ||
       !window.electronAPI.reimportRegisteredPhotos,
     confirmOptions: {
-      title: '既存画像の情報を再取り込み',
+      title: 'Reimport existing image info',
       message:
-        `${targetSelection.year}年${targetSelection.month}月の登録済み画像から現在の解析ロジックで画像情報を再取得します。World情報、プリントのノート、解像度などは更新されますが、メモ・ラベル・手動のWorld名は保持されます。続行しますか？`,
-      confirmText: '再取り込みする',
+        `${targetSelection.year}/${targetSelection.month} registered images using the current parser. World info, print notes, and resolution will be updated, but memos, labels, and manual world names will be kept. Continue?`,
+      confirmText: 'Reimport',
     },
-    busyStatus: `${targetSelection.year}年${targetSelection.month}月の情報を再取り込み中...`,
-    progressMessage: '既存画像の情報を再取り込み中...',
+    busyStatus: `${targetSelection.year}/${targetSelection.month} reimport in progress...`,
+    progressMessage: 'Reimporting existing image info...',
     run: () => window.electronAPI.reimportRegisteredPhotos(targetSelection),
     onSuccess: async (currentResult) => {
       await restorePhotoDataSelectionFromResult(currentResult, fallbackSelection);
     },
     buildSuccessStatus: (currentResult) => {
       if (currentResult.emptyReimport) {
-        return `${targetSelection.year}年${targetSelection.month}月: 再取り込み対象の登録画像はありません`;
+        return `${targetSelection.year}/${targetSelection.month}: No registered images to reimport`;
       }
 
       return [
-        `${targetSelection.year}年${targetSelection.month}月: ${
+        `${targetSelection.year}/${targetSelection.month}: ${
           currentResult.importedCount || 0
-        }件反映`,
+        } applied`,
         currentResult.updatedCount > 0
-          ? `更新 ${currentResult.updatedCount}件`
+          ? `Refresh ${currentResult.updatedCount} items`
           : null,
         currentResult.failedCount > 0
-          ? `失敗 ${currentResult.failedCount}件`
+          ? `Failed ${currentResult.failedCount} items`
           : null,
       ]
         .filter(Boolean)
@@ -19842,13 +20213,13 @@ async function reimportRegisteredPhotosFromSettings(targetYear, targetMonth) {
     },
     buildSuccessToast: (currentResult) => {
       if (currentResult.failedCount > 0) {
-        return `再取り込み: ${currentResult.failedCount}件失敗しました`;
+        return `Reimport: ${currentResult.failedCount}  failed`;
       }
 
-      return `${targetSelection.year}年${targetSelection.month}月の情報を再取り込みしました`;
+      return `${targetSelection.year}/${targetSelection.month} info reimported`;
     },
-    buildErrorStatus: (message) => `再取り込みに失敗しました: ${message}`,
-    buildErrorToast: (message) => `再取り込みに失敗しました: ${message}`,
+    buildErrorStatus: (message) => `Reimport failed: ${message}`,
+    buildErrorToast: (message) => `Reimport failed: ${message}`,
   });
 
   await queueWorldMetadataSyncForResult(result);
@@ -19861,13 +20232,13 @@ async function resetDatabaseFromSettings() {
       (sidebarData.length === 0 && trackedFolders.length === 0) ||
       !window.electronAPI.resetDatabase,
     confirmOptions: {
-      title: 'DBを初期化',
+      title: 'Reset database',
       message:
-        '登録データ、ラベル、メモ、ワールドキャッシュ、更新対象フォルダ、サムネイルキャッシュをすべて初期化します。元画像ファイル自体は削除しません。続行しますか？',
-      confirmText: '初期化する',
+        'Reset all entries, labels, memos, world cache, tracked folders, and thumbnail cache. Original image files will not be deleted. Continue?',
+      confirmText: 'Reset',
     },
-    busyStatus: 'DBを初期化中...',
-    progressMessage: 'アプリデータを初期化しています...',
+    busyStatus: 'Resetting database...',
+    progressMessage: 'Resetting app data...',
     run: () => window.electronAPI.resetDatabase(),
     onSuccess: async () => {
       closePhotoLabelModal();
@@ -19884,16 +20255,16 @@ async function resetDatabaseFromSettings() {
       renderTrackedFolderList();
     },
     buildSuccessStatus: (result) =>
-      `DB初期化: 写真 ${result.photoCount || 0}件 / ` +
-      `フォルダ ${result.trackedFolderCount || 0}件 / ` +
-      `キャッシュ ${result.worldCacheCount || 0}件 / ` +
-      `ラベル ${result.tagCount || 0}件` +
+      `Database reset: Photos ${result.photoCount || 0} items / ` +
+      `Folders ${result.trackedFolderCount || 0} items / ` +
+      `Cache ${result.worldCacheCount || 0} items / ` +
+      `Labels ${result.tagCount || 0} items` +
       (result.automaticBackupFileName
-        ? ` / 初期化前バックアップ ${result.automaticBackupFileName}`
+        ? ` / pre-reset backup ${result.automaticBackupFileName}`
         : ''),
-    buildSuccessToast: () => 'DBを初期化しました',
-    buildErrorStatus: (message) => `DB初期化に失敗しました: ${message}`,
-    buildErrorToast: (message) => `DB初期化に失敗しました: ${message}`,
+    buildSuccessToast: () => 'Database reset',
+    buildErrorStatus: (message) => `Database reset failed: ${message}`,
+    buildErrorToast: (message) => `Database reset failed: ${message}`,
   });
 }
 
@@ -20072,8 +20443,8 @@ function initializeDragAndDropImport() {
     resetDropOverlay();
 
     await runImportFlow(
-      'ドラッグ&ドロップ取り込み',
-      'ドラッグ&ドロップ取り込み中...',
+      'Drag and drop import',
+      'Drag and drop import in progress...',
       async () => {
         const files = Array.from(event.dataTransfer.files || []);
 
@@ -20168,14 +20539,14 @@ function bindForegroundActionControls() {
       event.stopImmediatePropagation();
 
       if (isImporting) {
-        showToast('再生成中です。処理が終わってから実行してください');
+        showToast('Regeneration is running. Wait for it to finish before running this.');
         return;
       }
 
       const selectedMonthValue = regenerateThumbnailMonthSelect?.value || '';
 
       if (!/^\d{4}-\d{2}$/.test(selectedMonthValue)) {
-        showToast('再生成する月を選択してください');
+        showToast('Select a regeneration target');
         return;
       }
 
@@ -20187,7 +20558,7 @@ function bindForegroundActionControls() {
 
   refreshTrackedFoldersButton?.addEventListener('click', async () => {
     if (isImporting) {
-      showToast('別の処理中です。完了してから更新してください');
+      showToast('Another process is running. Wait for it to finish before refreshing.');
       return;
     }
 
@@ -20402,7 +20773,7 @@ async function openCurrentModalWorldUrl() {
   );
 
   if (!result?.ok) {
-    showToast(`リンクを開けませんでした: ${result?.message || '不明なエラー'}`);
+    showToast(`Could not open link: ${result?.message || 'Unknown error'}`);
   }
 }
 
@@ -20412,11 +20783,11 @@ function handleRecoveredModalFileActionResult(result, failureMessage) {
   }
 
   if (!result?.ok) {
-    showToast(`${failureMessage}: ${result?.message || '不明なエラー'}`);
+    showToast(`${failureMessage}: ${result?.message || 'Unknown error'}`);
   }
 
   if (result?.recovered) {
-    showToast('画像の保存場所を更新しました');
+    showToast('Image save location updated');
   }
 }
 
@@ -20430,7 +20801,7 @@ async function openCurrentModalOriginalFile() {
     filePath: currentModalPhoto.filePath,
   });
 
-  handleRecoveredModalFileActionResult(result, '画像を開けませんでした');
+  handleRecoveredModalFileActionResult(result, 'Could not open image');
 }
 
 async function openCurrentModalContainingFolder() {
@@ -20443,7 +20814,7 @@ async function openCurrentModalContainingFolder() {
     filePath: currentModalPhoto.filePath,
   });
 
-  handleRecoveredModalFileActionResult(result, '保存先フォルダを開けませんでした');
+  handleRecoveredModalFileActionResult(result, 'Could not open destination folder');
 }
 
 async function handleSaveWorldSettingsClick() {
@@ -20998,7 +21369,7 @@ function bindPhotoAndEditModalControls() {
 
   modalDeletePhotoButton?.addEventListener('click', async () => {
     if (isImporting) {
-      showToast('処理中です。完了してから実行してください');
+      showToast('Processing. Wait for it to finish before running this.');
       return;
     }
 
@@ -21007,10 +21378,10 @@ function bindPhotoAndEditModalControls() {
     }
 
     const confirmed = await openConfirmModal({
-      title: '登録を削除',
+      title: 'Delete entry',
       message:
-        'この画像の登録を削除します。元画像ファイル自体は削除しません。続行しますか？',
-      confirmText: '削除する',
+        'Delete this image entry. Original image files will not be deleted. Continue?',
+      confirmText: 'Delete',
     });
 
     if (!confirmed) {
@@ -21024,7 +21395,7 @@ function bindPhotoAndEditModalControls() {
       const result = await window.electronAPI.deletePhoto(deleteTargetId);
 
       if (!result?.ok) {
-        showToast(`削除に失敗しました: ${result?.message || '不明なエラー'}`);
+        showToast(`Delete failed: ${result?.message || 'Unknown error'}`);
         return;
       }
 
@@ -21039,9 +21410,9 @@ function bindPhotoAndEditModalControls() {
         removedCount: 1,
       });
 
-      showToast('登録を削除しました');
+      showToast('Entry deleted');
     } catch (error) {
-      showToast(`削除に失敗しました: ${error.message}`);
+      showToast(`Delete failed: ${error.message}`);
     }
   });
 
@@ -21157,7 +21528,7 @@ function bindSettingsModalControls() {
 
     if (!result?.ok) {
       showToast(
-        `フォルダの追加に失敗しました: ${result?.message || '不明なエラー'}`
+        `Folder add failed: ${result?.message || 'Unknown error'}`
       );
       return;
     }
@@ -21170,7 +21541,7 @@ function bindSettingsModalControls() {
     });
 
     if (!result.canceled && result.folder?.folder_path) {
-      showToast('更新対象フォルダを追加しました');
+      showToast('Tracked folder added');
     }
   });
 
@@ -21188,10 +21559,10 @@ function bindSettingsModalControls() {
     }
 
     const confirmed = await openConfirmModal({
-      title: '更新対象フォルダを削除',
+      title: 'Delete tracked folder',
       message:
-        'このフォルダを更新対象一覧から外します。登録済みの写真データ自体は削除されません。続行しますか？',
-      confirmText: '削除する',
+        'Remove this folder from the tracked folder list. Registered photo data will not be deleted. Continue?',
+      confirmText: 'Delete',
     });
 
     if (!confirmed) {
@@ -21202,7 +21573,7 @@ function bindSettingsModalControls() {
 
     if (!result?.ok) {
       showToast(
-        `フォルダの削除に失敗しました: ${result?.message || '不明なエラー'}`
+        `Folder delete failed: ${result?.message || 'Unknown error'}`
       );
       return;
     }
@@ -21213,7 +21584,7 @@ function bindSettingsModalControls() {
       loadOverview: true,
       resetMaintenanceStatus: true,
     });
-    showToast('更新対象フォルダを削除しました');
+    showToast('Tracked folder deleted');
   });
 
   deleteCurrentMonthRegistrationsButton?.addEventListener('click', async () => {
@@ -21232,7 +21603,7 @@ function bindSettingsModalControls() {
     const selectedMonthValue = reimportRegisteredPhotoMonthSelect?.value || '';
 
     if (!/^\d{4}-\d{2}$/.test(selectedMonthValue)) {
-      showToast('再取り込みする月を選択してください');
+      showToast('Select a reimport target');
       return;
     }
 
@@ -21273,9 +21644,9 @@ function bindSelectionControls() {
     }
 
     const confirmed = await openConfirmModal({
-      title: '選択した登録を削除',
-      message: `選択した${selectedPhotoIds.size} 件の登録を削除します。元画像ファイル自体は削除しません。続行しますか？`,
-      confirmText: '削除する',
+      title: 'Selected Delete entry',
+      message: `Delete ${selectedPhotoIds.size} selected entries. Original image files will not be deleted. Continue?`,
+      confirmText: 'Delete',
     });
 
     if (!confirmed) {
@@ -21286,13 +21657,13 @@ function bindSelectionControls() {
     const targetSelection = currentSelection ? { ...currentSelection } : null;
 
     setImportUiBusy(true);
-    importStatus.textContent = '選択した登録を削除中...';
+    importStatus.textContent = 'Deleting selected entries...';
 
     try {
       const result = await window.electronAPI.deletePhotos(targetIds);
 
       if (!result?.ok) {
-        throw new Error(result?.message || '削除に失敗しました');
+        throw new Error(result?.message || 'Delete failed');
       }
 
       const deletedIds = Array.isArray(result.deletedPhotoIds)
@@ -21313,17 +21684,17 @@ function bindSelectionControls() {
 
       importStatus.textContent =
         failedCount > 0
-          ? `選択削除: ${deletedCount}件削除 / 失敗 ${failedCount}件`
-          : `選択削除: ${deletedCount}件削除`;
+          ? `Selected delete: ${deletedCount}  deleted / Failed ${failedCount} items`
+          : `Selected delete: ${deletedCount}  deleted`;
 
       if (failedCount > 0) {
-        showToast(`選択削除: ${failedCount}件失敗しました`);
+        showToast(`Selected delete: ${failedCount}  failed`);
       } else {
-        showToast('選択した登録を削除しました');
+        showToast('Selected entries deleted');
       }
     } catch (error) {
-      importStatus.textContent = `選択削除に失敗しました: ${error.message}`;
-      showToast(`選択削除に失敗しました: ${error.message}`);
+      importStatus.textContent = `Selected delete failed: ${error.message}`;
+      showToast(`Selected delete failed: ${error.message}`);
     } finally {
       setImportUiBusy(false);
       syncSelectionUi();
@@ -21335,6 +21706,12 @@ function bindSelectionControls() {
 function bindAppearanceControls() {
   themeToggleButton?.addEventListener('click', () => {
     toggleTheme();
+  });
+
+  languageOptionButtons.forEach((button) => {
+    button.addEventListener('click', () => {
+      applyLanguagePreference(button.dataset.languageOption || 'system');
+    });
   });
 
   fontOptionButtons.forEach((button) => {
@@ -21534,6 +21911,7 @@ function initializeRendererBindings() {
 
 function initializeRendererUi() {
   initializeTheme();
+  initializeLanguagePreference();
   initializeFontPreference();
   initializePhotoCardDensityPreference();
   initializeBackgroundImagePreference();

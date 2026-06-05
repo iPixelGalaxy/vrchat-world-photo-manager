@@ -1,43 +1,36 @@
-# WorldShot Log リリース手順
+# WorldShot Log Release Procedure
 
-## リリース手順
+## Release Steps
 
-1. `package.json` の `version` を更新する
-2. アプリの動作確認を行う
-3. `main` にコミットして push する
-4. Windows 配布物を作成する
+1. Update `package.json` `version`.
+2. Verify app behavior.
+3. Commit to `main` and push.
+4. Create Windows distribution artifacts.
 
-```powershell
+```bash
 npm run make:win
 ```
 
-5. バージョンに対応する git タグを作成する
+5. Create a git tag matching the version.
+6. Create a GitHub Release with the same tag name.
+7. Attach files from `out/make/squirrel.windows/x64/`:
 
-```powershell
-git tag -a v1.0.1 -m "WorldShot Log v1.0.1"
-git push origin v1.0.1
-```
+- `WorldShotLogSetup.exe`
+- `worldshot-log-<version>-full.nupkg`
+- `RELEASES`
 
-6. 同じタグ名で GitHub Release を作成する
-7. `out/make/squirrel.windows/x64/` から以下を添付する
-   - `WorldShotLogSetup.exe`
-   - `worldshot_log-<version>-full.nupkg`
-   - `RELEASES`
-8. Release を公開する  
-   `draft` のままでは自動アップデート対象にならない
+8. Publish the release. Draft releases are not used for automatic updates.
 
-## 自動アップデートの条件
+## Automatic Update Requirements
 
-- アプリの `version` は、現在公開中のものより大きい必要がある
-- GitHub Release のタグは、アプリの version と一致している必要がある  
-  例: `v1.0.1`
-- `RELEASES` と `.nupkg` は必須  
-  `.exe` だけでは自動アップデートできない
-- 自動アップデートは、Windows の配布版アプリでのみ動作する
-- `npm start` などの開発実行では動作しない
+- The app `version` must be greater than the currently published version.
+- The GitHub Release tag must match the app version, for example `v1.0.1`.
+- `RELEASES` and the `.nupkg` file are required.
+- Automatic updates only work in the distributed Windows app.
+- Automatic updates do not run during development (`npm start`).
 
-## 現在の命名ルール
+## Current Naming Rules
 
-- アプリ名: `WorldShot Log`
-- タグ形式: `v<version>`
-- Windows インストーラ名: `WorldShotLogSetup.exe`
+- App name: `WorldShot Log`
+- Tag format: `v<version>`
+- Windows installer name: `WorldShotLogSetup.exe`

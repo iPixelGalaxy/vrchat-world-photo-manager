@@ -1,182 +1,59 @@
 # WorldShot Log
 
-![WorldShot Log](./img/banner.png)
+WorldShot Log is a Windows desktop app for organizing, reviewing, and preparing VRChat photos.
 
-WorldShot Log は、VRChat の写真を整理し、見返し、投稿しやすく整えるための Windows 向けデスクトップアプリです。
+It supports date and world-based photo management, image adjustments, cropping, privacy masking, and text overlays. Original images are not overwritten; edited images are saved separately.
 
-日付やワールドごとの写真管理に加えて、画像補正、切り抜き、目隠し加工、テキスト追加などの編集機能を備えています。元画像は上書きせず、加工後の画像を別名保存できます。
+> WorldShot Log is not an official VRChat Inc. application.
 
-> WorldShot Log は VRChat Inc. 公式のアプリではありません。
+## Features
 
-## 主な機能
+- Drag and drop import for VRChat photos and folders
+- Browse photos by year, month, date, and world
+- Filter by favorites, orientation, label, and world name
+- Open photo details, original images, containing folders, and VRChat pages when available
+- Manage favorites, labels, memos, world names, and World URLs
+- Fetch and reuse world metadata after import
+- Edit images in-app without overwriting originals
+- Adjust light, color, tone curves, blur, privacy masks, crop, rotation, and text overlays
+- Save built-in and custom presets
+- Back up, restore, export CSV / JSON, regenerate thumbnails, and run data health checks
 
-### 写真整理
+## Download
 
-- VRChat 写真のドラッグ＆ドロップ取り込み
-- 登録フォルダの再走査
-- 年、月、日付ごとの写真一覧
-- ワールドごとの写真一覧
-- お気に入り、向き、ラベル、World名での絞り込み
-- 複数選択、Shift範囲選択、ドラッグ選択
-- 一覧画面でのキーボード移動
-
-### 写真の詳細確認
-
-- 写真をカード形式で閲覧
-- 写真詳細モーダルでの拡大表示
-- 前後画像への移動
-- 元画像を開く
-- 保存先フォルダを開く
-- VRChatページを開く
-- お気に入り、ラベル、メモの管理
-- ワールド名、World URL の手動編集
-
-### ワールド情報の補助管理
-
-- 写真から World ID を扱いやすく整理
-- 取り込み後の World 情報自動取得
-- 同じ World ID の写真では取得済み情報を再利用
-- ワールド名、説明文、タグ、World URL の表示
-
-### アプリ内画像編集
-
-- 写真詳細から画像編集画面を起動
-- 元画像を上書きせず、加工後の画像を別名保存
-- 明るさ、露出、コントラスト、ハイライト、シャドウ、ホワイト、ブラックを調整
-- 色温度、色合い、彩度、自然な彩度を調整
-- 明瞭度、テクスチャ、フェード、粒子、ビネットを調整
-- スマート自動補正、学習補正、補正の強さ調整
-- RGB / HSV のトーンカーブとヒストグラム表示
-- プリセット適用とユーザープリセット保存
-
-### 切り抜きと構図調整
-
-- オリジナル、1:1、16:9、9:16、5:4、4:5、3:2、2:3 の比率に対応
-- VRCギャラリー用、絵文字・ステッカー用の正方形トリミング
-- 足りない部分を透過として残す正方形キャンバス
-- ズーム、左右位置、上下位置の調整
-- 90度回転、自由回転、左右反転、上下反転
-- ルーラー、三分割グリッドの表示
-
-### ぼかし・目隠し加工
-
-- 全体ぼかし
-- 放射ぼかし
-- ぼかし、モザイク、塗りつぶしによる目隠し加工
-- 四角、円、フリーハンドでの範囲選択
-- 確定前の移動、拡大縮小、回転
-- ユーザー名、チャット欄、UI、個人情報などを隠す用途に対応
-
-### テキスト追加
-
-- 複数テキストの追加
-- 文字サイズ、フォント、太さ、色の変更
-- 縁取り、影、発光などの装飾
-- 文字間隔の調整
-- テキストの移動、回転
-- 日本語向けフォントや装飾フォント
-- 最近使ったフォントの表示
-
-### データ管理
-
-- サムネイル再生成
-- 欠損ファイル、欠損サムネイル、World情報未取得の確認
-- バックアップ作成
-- バックアップからの復元
-- CSV / JSON エクスポート
-- アプリ内アンインストール導線
-
-## 想定用途
-
-- VRChat 写真の整理
-- 撮影したワールドの振り返り
-- X 投稿用の画像調整
-- Booth 掲載用の画像準備
-- サムネイル用のトリミング
-- チャット欄やユーザー名を隠した投稿画像の作成
-- VRCギャラリーや絵文字・ステッカー向けの正方形画像作成
-
-## ダウンロード
-
-最新版は GitHub Releases からダウンロードできます。
+Download the latest version from GitHub Releases.
 
 - [Releases](https://github.com/noma-nomoa/vrchat-world-photo-manager/releases)
-- [v2.0.0 リリースノート](./release-notes/v2.0.0.md)
+- [v2.0.0 release notes](./release-notes/v2.0.0.md)
 
-Windows 向け配布物は `WorldShotLogSetup.exe` です。
+The Windows installer is `WorldShotLogSetup.exe`.
 
-## インストール
+## Install
 
-1. GitHub Releases から最新版の `WorldShotLogSetup.exe` をダウンロードします。
-2. ダウンロードした `WorldShotLogSetup.exe` を実行します。
-3. インストール完了後、WorldShot Log が起動します。
+1. Download the latest `WorldShotLogSetup.exe` from GitHub Releases.
+2. Run `WorldShotLogSetup.exe`.
+3. WorldShot Log launches after installation completes.
 
-Windows のセキュリティ警告が表示される場合があります。内容を確認したうえで実行してください。
+## Development
 
-## アップデート
-
-WorldShot Log は GitHub Releases を使った更新確認に対応しています。
-
-- 配布版アプリでは、新しいバージョンが公開されている場合にアプリ内で通知されます。
-- 手動で更新する場合は、GitHub Releases から最新版の `WorldShotLogSetup.exe` をダウンロードして実行してください。
-- 開発実行 (`npm start`) ではアプリ内アップデートは動作しません。
-
-## プライバシーとデータの扱い
-
-- 取り込んだ写真、メモ、ラベル、設定、サムネイルはユーザーのPC内に保存されます。
-- 元画像は上書きしません。画像編集で保存したファイルは別名で保存されます。
-- World情報の取得やアップデート確認のため、VRChat や GitHub など外部サービスへアクセスする場合があります。
-- アプリ内で作成したバックアップやCSV / JSONエクスポートは、ユーザーが選択した保存先に出力されます。
-- アンインストール時にデータも削除する操作を選んだ場合、保存済みのアプリデータが削除されます。
-
-## データ保存場所
-
-アプリのデータは主に以下へ保存されます。
-
-- DB / 設定  
-  `C:\Users\<ユーザー名>\AppData\Roaming\WorldShot Log\data\`
-- サムネイル  
-  `C:\Users\<ユーザー名>\WorldShot Log\thumbnails`
-
-## 開発について
-
-WorldShot Log は個人開発のアプリであり、設計、実装、ドキュメント整理の一部に AI 支援を活用しています。最終的な仕様判断、動作確認、リリース判断は開発者が行っています。
-
-## 開発
-
-### 必要環境
-
-- Node.js
-- npm
-- Windows
-
-### 起動
-
-```powershell
+```bash
 npm install
 npm start
 ```
 
-### Windows ビルド
+### Windows build
 
-```powershell
+```bash
 npm run make:win
 ```
 
-生成物は `out/make/squirrel.windows/x64/` に出力されます。
+Build artifacts are written to `out/make/squirrel.windows/x64/`.
 
-## 関連ドキュメント
+## Data Locations
 
-- [RELEASE.md](./RELEASE.md): リリース手順
-- [AI_MAINTENANCE_GUIDE.md](./AI_MAINTENANCE_GUIDE.md): 保守、改修向けガイド
-- [release-notes/](./release-notes): 各バージョンの変更内容
+- DB / settings: `C:\Users\<UserName>\AppData\Roaming\WorldShot Log\data\`
+- Thumbnails: `C:\Users\<UserName>\WorldShot Log\thumbnails`
 
-## 制限事項
+## License
 
-- private / non-public world の自動メタデータ取得には未対応です。
-- インストール先のユーザー選択には未対応です。
-- Windows 以外の配布は現状想定していません。
-
-## ライセンス
-
-WorldShot Log は MIT License で公開されています。詳しくは [LICENSE](./LICENSE) を確認してください。
+WorldShot Log is released under the MIT License. See [LICENSE](./LICENSE) for details.

@@ -1461,7 +1461,7 @@ function initDatabase(dbPath) {
     const tables = snapshot?.tables || snapshot?.data?.tables || {};
 
     if (!tables || typeof tables !== 'object') {
-      throw new Error('バックアップデータの形式が正しくありません');
+      throw new Error('Invalid backup data format');
     }
 
     const photoRows = Array.isArray(tables.photos) ? tables.photos : [];

@@ -1,5 +1,5 @@
 ﻿<!DOCTYPE html>
-<html lang="ja">
+<html lang="en">
   <head>
     <meta charset="UTF-8" />
     <title>WorldShot Log v2.0.0</title>
@@ -31,8 +31,8 @@
                 id="settings-btn"
                 class="theme-toggle-btn"
                 type="button"
-                aria-label="設定を開く"
-                title="設定を開く"
+                aria-label="Open settings"
+                title="Open settings"
               >
                 <span class="material-symbols-outlined">settings</span>
               </button>
@@ -41,8 +41,8 @@
                 id="theme-toggle-btn"
                 class="theme-toggle-btn"
                 type="button"
-                aria-label="テーマを切り替える"
-                title="テーマを切り替える"
+                aria-label="Toggle theme"
+                title="Toggle theme"
               >
                 <span id="theme-toggle-icon" class="material-symbols-outlined">
                   mode_night
@@ -53,14 +53,14 @@
         </header>
 
         <section class="toolbar">
-          <button id="refresh-tracked-folders-btn" type="button">更新</button>
+          <button id="refresh-tracked-folders-btn" type="button">Refresh</button>
           <button id="regenerate-thumbnails-btn" type="button">
-            サムネイル再生成
+            Regenerate thumbnails
           </button>
 
           <div class="toolbar-right">
             <p id="import-status" class="import-status">
-              まだ取り込みはありません
+              No imports yet
             </p>
             <div id="processing-progress" class="processing-progress" hidden>
               <div class="processing-progress-header">
@@ -68,7 +68,7 @@
                   id="processing-progress-label"
                   class="processing-progress-label"
                 >
-                  処理を準備中...
+                  Preparing...
                 </span>
                 <span
                   id="processing-progress-value"
@@ -97,8 +97,8 @@
       <div class="app-layout">
         <aside class="sidebar">
           <div class="sidebar-header">
-            <h2>年月</h2>
-            <p>年を押すと年一覧、矢印で月を開閉します</p>
+            <h2>Year / Month</h2>
+            <p>Select a year to show yearly photos, or use the arrow to expand months</p>
           </div>
 
           <div id="sidebar-tree" class="sidebar-tree"></div>
@@ -107,8 +107,8 @@
         <main class="main-content">
           <div class="main-header">
             <div>
-              <h2 id="current-month-label">写真一覧</h2>
-              <p id="current-month-count">0枚</p>
+              <h2 id="current-month-label">Photo list</h2>
+              <p id="current-month-count">0 photos</p>
             </div>
 
             <div class="main-header-actions">
@@ -116,8 +116,8 @@
                 id="favorite-filter-btn"
                 type="button"
                 class="header-filter-button favorite-filter-icon-button"
-                aria-label="お気に入りのみ表示"
-                title="お気に入りのみ表示"
+                aria-label="Show favorites only"
+                title="Show favorites only"
               >
                 <span class="material-symbols-outlined">star</span>
               </button>
@@ -126,8 +126,8 @@
                 id="photo-sort-btn"
                 type="button"
                 class="header-filter-button photo-sort-icon-button"
-                aria-label="並び順: 新しい順"
-                title="並び順: 新しい順"
+                aria-label="Sort: newest first"
+                title="Sort: newest first"
               >
                 <span
                   id="photo-sort-icon"
@@ -140,8 +140,8 @@
                 id="photo-density-btn"
                 type="button"
                 class="header-filter-button photo-sort-icon-button"
-                aria-label="表示サイズ: 標準"
-                title="表示サイズ: 標準"
+                aria-label="Display size: standard"
+                title="Display size: standard"
               >
                 <span
                   id="photo-density-icon"
@@ -155,12 +155,12 @@
                   id="orientation-filter-btn"
                   type="button"
                   class="header-filter-button orientation-filter-button"
-                  aria-label="向きフィルタ: すべて"
-                  title="向きフィルタ: すべて"
+                  aria-label="Orientation filter: all"
+                  title="Orientation filter: all"
                   aria-haspopup="menu"
                   aria-expanded="false"
                 >
-                  <span id="orientation-filter-label">向き: すべて</span>
+                  <span id="orientation-filter-label">Orientation: all</span>
                   <span class="material-symbols-outlined orientation-filter-chevron">
                     expand_more
                   </span>
@@ -170,7 +170,7 @@
                   id="orientation-filter-menu"
                   class="header-dropdown-menu"
                   role="menu"
-                  aria-label="向きフィルタ"
+                  aria-label="Orientation filter"
                 >
                   <button
                     type="button"
@@ -179,7 +179,7 @@
                     role="menuitemradio"
                     aria-checked="true"
                   >
-                    <span class="header-dropdown-item-label">すべて</span>
+                    <span class="header-dropdown-item-label">All</span>
                     <span class="material-symbols-outlined header-dropdown-check">
                       check
                     </span>
@@ -191,7 +191,7 @@
                     role="menuitemradio"
                     aria-checked="false"
                   >
-                    <span class="header-dropdown-item-label">横長</span>
+                    <span class="header-dropdown-item-label">Landscape</span>
                     <span class="material-symbols-outlined header-dropdown-check">
                       check
                     </span>
@@ -203,7 +203,7 @@
                     role="menuitemradio"
                     aria-checked="false"
                   >
-                    <span class="header-dropdown-item-label">縦長</span>
+                    <span class="header-dropdown-item-label">Portrait</span>
                     <span class="material-symbols-outlined header-dropdown-check">
                       check
                     </span>
@@ -215,7 +215,7 @@
                     role="menuitemradio"
                     aria-checked="false"
                   >
-                    <span class="header-dropdown-item-label">正方形</span>
+                    <span class="header-dropdown-item-label">Square</span>
                     <span class="material-symbols-outlined header-dropdown-check">
                       check
                     </span>
@@ -228,12 +228,12 @@
                   id="photo-label-filter-btn"
                   type="button"
                   class="header-filter-button orientation-filter-button"
-                  aria-label="ラベルフィルタ: すべて"
-                  title="ラベルフィルタ: すべて"
+                  aria-label="Label filter: All"
+                  title="Label filter: All"
                   aria-haspopup="menu"
                   aria-expanded="false"
                 >
-                  <span id="photo-label-filter-label">ラベル: すべて</span>
+                  <span id="photo-label-filter-label">Label: all</span>
                   <span class="material-symbols-outlined orientation-filter-chevron">
                     expand_more
                   </span>
@@ -243,7 +243,7 @@
                   id="photo-label-filter-menu"
                   class="header-dropdown-menu"
                   role="menu"
-                  aria-label="ラベルフィルタ"
+                  aria-label="Label filter"
                 ></div>
               </div>
 
@@ -252,8 +252,8 @@
                   id="world-name-filter-btn"
                   type="button"
                   class="header-filter-button orientation-filter-button world-name-filter-button"
-                  aria-label="Worldフィルタ: すべて"
-                  title="Worldフィルタ: すべて"
+                  aria-label="World filter: all"
+                  title="World filter: all"
                   aria-haspopup="menu"
                   aria-expanded="false"
                 >
@@ -261,7 +261,7 @@
                     id="world-name-filter-label"
                     class="world-name-filter-label"
                   >
-                    World: すべて
+                    World: All
                   </span>
                   <span class="material-symbols-outlined orientation-filter-chevron">
                     expand_more
@@ -272,14 +272,14 @@
                   id="world-name-filter-menu"
                   class="header-dropdown-menu world-name-filter-menu"
                   role="menu"
-                  aria-label="World名フィルタ"
+                  aria-label="World name filter"
                 >
                   <div class="header-dropdown-input-panel" role="none">
                     <input
                       id="world-name-filter-input"
                       class="header-dropdown-text-input"
                       type="text"
-                      placeholder="World名を入力"
+                      placeholder="Enter a world name"
                       autocomplete="off"
                     />
                     <button
@@ -287,7 +287,7 @@
                       type="button"
                       class="header-dropdown-clear-button"
                     >
-                      クリア
+                      Clear
                     </button>
                   </div>
                 </div>
@@ -298,7 +298,7 @@
                 type="button"
                 class="header-filter-button"
               >
-                選択
+                Select
               </button>
 
               <button
@@ -307,7 +307,7 @@
                 class="header-filter-button bulk-favorite-button"
                 disabled
               >
-                お気に入り
+                Favorite
               </button>
 
               <button
@@ -316,17 +316,17 @@
                 class="header-filter-button danger-outline-button"
                 disabled
               >
-                削除
+                Delete
               </button>
 
               <p class="drop-hint-always">
-                画像/フォルダをここにドラッグ＆ドロップ
+                Drag and drop images or folders here
               </p>
             </div>
           </div>
 
           <p id="month-gallery-empty" class="gallery-empty">
-            まだ写真がありません
+            No photos yet
           </p>
 
           <div id="month-gallery-list" class="gallery-list"></div>
@@ -345,7 +345,7 @@
 
         <div class="image-modal-body">
           <div class="image-modal-image-wrap">
-            <img id="modal-image" alt="拡大画像" />
+            <img id="modal-image" alt="Enlarged image" />
           </div>
 
           <div class="image-modal-info">
@@ -359,10 +359,10 @@
                 target="_blank"
                 rel="noreferrer"
               >
-                ワールド名未取得
+                World name not fetched
               </a>
 
-              <p id="modal-file-name" class="modal-file-name">ファイル名</p>
+              <p id="modal-file-name" class="modal-file-name">File name</p>
             </div>
 
             <div class="modal-actions">
@@ -371,39 +371,39 @@
                 type="button"
                 class="primary-link-button"
               >
-                VRChatで開く
+                Open in VRChat
               </button>
               <button
                 id="modal-open-original-btn"
                 type="button"
                 class="primary-link-button"
               >
-                元画像を開く
+                Open original image
               </button>
               <button
                 id="modal-open-folder-btn"
                 type="button"
                 class="primary-link-button"
               >
-                保存先フォルダを開く
+                Open containing folder
               </button>
               <button
                 id="modal-edit-photo-btn"
                 type="button"
                 class="primary-link-button"
               >
-                画像を加工する
+                Edit image
               </button>
             </div>
 
             <div class="modal-meta-list">
               <div class="modal-meta-item">
-                <span class="modal-meta-label">撮影日時</span>
+                <span class="modal-meta-label">Date taken</span>
                 <span id="modal-taken-at" class="modal-meta-value">-</span>
               </div>
 
               <div class="modal-meta-item">
-                <span class="modal-meta-label">解像度</span>
+                <span class="modal-meta-label">Resolution</span>
                 <span id="modal-resolution-tier" class="modal-meta-value">-</span>
               </div>
 
@@ -416,33 +416,33 @@
             <div class="modal-world-meta-block">
               <p class="modal-world-meta-title">Description</p>
               <p id="modal-world-description" class="modal-world-description">
-                未取得
+                Not fetched
               </p>
             </div>
 
             <div class="modal-world-meta-block">
               <p class="modal-world-meta-title">Tag</p>
               <div id="modal-world-tags" class="modal-world-tags">
-                <span class="modal-world-tag is-placeholder">未取得</span>
+                <span class="modal-world-tag is-placeholder">Not fetched</span>
               </div>
             </div>
 
             <div class="modal-world-meta-block modal-photo-memo-block">
               <div class="photo-label-block-header modal-photo-memo-header">
-                <p class="modal-world-meta-title">メモ</p>
+                <p class="modal-world-meta-title">Memo</p>
                 <button
                   id="modal-photo-memo-save-btn"
                   type="button"
                   class="small-action-button"
                 >
-                  保存
+                  Save
                 </button>
               </div>
               <textarea
                 id="modal-photo-memo-input"
                 class="modal-photo-memo-input"
                 rows="1"
-                placeholder="自由にメモを残せます"
+                placeholder="Add a memo"
               ></textarea>
               <p
                 id="modal-photo-memo-status"
@@ -453,7 +453,7 @@
 
             <div class="world-name-row">
               <p class="world-name-text">
-                <strong>現在の表示名</strong>
+                <strong>Current display name</strong>
                 <span id="modal-world-name">-</span>
               </p>
 
@@ -462,8 +462,8 @@
                   id="modal-favorite-btn"
                   type="button"
                   class="favorite-toggle-button"
-                  aria-label="お気に入り切り替え"
-                  title="お気に入り切り替え"
+                  aria-label="Toggle favorite"
+                  title="Toggle favorite"
                 >
                   <span id="modal-favorite-icon" class="material-symbols-outlined">
                     star
@@ -475,7 +475,7 @@
                   type="button"
                   class="small-action-button"
                 >
-                  カードを編集
+                  Edit card
                 </button>
               </div>
             </div>
@@ -486,7 +486,7 @@
                 type="button"
                 class="danger-button"
               >
-                この登録を削除
+                Delete this entry
               </button>
             </div>
           </div>
@@ -502,7 +502,7 @@
         <div class="sub-modal-body photo-editor-body">
           <div class="photo-editor-header">
             <div>
-              <h3>画像編集</h3>
+              <h3>Image editor</h3>
               <p id="photo-editor-file-name" class="photo-editor-file-name">
                 -
               </p>
@@ -512,8 +512,8 @@
                 id="photo-editor-undo-btn"
                 type="button"
                 class="secondary photo-editor-history-button"
-                aria-label="元に戻す"
-                title="元に戻す"
+                aria-label="Undo"
+                title="Undo"
                 disabled
               >
                 <span class="material-symbols-outlined">undo</span>
@@ -522,8 +522,8 @@
                 id="photo-editor-redo-btn"
                 type="button"
                 class="secondary photo-editor-history-button"
-                aria-label="やり直す"
-                title="やり直す"
+                aria-label="Redo"
+                title="Redo"
                 disabled
               >
                 <span class="material-symbols-outlined">redo</span>
@@ -532,8 +532,8 @@
                 id="photo-editor-reset-btn"
                 type="button"
                 class="photo-editor-slider-reset photo-editor-header-reset-button"
-                aria-label="編集内容をリセット"
-                title="編集内容をリセット"
+                aria-label="Reset edits"
+                title="Reset edits"
               >
                 <span class="material-symbols-outlined">restart_alt</span>
               </button>
@@ -542,23 +542,23 @@
                 type="button"
                 class="secondary photo-editor-compare-button"
                 aria-pressed="false"
-                title="編集前と比較"
+                title="Compare with original"
               >
                 <span class="material-symbols-outlined">visibility</span>
-                <span>比較</span>
+                <span>Compare</span>
               </button>
               <button
                 id="photo-editor-save-btn"
                 type="button"
                 class="primary-link-button photo-editor-save-button"
               >
-                別名で保存
+                Save as
               </button>
               <button
                 id="photo-editor-close"
                 class="sub-modal-close"
                 type="button"
-                aria-label="画像編集モーダルを閉じる"
+                aria-label="Close image editor"
               ></button>
             </div>
           </div>
@@ -566,14 +566,14 @@
           <div class="photo-editor-layout">
             <div class="photo-editor-preview-panel">
               <div id="photo-editor-canvas-wrap" class="photo-editor-canvas-wrap">
-                <div class="photo-editor-preview-tools" aria-label="プレビュー補助">
+                <div class="photo-editor-preview-tools" aria-label="Preview aids">
                   <button
                     id="photo-editor-rule-grid-btn"
                     type="button"
                     class="photo-editor-preview-tool-button"
-                    aria-label="三分割グリッド"
+                    aria-label="Rule-of-thirds grid"
                     aria-pressed="false"
-                    title="三分割グリッド"
+                    title="Rule-of-thirds grid"
                   >
                     <span class="material-symbols-outlined">grid_3x3</span>
                   </button>
@@ -581,9 +581,9 @@
                     id="photo-editor-ruler-btn"
                     type="button"
                     class="photo-editor-preview-tool-button"
-                    aria-label="ルーラー"
+                    aria-label="Ruler"
                     aria-pressed="false"
-                    title="ルーラー"
+                    title="Ruler"
                   >
                     <span class="material-symbols-outlined">straighten</span>
                   </button>
@@ -606,7 +606,7 @@
                     aria-expanded="false"
                     aria-controls="photo-editor-crop-panel"
                   >
-                    <span>切り抜き</span>
+                    <span>Crop</span>
                     <span class="material-symbols-outlined photo-editor-accordion-chevron">
                       expand_more
                     </span>
@@ -615,8 +615,8 @@
                     id="photo-editor-crop-reset-btn"
                     type="button"
                     class="photo-editor-slider-reset"
-                    aria-label="切り抜きをリセット"
-                    title="切り抜きをリセット"
+                    aria-label="Reset crop"
+                    title="Reset crop"
                   >
                     <span class="material-symbols-outlined">restart_alt</span>
                   </button>
@@ -629,14 +629,14 @@
                   <div id="photo-editor-crop-presets" class="photo-editor-crop-grid"></div>
                   <div class="photo-editor-crop-transform-panel">
                     <div class="photo-editor-crop-transform-heading">
-                      <span>回転</span>
+                      <span>Rotation</span>
                       <div class="photo-editor-crop-transform-row">
                         <button
                           id="photo-editor-crop-rotate-left"
                           type="button"
                           class="small-action-button photo-editor-crop-transform-button"
-                          aria-label="左に90度回転"
-                          title="左に90度回転"
+                          aria-label="Rotate 90 degrees left"
+                          title="Rotate 90 degrees left"
                         >
                           <span class="material-symbols-outlined">rotate_left</span>
                         </button>
@@ -644,8 +644,8 @@
                           id="photo-editor-crop-rotate-right"
                           type="button"
                           class="small-action-button photo-editor-crop-transform-button"
-                          aria-label="右に90度回転"
-                          title="右に90度回転"
+                          aria-label="Rotate 90 degrees right"
+                          title="Rotate 90 degrees right"
                         >
                           <span class="material-symbols-outlined">rotate_right</span>
                         </button>
@@ -654,28 +654,28 @@
                           type="button"
                           class="small-action-button photo-editor-crop-transform-button"
                           aria-pressed="false"
-                          aria-label="左右反転"
-                          title="左右反転"
+                          aria-label="Flip horizontal"
+                          title="Flip horizontal"
                         >
                           <span class="material-symbols-outlined">flip</span>
-                          <span>左右反転</span>
+                          <span>Flip horizontal</span>
                         </button>
                         <button
                           id="photo-editor-crop-flip-y"
                           type="button"
                           class="small-action-button photo-editor-crop-transform-button"
                           aria-pressed="false"
-                          aria-label="上下反転"
-                          title="上下反転"
+                          aria-label="Flip vertical"
+                          title="Flip vertical"
                         >
                           <span class="material-symbols-outlined">flip</span>
-                          <span>上下反転</span>
+                          <span>Flip vertical</span>
                         </button>
                       </div>
                     </div>
                     <div class="photo-editor-slider-row photo-editor-crop-rotation-slider">
                       <div class="photo-editor-slider-label">
-                        <span>自由回転</span>
+                        <span>Free rotate</span>
                         <span id="photo-editor-crop-tilt-value">0°</span>
                       </div>
                       <input
@@ -689,7 +689,7 @@
                   </div>
                   <div class="photo-editor-slider-row">
                     <div class="photo-editor-slider-label">
-                      <span>ズーム</span>
+                      <span>Zoom</span>
                       <span id="photo-editor-crop-zoom-value">0</span>
                     </div>
                     <input
@@ -702,7 +702,7 @@
                   </div>
                   <div class="photo-editor-slider-row">
                     <div class="photo-editor-slider-label">
-                      <span>左右位置</span>
+                      <span>Horizontal position</span>
                       <span id="photo-editor-crop-x-value">0</span>
                     </div>
                     <input
@@ -715,7 +715,7 @@
                   </div>
                   <div class="photo-editor-slider-row">
                     <div class="photo-editor-slider-label">
-                      <span>上下位置</span>
+                      <span>Vertical position</span>
                       <span id="photo-editor-crop-y-value">0</span>
                     </div>
                     <input
@@ -741,7 +741,7 @@
                     aria-expanded="false"
                     aria-controls="photo-editor-preset-panel"
                   >
-                    <span>プリセット</span>
+                    <span>Preset</span>
                     <span class="material-symbols-outlined photo-editor-accordion-chevron">
                       expand_more
                     </span>
@@ -750,8 +750,8 @@
                     id="photo-editor-preset-reset-btn"
                     type="button"
                     class="photo-editor-slider-reset"
-                    aria-label="プリセットをリセット"
-                    title="プリセットをリセット"
+                    aria-label="Reset preset"
+                    title="Reset preset"
                   >
                     <span class="material-symbols-outlined">restart_alt</span>
                   </button>
@@ -765,7 +765,7 @@
                   <div class="photo-editor-auto-enhance-panel">
                     <div class="photo-editor-slider-row">
                       <div class="photo-editor-slider-label">
-                        <span>補正の強さ</span>
+                        <span>Adjustment strength</span>
                         <span id="photo-editor-auto-strength-value">50</span>
                       </div>
                       <input
@@ -782,14 +782,14 @@
                       id="photo-editor-preset-name"
                       type="text"
                       maxlength="32"
-                      placeholder="プリセット名"
+                      placeholder="Preset name"
                     />
                     <button
                       id="photo-editor-save-preset-btn"
                       type="button"
                       class="small-action-button"
                     >
-                      保存
+                      Save
                     </button>
                   </div>
                 </div>
@@ -807,7 +807,7 @@
                     aria-expanded="false"
                     aria-controls="photo-editor-adjustment-panel"
                   >
-                    <span>補正</span>
+                    <span>Adjustments</span>
                     <span class="material-symbols-outlined photo-editor-accordion-chevron">
                       expand_more
                     </span>
@@ -816,8 +816,8 @@
                     id="photo-editor-adjustment-reset-btn"
                     type="button"
                     class="photo-editor-slider-reset"
-                    aria-label="補正をリセット"
-                    title="補正をリセット"
+                    aria-label="Reset adjustments"
+                    title="Reset adjustments"
                   >
                     <span class="material-symbols-outlined">restart_alt</span>
                   </button>
@@ -843,7 +843,7 @@
                     aria-expanded="false"
                     aria-controls="photo-editor-curve-panel"
                   >
-                    <span>トーンカーブ</span>
+                    <span>Tone curve</span>
                     <span class="material-symbols-outlined photo-editor-accordion-chevron">
                       expand_more
                     </span>
@@ -852,8 +852,8 @@
                     id="photo-editor-curve-reset-btn"
                     type="button"
                     class="photo-editor-slider-reset"
-                    aria-label="トーンカーブをリセット"
-                    title="トーンカーブをリセット"
+                    aria-label="Reset tone curve"
+                    title="Reset tone curve"
                   >
                     <span class="material-symbols-outlined">restart_alt</span>
                   </button>
@@ -901,7 +901,7 @@
                     aria-expanded="false"
                     aria-controls="photo-editor-blur-panel"
                   >
-                    <span>ぼかし</span>
+                    <span>Blur</span>
                     <span class="material-symbols-outlined photo-editor-accordion-chevron">
                       expand_more
                     </span>
@@ -910,8 +910,8 @@
                     id="photo-editor-blur-reset-btn"
                     type="button"
                     class="photo-editor-slider-reset"
-                    aria-label="ぼかしをリセット"
-                    title="ぼかしをリセット"
+                    aria-label="Reset blur"
+                    title="Reset blur"
                   >
                     <span class="material-symbols-outlined">restart_alt</span>
                   </button>
@@ -922,27 +922,27 @@
                   hidden
                 >
                   <div class="photo-editor-blur-mode-row">
-                    <span>どこをぼかしにするか</span>
+                    <span>Blur area</span>
                     <div id="photo-editor-blur-mode" class="photo-editor-blur-mode-toggle">
                       <button
                         type="button"
                         class="photo-editor-blur-mode-button"
                         data-photo-editor-blur-mode="radial"
                       >
-                        放射
+                        Radial
                       </button>
                       <button
                         type="button"
                         class="photo-editor-blur-mode-button"
                         data-photo-editor-blur-mode="full"
                       >
-                        全体
+                        Full image
                       </button>
                     </div>
                   </div>
                   <div class="photo-editor-slider-row">
                     <div class="photo-editor-slider-label">
-                      <span>ぼかし量</span>
+                      <span>Blur amount</span>
                       <span id="photo-editor-blur-amount-value">0</span>
                     </div>
                     <input
@@ -961,7 +961,7 @@
                       hidden
                     >
                       <span class="material-symbols-outlined">check</span>
-                      <span id="photo-editor-blur-confirm-label">確定</span>
+                      <span id="photo-editor-blur-confirm-label">Apply</span>
                     </button>
                   </div>
                 </div>
@@ -979,7 +979,7 @@
                     aria-expanded="false"
                     aria-controls="photo-editor-mask-panel"
                   >
-                    <span>目隠し加工</span>
+                    <span>Privacy mask</span>
                     <span class="material-symbols-outlined photo-editor-accordion-chevron">
                       expand_more
                     </span>
@@ -988,8 +988,8 @@
                     id="photo-editor-mask-clear-btn"
                     type="button"
                     class="photo-editor-slider-reset"
-                    aria-label="目隠し加工をリセット"
-                    title="目隠し加工をリセット"
+                    aria-label="Reset privacy mask"
+                    title="Reset privacy mask"
                   >
                     <span class="material-symbols-outlined">restart_alt</span>
                   </button>
@@ -1005,26 +1005,26 @@
                       class="small-action-button"
                       data-photo-editor-mask-tool="blur"
                     >
-                      ぼかし
+                      Blur
                     </button>
                     <button
                       type="button"
                       class="small-action-button"
                       data-photo-editor-mask-tool="mosaic"
                     >
-                      モザイク
+                      Mosaic
                     </button>
                     <button
                       type="button"
                       class="small-action-button"
                       data-photo-editor-mask-tool="fill"
                     >
-                      塗りつぶし
+                      Fill
                     </button>
                   </div>
                   <div id="photo-editor-mask-options" class="photo-editor-mask-options" hidden>
                     <div class="photo-editor-mask-option-heading">
-                      <p class="photo-editor-section-title">範囲</p>
+                      <p class="photo-editor-section-title">Area</p>
                       <div
                         id="photo-editor-mask-shapes"
                         class="photo-editor-shape-button-group"
@@ -1033,8 +1033,8 @@
                           type="button"
                           class="photo-editor-shape-button"
                           data-photo-editor-mask-shape="rect"
-                          aria-label="四角で範囲選択"
-                          title="四角で範囲選択"
+                          aria-label="Select rectangular area"
+                          title="Select rectangular area"
                         >
                           <span class="material-symbols-outlined">crop_square</span>
                         </button>
@@ -1042,8 +1042,8 @@
                           type="button"
                           class="photo-editor-shape-button"
                           data-photo-editor-mask-shape="ellipse"
-                          aria-label="丸で範囲選択"
-                          title="丸で範囲選択"
+                          aria-label="Select circular area"
+                          title="Select circular area"
                         >
                           <span class="material-symbols-outlined">radio_button_unchecked</span>
                         </button>
@@ -1051,8 +1051,8 @@
                           type="button"
                           class="photo-editor-shape-button"
                           data-photo-editor-mask-shape="freehand"
-                          aria-label="フリーハンドで範囲選択"
-                          title="フリーハンドで範囲選択"
+                          aria-label="Select freehand area"
+                          title="Select freehand area"
                         >
                           <span class="material-symbols-outlined">gesture</span>
                         </button>
@@ -1063,7 +1063,7 @@
                       class="photo-editor-slider-row"
                     >
                       <div class="photo-editor-slider-label">
-                        <span id="photo-editor-mask-strength-label">ぼかしの濃さ</span>
+                        <span id="photo-editor-mask-strength-label">Blur strength</span>
                         <span id="photo-editor-mask-blur-strength-value">45</span>
                       </div>
                       <input
@@ -1079,7 +1079,7 @@
                       class="photo-editor-fill-color-row"
                     >
                       <label class="photo-editor-fill-color-label" for="photo-editor-fill-color">
-                        色
+                        Color
                       </label>
                       <input id="photo-editor-fill-color" type="color" value="#111827" />
                     </div>
@@ -1092,14 +1092,14 @@
                       disabled
                     >
                       <span class="material-symbols-outlined">check</span>
-                      <span>確定</span>
+                      <span>Apply</span>
                     </button>
                     <button
                       id="photo-editor-mask-undo-btn"
                       type="button"
                       class="secondary"
                     >
-                      1つ戻す
+                      Undo one
                     </button>
                   </div>
                 </div>
@@ -1117,7 +1117,7 @@
                     aria-expanded="false"
                     aria-controls="photo-editor-text-panel"
                   >
-                    <span>テキスト追加</span>
+                    <span>Add text</span>
                     <span class="material-symbols-outlined photo-editor-accordion-chevron">
                       expand_more
                     </span>
@@ -1126,8 +1126,8 @@
                     id="photo-editor-text-reset-btn"
                     type="button"
                     class="photo-editor-slider-reset"
-                    aria-label="テキストをリセット"
-                    title="テキストをリセット"
+                    aria-label="Reset text"
+                    title="Reset text"
                   >
                     <span class="material-symbols-outlined">restart_alt</span>
                   </button>
@@ -1144,14 +1144,14 @@
                       class="small-action-button"
                     >
                       <span class="material-symbols-outlined">add</span>
-                      <span>追加</span>
+                      <span>Add</span>
                     </button>
                     <button
                       id="photo-editor-text-delete-btn"
                       type="button"
                       class="secondary"
                     >
-                      削除
+                      Delete
                     </button>
                   </div>
                   <div
@@ -1164,55 +1164,55 @@
                     hidden
                   >
                     <label class="photo-editor-text-field photo-editor-text-field-full" for="photo-editor-text-content">
-                      <span>テキスト</span>
+                      <span>Text</span>
                       <textarea
                         id="photo-editor-text-content"
                         rows="3"
                         maxlength="160"
-                        placeholder="テキストを入力"
+                        placeholder="Enter text"
                       ></textarea>
                     </label>
                     <div class="photo-editor-text-grid">
                       <label class="photo-editor-select-field" for="photo-editor-text-font">
-                        <span>フォント</span>
+                        <span>Font</span>
                         <select id="photo-editor-text-font"></select>
                       </label>
                       <label class="photo-editor-select-field" for="photo-editor-text-weight">
-                        <span>太さ</span>
+                        <span>Weight</span>
                         <select id="photo-editor-text-weight">
-                          <option value="400">標準</option>
-                          <option value="500">中太</option>
-                          <option value="700">太字</option>
-                          <option value="900">極太</option>
+                          <option value="400">Regular</option>
+                          <option value="500">Medium</option>
+                          <option value="700">Bold</option>
+                          <option value="900">Black</option>
                         </select>
                       </label>
                       <label class="photo-editor-color-field" for="photo-editor-text-color">
-                        <span>色</span>
+                        <span>Color</span>
                         <input id="photo-editor-text-color" type="color" value="#ffffff" />
                       </label>
                       <label class="photo-editor-color-field" for="photo-editor-text-stroke-color">
-                        <span>縁の色</span>
+                        <span>Stroke color</span>
                         <input id="photo-editor-text-stroke-color" type="color" value="#111827" />
                       </label>
                     </div>
                     <div class="photo-editor-text-grid">
                       <label class="photo-editor-select-field" for="photo-editor-text-stroke-type">
-                        <span>縁の種類</span>
+                        <span>Stroke type</span>
                         <select id="photo-editor-text-stroke-type">
-                          <option value="none">なし</option>
-                          <option value="outline">縁取り</option>
-                          <option value="shadow">影</option>
-                          <option value="glow">発光</option>
+                          <option value="none">None</option>
+                          <option value="outline">Outline</option>
+                          <option value="shadow">Shadow</option>
+                          <option value="glow">Glow</option>
                         </select>
                       </label>
                       <label class="photo-editor-checkbox-field" for="photo-editor-text-fill-transparent">
                         <input id="photo-editor-text-fill-transparent" type="checkbox" />
-                        <span>縁内を透過</span>
+                        <span>Transparent fill</span>
                       </label>
                     </div>
                     <div class="photo-editor-slider-row">
                       <div class="photo-editor-slider-label">
-                        <span>文字サイズ</span>
+                        <span>Text size</span>
                         <span id="photo-editor-text-size-value">64</span>
                       </div>
                       <input
@@ -1225,7 +1225,7 @@
                     </div>
                     <div class="photo-editor-slider-row">
                       <div class="photo-editor-slider-label">
-                        <span>縁の太さ</span>
+                        <span>Stroke width</span>
                         <span id="photo-editor-text-stroke-width-value">4</span>
                       </div>
                       <input
@@ -1238,7 +1238,7 @@
                     </div>
                     <div class="photo-editor-slider-row">
                       <div class="photo-editor-slider-label">
-                        <span>文字間隔</span>
+                        <span>Letter spacing</span>
                         <span id="photo-editor-text-letter-spacing-value">0</span>
                       </div>
                       <input
@@ -1265,7 +1265,7 @@
                     aria-expanded="false"
                     aria-controls="photo-editor-export-panel"
                   >
-                    <span>書き出し</span>
+                    <span>Export</span>
                     <span class="material-symbols-outlined photo-editor-accordion-chevron">
                       expand_more
                     </span>
@@ -1274,8 +1274,8 @@
                     id="photo-editor-export-reset-btn"
                     type="button"
                     class="photo-editor-slider-reset"
-                    aria-label="書き出し設定をリセット"
-                    title="書き出し設定をリセット"
+                    aria-label="Reset export settings"
+                    title="Reset export settings"
                   >
                     <span class="material-symbols-outlined">restart_alt</span>
                   </button>
@@ -1287,7 +1287,7 @@
                 >
                   <div class="photo-editor-export-grid">
                     <label class="photo-editor-select-field" for="photo-editor-export-format">
-                      <span>形式</span>
+                      <span>Format</span>
                       <select id="photo-editor-export-format">
                         <option value="png">PNG</option>
                         <option value="jpeg">JPEG</option>
@@ -1295,15 +1295,15 @@
                       </select>
                     </label>
                     <label class="photo-editor-select-field" for="photo-editor-export-max-edge">
-                      <span>サイズ</span>
+                      <span>Size</span>
                       <select id="photo-editor-export-max-edge">
-                        <option value="0">オリジナル</option>
-                        <option value="3840">長辺 3840px</option>
-                        <option value="2560">長辺 2560px</option>
-                        <option value="2048">長辺 2048px</option>
-                        <option value="1600">長辺 1600px</option>
-                        <option value="1200">長辺 1200px</option>
-                        <option value="1024">長辺 1024px</option>
+                        <option value="0">Original</option>
+                        <option value="3840">Long edge 3840px</option>
+                        <option value="2560">Long edge 2560px</option>
+                        <option value="2048">Long edge 2048px</option>
+                        <option value="1600">Long edge 1600px</option>
+                        <option value="1200">Long edge 1200px</option>
+                        <option value="1024">Long edge 1024px</option>
                       </select>
                     </label>
                   </div>
@@ -1312,7 +1312,7 @@
                     class="photo-editor-slider-row"
                   >
                     <div class="photo-editor-slider-label">
-                      <span>品質</span>
+                      <span>Quality</span>
                       <span id="photo-editor-export-quality-value">92</span>
                     </div>
                     <input
@@ -1345,16 +1345,16 @@
         </button>
 
         <div class="sub-modal-body">
-          <h3>ワールド名を手動修正</h3>
+          <h3>Edit world name manually</h3>
           <p class="sub-modal-description">
-            特殊文字などで自動取得名が崩れる場合に、表示名を手動で上書きできます。
+            Override the display name manually if automatic fetching produces a broken name because of special characters.
           </p>
 
-          <label for="modal-world-name-input">ワールド名</label>
+          <label for="modal-world-name-input">World name</label>
           <input
             id="modal-world-name-input"
             type="text"
-            placeholder="例: Waiting / 待ち"
+            placeholder="Example: Waiting"
           />
 
           <label for="modal-world-url-input">World URL</label>
@@ -1365,12 +1365,12 @@
           />
 
           <div class="world-name-editor-actions">
-            <button id="save-world-name-btn" type="button">保存</button>
+            <button id="save-world-name-btn" type="button">Save</button>
             <button id="reread-world-name-btn" type="button" class="secondary">
-              再度ワールド名を自動取得
+              Fetch world name again
             </button>
             <button id="clear-world-name-btn" type="button" class="secondary">
-              手動設定を解除
+              Clear manual setting
             </button>
           </div>
 
@@ -1381,8 +1381,8 @@
 
     <div id="drop-overlay" class="drop-overlay hidden">
       <div class="drop-overlay-panel">
-        <p class="drop-overlay-title">ここに画像またはフォルダをドロップ</p>
-        <p class="drop-overlay-text">png / jpg / jpeg / webp に対応</p>
+        <p class="drop-overlay-title">Drop images or folders here</p>
+        <p class="drop-overlay-text">Supports png / jpg / jpeg / webp</p>
       </div>
     </div>
 
@@ -1395,16 +1395,53 @@
           id="settings-modal-close"
           class="sub-modal-close"
           type="button"
-          aria-label="設定モーダルを閉じる"
+          aria-label="Close settings"
         ></button>
 
         <div class="sub-modal-body">
-          <h3>設定</h3>
+          <h3>Settings</h3>
+
+          <!-- Language switch -->
+          <div class="settings-section settings-language-section">
+            <div class="settings-section-header">
+              <div>
+                <p class="settings-section-title">Language</p>
+                <p class="settings-section-meta">
+                  System uses Japanese when your OS/browser language is Japanese;
+                  otherwise English is used.
+                </p>
+              </div>
+            </div>
+
+            <div class="settings-language-option-group">
+              <button
+                type="button"
+                class="settings-font-option-button"
+                data-language-option="system"
+              >
+                System
+              </button>
+              <button
+                type="button"
+                class="settings-font-option-button"
+                data-language-option="en"
+              >
+                English
+              </button>
+              <button
+                type="button"
+                class="settings-font-option-button"
+                data-language-option="ja"
+              >
+                Japanese
+              </button>
+            </div>
+          </div>
 
           <!-- Font switch -->
           <div class="settings-section settings-font-section">
             <div>
-              <p class="settings-section-title">フォント</p>
+              <p class="settings-section-title">Font</p>
             </div>
 
             <div id="font-option-group" class="settings-font-option-group">
@@ -1450,7 +1487,7 @@
           <div class="settings-section">
             <div class="settings-section-header">
               <div>
-                <p class="settings-section-title">更新対象フォルダの設定</p>
+                <p class="settings-section-title">Tracked folder settings</p>
               </div>
 
               <button
@@ -1458,21 +1495,21 @@
                 type="button"
                 class="small-action-button"
               >
-                フォルダ追加
+                FoldersAdd
               </button>
             </div>
 
             <div id="tracked-folder-list" class="tracked-folder-list">
-              <p class="tracked-folder-empty">まだ登録されていません</p>
+              <p class="tracked-folder-empty">Nothing registered yet</p>
             </div>
           </div>
 
           <!-- Data backup / export -->
           <div class="settings-section settings-data-section">
             <div class="settings-data-heading">
-              <p class="settings-section-title">データ管理</p>
+              <p class="settings-section-title">Data management</p>
               <p class="settings-section-meta">
-                ラベル、メモ、お気に入り、World情報を保存・書き出しできます
+                Back up and export labels, memos, favorites, and world information
               </p>
             </div>
 
@@ -1480,12 +1517,12 @@
               id="settings-data-toggle"
               type="button"
               class="settings-data-toggle"
-              aria-label="データ管理を開く"
+              aria-label="Open data management"
               aria-expanded="false"
               aria-controls="settings-data-panel"
             >
               <span class="settings-data-toggle-text">
-                <span class="settings-data-toggle-title">操作メニュー</span>
+                <span class="settings-data-toggle-title">Actions</span>
               </span>
               <span class="settings-data-toggle-state">
                 <span
@@ -1509,77 +1546,77 @@
                     type="button"
                     class="small-action-button settings-data-button"
                   >
-                    バックアップを作成
+                    Create backup
                   </button>
                   <button
                     id="check-app-data-health-btn"
                     type="button"
                     class="small-action-button settings-data-button"
                   >
-                    状態チェック
+                    Health check
                   </button>
                   <button
                     id="show-missing-original-files-btn"
                     type="button"
                     class="small-action-button settings-data-button"
                   >
-                    元画像なしを表示
+                    Show missing originals
                   </button>
                   <button
                     id="show-missing-thumbnails-btn"
                     type="button"
                     class="small-action-button settings-data-button"
                   >
-                    サムネイルなしを表示
+                    Show missing thumbnails
                   </button>
                   <button
                     id="show-missing-world-info-btn"
                     type="button"
                     class="small-action-button settings-data-button"
                   >
-                    World情報未取得を表示
+                    Show missing world info
                   </button>
                   <button
                     id="show-world-metadata-issues-btn"
                     type="button"
                     class="small-action-button settings-data-button"
                   >
-                    World要確認を表示
+                    Show worlds needing review
                   </button>
                   <button
                     id="regenerate-missing-thumbnails-btn"
                     type="button"
                     class="secondary settings-data-button"
                   >
-                    欠損サムネイルを再生成
+                    Regenerate missing thumbnails
                   </button>
                   <button
                     id="refresh-world-metadata-issues-btn"
                     type="button"
                     class="secondary settings-data-button"
                   >
-                    World要確認を再取得
+                    Refetch worlds needing review
                   </button>
                   <button
                     id="restore-app-data-backup-btn"
                     type="button"
                     class="danger-button settings-data-button"
                   >
-                    バックアップから復元
+                    Restore from backup
                   </button>
                   <button
                     id="export-photo-catalog-csv-btn"
                     type="button"
                     class="secondary settings-data-button"
                   >
-                    CSVエクスポート
+                    Export CSV
                   </button>
                   <button
                     id="export-photo-catalog-json-btn"
                     type="button"
                     class="secondary settings-data-button"
                   >
-                    JSONエクスポート
+                    Export JSON
                   </button>
                 </div>
 
@@ -1595,7 +1632,7 @@
           <!-- Maintenance actions -->
           <div class="settings-section settings-maintenance-section">
             <div>
-              <p class="settings-section-title">メンテナンス</p>
+              <p class="settings-section-title">Maintenance</p>
             </div>
 
             <div class="settings-maintenance-actions">
@@ -1604,35 +1641,35 @@
                 type="button"
                 class="danger-button settings-maintenance-button"
               >
-                表示中の月を削除
+                Delete current month
               </button>
               <button
                 id="clear-thumbnail-cache-btn"
                 type="button"
                 class="secondary settings-maintenance-button"
               >
-                サムネイルキャッシュを削除
+                Clear thumbnail cache
               </button>
               <button
                 id="reimport-registered-photos-btn"
                 type="button"
                 class="secondary settings-maintenance-button"
               >
-                既存画像の情報を再取り込み
+                Reimport existing image info
               </button>
               <button
                 id="delete-all-registrations-btn"
                 type="button"
                 class="danger-button settings-maintenance-button"
               >
-                全登録を削除
+                Delete all entries
               </button>
               <button
                 id="reset-database-btn"
                 type="button"
                 class="danger-button settings-maintenance-button"
               >
-                DBを初期化
+                Reset database
               </button>
             </div>
           </div>
@@ -1640,7 +1677,7 @@
           <!-- App uninstall entrypoint -->
           <div class="settings-section settings-uninstall-section">
             <div>
-              <p class="settings-section-title">アンインストール</p>
+              <p class="settings-section-title">Uninstall</p>
             </div>
 
             <button
@@ -1648,7 +1685,7 @@
               type="button"
               class="danger-button settings-maintenance-button"
             >
-              アンインストール
+              Uninstall
             </button>
           </div>
         </div>
@@ -1664,13 +1701,13 @@
           id="uninstall-modal-close"
           class="sub-modal-close"
           type="button"
-          aria-label="アンインストールモーダルを閉じる"
+          aria-label="Close uninstall dialog"
         ></button>
 
         <div class="sub-modal-body">
-          <h3>アンインストール</h3>
+          <h3>Uninstall</h3>
           <p class="sub-modal-description">
-            アプリ本体を削除します。必要に応じて、保存済みデータも一緒に削除できます。
+            Remove the app. You can also delete saved data if needed.
           </p>
 
           <div class="uninstall-modal-actions">
@@ -1679,14 +1716,14 @@
               type="button"
               class="danger-button"
             >
-              アンインストール
+              Uninstall
             </button>
             <button
               id="uninstall-app-and-delete-data-btn"
               type="button"
               class="danger-button"
             >
-              データも削除してアンインストール
+              Uninstall and delete data
             </button>
           </div>
         </div>
@@ -1702,13 +1739,13 @@
           id="confirm-modal-close"
           class="sub-modal-close"
           type="button"
-          aria-label="確認モーダルを閉じる"
+          aria-label="Close confirmation dialog"
         ></button>
 
         <div class="sub-modal-body">
-          <h3 id="confirm-modal-title">確認</h3>
+          <h3 id="confirm-modal-title">Confirm</h3>
           <p id="confirm-modal-message" class="sub-modal-description">
-            この操作を実行しますか？
+            Run this action?
           </p>
 
           <div class="confirm-modal-actions">
@@ -1717,14 +1754,14 @@
               type="button"
               class="secondary"
             >
-              キャンセル
+              Cancel
             </button>
             <button
               id="confirm-modal-confirm-btn"
               type="button"
               class="danger-button"
             >
-              実行する
+              Run
             </button>
           </div>
         </div>
