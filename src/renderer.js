@@ -2247,7 +2247,11 @@ function localizeElementTextNode(node) {
     parent.dataset.i18nSourceText,
     currentResolvedLanguage
   );
-  node.nodeValue = rawValue.replace(trimmedValue, translated);
+  const nextValue = rawValue.replace(trimmedValue, translated);
+
+  if (nextValue !== rawValue) {
+    node.nodeValue = nextValue;
+  }
 }
 
 function localizeElementAttributes(element) {
@@ -2279,6 +2283,8 @@ function localizeElementTree(root = document.body) {
     return;
   }
 
+  const shouldReconnectObserver = Boolean(languageObserver);
+  languageObserver?.disconnect();
   isApplyingLanguage = true;
 
   try {
@@ -2310,6 +2316,15 @@ function localizeElementTree(root = document.body) {
     }
   } finally {
     isApplyingLanguage = false;
+
+    if (shouldReconnectObserver) {
+      languageObserver.observe(document.body, {
+        subtree: true,
+        childList: true,
+        attributes: true,
+        attributeFilter: LANGUAGE_TRANSLATION_ATTRIBUTES,
+      });
+    }
   }
 }
 
@@ -2326,10 +2341,6 @@ function observeLanguageMutations() {
     mutations.forEach((mutation) => {
       mutation.addedNodes.forEach((node) => localizeElementTree(node));
 
-      if (mutation.type === 'characterData') {
-        localizeElementTextNode(mutation.target);
-      }
-
       if (mutation.type === 'attributes') {
         localizeElementAttributes(mutation.target);
       }
@@ -2339,7 +2350,6 @@ function observeLanguageMutations() {
   languageObserver.observe(document.body, {
     subtree: true,
     childList: true,
-    characterData: true,
     attributes: true,
     attributeFilter: LANGUAGE_TRANSLATION_ATTRIBUTES,
   });
