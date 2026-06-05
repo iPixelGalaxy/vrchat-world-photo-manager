@@ -2271,10 +2271,14 @@ function localizeElementAttributes(element) {
       element.dataset[sourceKey] = value;
     }
 
-    element.setAttribute(
-      attributeName,
-      translateTextForLanguage(element.dataset[sourceKey], currentResolvedLanguage)
+    const translatedValue = translateTextForLanguage(
+      element.dataset[sourceKey],
+      currentResolvedLanguage
     );
+
+    if (translatedValue !== value) {
+      element.setAttribute(attributeName, translatedValue);
+    }
   });
 }
 
@@ -2338,13 +2342,26 @@ function observeLanguageMutations() {
       return;
     }
 
-    mutations.forEach((mutation) => {
-      mutation.addedNodes.forEach((node) => localizeElementTree(node));
+    languageObserver.disconnect();
+    isApplyingLanguage = true;
 
-      if (mutation.type === 'attributes') {
-        localizeElementAttributes(mutation.target);
-      }
-    });
+    try {
+      mutations.forEach((mutation) => {
+        mutation.addedNodes.forEach((node) => localizeElementTree(node));
+
+        if (mutation.type === 'attributes' && mutation.target?.isConnected) {
+          localizeElementAttributes(mutation.target);
+        }
+      });
+    } finally {
+      isApplyingLanguage = false;
+      languageObserver.observe(document.body, {
+        subtree: true,
+        childList: true,
+        attributes: true,
+        attributeFilter: LANGUAGE_TRANSLATION_ATTRIBUTES,
+      });
+    }
   });
 
   languageObserver.observe(document.body, {
